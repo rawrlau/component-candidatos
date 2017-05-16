@@ -1,0 +1,18 @@
+{
+  "name": "component-candidatos",
+  "homepage": "https://github.com/SofttekFormacion2017/component-candidatos",
+  "description": "componente candidatos",
+  "main": ["candidatos.js", "candidatos.html"],
+  "authors": [
+    "Equipo candidatos"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
