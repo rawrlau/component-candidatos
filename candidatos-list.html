@@ -8,7 +8,7 @@
         <div class="col-md-2">Expect. eco.</div>
         <div class="col-md-2">Acción</div>
     </div>
-    <div class="row" ng-repeat="candidato in $ctrl.bolsaCandidatos | limitTo:$ctrl.maxSize:$ctrl.currentPage*$ctrl.maxSize">
+    <div class="row" ng-repeat="candidato in $ctrl.bolsaCandidatos | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
         <div class="col-md-2">{{candidato.nombre}}</div>
         <div class="col-md-2">{{candidato.provincia}}</div>
         <div class="col-md-2">{{candidato.perfil}}</div>
