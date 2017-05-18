@@ -6,17 +6,11 @@
     </div>
     <div class="container">
         <div class="row cabecera" ng-init="orderByPropiedad=''">
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='nombre';">Nombre
-                <span class="glyphicon glyphicon-chevron-down"></span>
-            </div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='provincia'">Provincia
-                <span class="glyphicon glyphicon-chevron-down"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='perfil'">Perfil
-                <span class="glyphicon glyphicon-chevron-down"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_contractual'">Expct. cont.
-                <span class="glyphicon glyphicon-chevron-down"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_economica'">Expct. eco.
-                <span class="glyphicon glyphicon-chevron-down"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-init="orderReverse='false'" ng-click="orderByPropiedad='nombre';orderReverse = !orderReverse">Nombre<span class="glyphicon" ng-class="orderByPropiedad != 'nombre' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes' : 'glyphicon-sort-by-attributes-alt')"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='provincia'">Provincia<span class="glyphicon glyphicon-sort"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='perfil'">Perfil<span class="glyphicon glyphicon-sort"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_contractual'">Expct. cont.<span class="glyphicon glyphicon-sort"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_economica'">Expct. eco.<span class="glyphicon glyphicon-sort"></span></div>
             <div class="col-xs-2 col-sm-2 col-md-2">Acción</div>
         </div>
         <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:orderByPropiedad |  limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
