@@ -12,7 +12,7 @@
             <div class="col-xs-2 col-sm-2 col-md-2">Expect. eco.</div>
             <div class="col-xs-2 col-sm-2 col-md-2">Acción</div>
         </div>
-        <div class="row" ng-repeat="candidato in $ctrl.bolsaCandidatos | filter:busqueda | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
+        <div class="row" ng-repeat="candidato in (listaCandidatos = ($ctrl.bolsaCandidatos | filter:busqueda)) | orderBy:'nombre' | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.nombre}}</div>
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.provincia}}</div>
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.perfil}}</div>
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="pagination">
-        <ul uib-pagination total-items="$ctrl.totalItems" ng-model="$ctrl.currentPage" max-size="5" class="pagination-sm" boundary-link-numbers="true"></ul>
+        <ul uib-pagination total-items="listaCandidatos.length" ng-model="$ctrl.currentPage" max-size="5" class="pagination-sm" boundary-link-numbers="true"></ul>
     </div>
 
 </div>
