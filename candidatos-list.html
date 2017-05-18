@@ -7,39 +7,20 @@
     </div>
     <div class="container">
         <div class="row cabecera"
-            ng-init="orderByPropiedad=''; orderReverse='false'">
-            <div class="col-xs-2 col-sm-2 col-md-2"
-                ng-click="orderByPropiedad == 'nombre' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':''; orderByPropiedad='nombre'">Nombre
+            ng-init="$ctrl.orderByPropiedad=''; $ctrl.cabeceras=['nombre','provincia', 'perfil','expect_contractual', 'expect_economica']">
+            <!-- ['nombre','provincia', 'perfil','expect_contractual', 'expect_economica'] -->
+            <div ng-repeat = "cabecera in $ctrl.cabeceras" class="col-xs-2 col-sm-2 col-md-2"
+                ng-click="$ctrl.orderByPropiedad == cabecera ? $ctrl.orderReverse = !$ctrl.orderReverse : $ctrl.orderReverse = false;$ctrl.reverse=$ctrl.orderReverse ? '-':''; $ctrl.orderByPropiedad=cabecera"><span>{{cabecera.split('_').join(' ')}}</span>
                 <span class="glyphicon"
-                    ng-class="orderByPropiedad != 'nombre' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
+                    ng-class="$ctrl.orderByPropiedad != cabecera ? 'glyphicon-sort' : ($ctrl.orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')">
+                </span>
+            </div>
 
-            <div class="col-xs-2 col-sm-2 col-md-2"
-                ng-click="orderByPropiedad == 'provincia' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='provincia'">Provincia
-                <span class="glyphicon"
-                    ng-class="orderByPropiedad != 'provincia' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
-
-            <div class="col-xs-2 col-sm-2 col-md-2"
-                ng-click="orderByPropiedad == 'perfil' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='perfil'">Perfil
-                <span class="glyphicon"
-                    ng-class="orderByPropiedad != 'perfil' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
-
-            <div class="col-xs-2 col-sm-2 col-md-2"
-                ng-click="orderByPropiedad == 'expect_contractual' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='expect_contractual'">Expct. contrc.
-                <span class="glyphicon"
-                    ng-class="orderByPropiedad != 'expect_contractual' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
-
-            <div class="col-xs-2 col-sm-2 col-md-2"
-                ng-click="orderByPropiedad == 'expect_economica' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='expect_economica'">Expct. eco.
-                <span class="glyphicon"
-                    ng-class="orderByPropiedad != 'expect_economica' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
             <div class="col-xs-2 col-sm-2 col-md-2 accion">Acción</div>
         </div>
-        <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:(reverse + orderByPropiedad) |  limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
-            <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.nombre}}</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.provincia}}</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.perfil}}</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.expect_contractual}}</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.expect_economica}}</div>
+        <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) |  limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-repeat="fila in $ctrl.cabeceras ">{{candidato[fila]}}</div>
+
             <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="btn-group" uib-dropdown>
                     <button id="split-button" type="button" class="btn btn-primary">Ver</button>
