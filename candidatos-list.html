@@ -5,15 +5,21 @@
         <input class="form-control" type="text" ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()" placeholder="Buscar">
     </div>
     <div class="container">
-        <div class="row cabecera">
-            <div class="col-xs-2 col-sm-2 col-md-2">Nombre</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">Provincia</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">Perfil</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">Expect. contrac.</div>
-            <div class="col-xs-2 col-sm-2 col-md-2">Expect. eco.</div>
+        <div class="row cabecera" ng-init="orderByPropiedad=''">
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='nombre';">Nombre
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='provincia'">Provincia
+                <span class="glyphicon glyphicon-chevron-down"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='perfil'">Perfil
+                <span class="glyphicon glyphicon-chevron-down"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_contractual'">Expct. cont.
+                <span class="glyphicon glyphicon-chevron-down"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_economica'">Expct. eco.
+                <span class="glyphicon glyphicon-chevron-down"></span></div>
             <div class="col-xs-2 col-sm-2 col-md-2">Acción</div>
         </div>
-        <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
+        <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:orderByPropiedad |  limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.nombre}}</div>
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.provincia}}</div>
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.perfil}}</div>
