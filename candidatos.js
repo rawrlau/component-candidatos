@@ -15,7 +15,7 @@ angular.module('ghr.candidatos', [])
     })
     .component('ghrCandidatosList', {
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-        controller($filter) {
+        controller() {
             const vm = this;
             vm.bolsaCandidatos = generadorCandidatos(400);
             vm.totalItems = vm.bolsaCandidatos.length;
@@ -24,10 +24,6 @@ angular.module('ghr.candidatos', [])
                 vm.currentPage = pageNo;
             };
             vm.maxSize = 10;
-            vm.filtrados = $filter 
-        },
-        bindings: {
-          busqueda: '<'
         }
     })
     .run($log => {
