@@ -2,18 +2,39 @@
 <div class="wrap">
     <h1>Lista de Candidatos</h1>
     <div class="buscador form-group">
-        <input class="form-control" type="text" ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()" placeholder="Buscar">
+        <input class="form-control" type="text" placeholder="Buscar"
+            ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
     </div>
     <div class="container">
-        <div class="row cabecera" ng-init="orderByPropiedad=''">
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-init="orderReverse='false'" ng-click="orderByPropiedad='nombre';orderReverse = !orderReverse">Nombre<span class="glyphicon" ng-class="orderByPropiedad != 'nombre' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes' : 'glyphicon-sort-by-attributes-alt')"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='provincia'">Provincia<span class="glyphicon glyphicon-sort"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='perfil'">Perfil<span class="glyphicon glyphicon-sort"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_contractual'">Expct. cont.<span class="glyphicon glyphicon-sort"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2" ng-click="orderByPropiedad='expect_economica'">Expct. eco.<span class="glyphicon glyphicon-sort"></span></div>
-            <div class="col-xs-2 col-sm-2 col-md-2">Acción</div>
+        <div class="row cabecera"
+            ng-init="orderByPropiedad=''; orderReverse='false'">
+            <div class="col-xs-2 col-sm-2 col-md-2"
+                ng-click="orderByPropiedad == 'nombre' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':''; orderByPropiedad='nombre'">Nombre
+                <span class="glyphicon"
+                    ng-class="orderByPropiedad != 'nombre' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2"
+                ng-click="orderByPropiedad == 'provincia' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='provincia'">Provincia
+                <span class="glyphicon"
+                    ng-class="orderByPropiedad != 'provincia' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2"
+                ng-click="orderByPropiedad == 'perfil' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='perfil'">Perfil
+                <span class="glyphicon"
+                    ng-class="orderByPropiedad != 'perfil' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2"
+                ng-click="orderByPropiedad == 'expect_contractual' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='expect_contractual'">Expct. contrc.
+                <span class="glyphicon"
+                    ng-class="orderByPropiedad != 'expect_contractual' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2"
+                ng-click="orderByPropiedad == 'expect_economica' ? orderReverse = !orderReverse : orderReverse = false;reverse=orderReverse ? '-':'';orderByPropiedad='expect_economica'">Expct. eco.
+                <span class="glyphicon"
+                    ng-class="orderByPropiedad != 'expect_economica' ? 'glyphicon-sort' : (orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span></div>
+            <div class="col-xs-2 col-sm-2 col-md-2 accion">Acción</div>
         </div>
-        <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:orderByPropiedad |  limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
+        <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:(reverse + orderByPropiedad) |  limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.nombre}}</div>
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.provincia}}</div>
             <div class="col-xs-2 col-sm-2 col-md-2">{{candidato.perfil}}</div>
