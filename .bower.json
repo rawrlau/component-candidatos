@@ -1,0 +1,30 @@
+{
+  "name": "component-candidatos",
+  "homepage": "https://github.com/SofttekFormacion2017/component-candidatos",
+  "description": "componente candidatos",
+  "main": [
+    "candidatos.js",
+    "candidatos.html"
+  ],
+  "authors": [
+    "Equipo candidatos"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "5dad32a38b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "5dad32a38bbe5b4fddf596d048ff535dd1a3654c"
+  },
+  "_source": "https://github.com/SofttekFormacion2017/component-candidatos.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/SofttekFormacion2017/component-candidatos.git"
+}
