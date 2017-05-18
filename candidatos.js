@@ -15,10 +15,16 @@ angular.module('ghr.candidatos', [])
     })
     .component('ghrCandidatosList', {
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-        controller() {
+        controller($filter) {
             const vm = this;
+            vm.busqueda = "";
             vm.bolsaCandidatos = generadorCandidatos(400);
+            vm.candidatosFiltrados = vm.bolsaCandidatos;
             vm.totalItems = vm.bolsaCandidatos.length;
+            vm.actualizarArray = function() {
+                vm.candidatosFiltrados = $filter('filter')(vm.bolsaCandidatos, vm.busqueda);
+                vm.totalItems = vm.candidatosFiltrados.length;
+            }
             vm.currentPage = 1;
             vm.setPage = function(pageNo) {
                 vm.currentPage = pageNo;
