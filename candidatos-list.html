@@ -1,0 +1,42 @@
+
+<div class="wrap">
+    <h1>Lista de Candidatos</h1>
+    <div class="buscador form-group">
+        <input class="form-control" type="text" placeholder="Buscar"
+            ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
+    </div>
+    <div class="container">
+        <div class="row cabecera" ng-init="$ctrl.orderByPropiedad=''; $ctrl.cabeceras=['nombre','provincia', 'perfil','expect_contractual', 'expect_economica']">
+            <div ng-repeat = "cabecera in $ctrl.cabeceras" class="col-xs-2 col-sm-2 col-md-2"
+                ng-click="$ctrl.orderByPropiedad == cabecera ? $ctrl.orderReverse = !$ctrl.orderReverse : $ctrl.orderReverse = false; $ctrl.reverse=$ctrl.orderReverse ? '-':''; $ctrl.orderByPropiedad=cabecera">
+                <span>{{cabecera.split('_').join(' ')}}</span>
+                <span class="glyphicon" ng-class="$ctrl.orderByPropiedad != cabecera ? 'glyphicon-sort' : ($ctrl.orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 accion">Acción</div>
+        </div>
+        <div class="row" ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) |  limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
+            <div class="col-xs-2 col-sm-2 col-md-2" ng-repeat="fila in $ctrl.cabeceras ">{{candidato[fila]}}</div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="btn-group" uib-dropdown>
+                    <button id="split-button" type="button" class="btn btn-primary">Ver</button>
+                    <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+                        <span class="caret"></span>
+                        <span class="sr-only">Split button!</span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                        <li role="menuitem"><a href="#">Ver</a></li>
+                        <li role="menuitem"><a href="#">Editar</a></li>
+                        <li role="menuitem"><a href="#">Editar estado</a></li>
+                        <li class="divider"></li>
+                        <li role="menuitem"><a href="#">Eliminar</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination">
+        <ul uib-pagination total-items="$ctrl.totalItems" ng-model="$ctrl.currentPage" max-size="5" class="pagination-sm" boundary-link-numbers="true"></ul>
+    </div>
+
+</div>
