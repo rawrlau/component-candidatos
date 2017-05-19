@@ -35,7 +35,6 @@ angular.module('ghr.candidatos', [])
   .run($log => {
     $log.log('Ejecutando Componente Candidatos');
   });
-
 /**
  * Genera un número aleatorio entre 0 y "max"
  * con una distribucion linear
