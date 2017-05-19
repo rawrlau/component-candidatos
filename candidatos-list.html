@@ -1,13 +1,12 @@
 
-<div class="wrap">
-    <div class="title-list">
-        <h1>Lista de Candidatos</h1>
-        <div class="buscador form-group">
-            <input class="form-control" type="text" placeholder="Buscar"
-                ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
+<div class="container-fluid">
+    <h1 class="h1">Lista de Candidatos</h1>
+    <div class="row form-group">
+        <div class="col-sm-offset-6 col-sm-6">
+            <input class="form-control" type="text" placeholder="Buscar" ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
         </div>
     </div>
-    <table class="table">
+    <table class="table table-responsive table-striped">
       <thead class="thead-inverse">
         <tr ng-init="$ctrl.orderByPropiedad=''; $ctrl.cabeceras=['nombre','provincia', 'perfil','expect_contractual', 'expect_economica']">
           <th ng-repeat = "cabecera in $ctrl.cabeceras" class="col-xs-2 col-sm-2 col-md-2" ng-click="$ctrl.orderByPropiedad == cabecera ? $ctrl.orderReverse = !$ctrl.orderReverse : $ctrl.orderReverse = false; $ctrl.reverse=$ctrl.orderReverse ? '-':''; $ctrl.orderByPropiedad=cabecera">
