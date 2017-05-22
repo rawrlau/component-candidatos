@@ -32,20 +32,25 @@ angular.module('ghr.candidatos', [])
             vm.maxSize = 10;
 
             // Modal
-            vm.open = function($index) {
+            vm.open = function(id) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     component: 'modalComponent',
                     resolve: {
                         seleccionado: function() {
-                            return $index;
+                            return id;
                         }
                     }
                 });
 
                 modalInstance.result.then(function(selectedItem) {
                     vm.selected = selectedItem;
-                    vm.candidatosFiltrados.splice(selectedItem, 1)
+                    var candidatoAEliminar;
+                    for (var i = 0; i < vm.bolsaCandidatos.length; i++)
+                        if (vm.bolsaCandidatos[i].id === selectedItem)
+                            candidatoAEliminar = vm.bolsaCandidatos[i];
+                    vm.bolsaCandidatos.splice(vm.bolsaCandidatos.indexOf(candidatoAEliminar), 1);
+                    vm.actualizarArray();
                 }, function() {
                     $log.info('modal-component dismissed at: ' + new Date());
                 });
@@ -103,8 +108,9 @@ var tec_seleccion = ['Poco', 'Medio', 'Alto'];
  * Devuelve un candidato con campos aleatorios
  * @return {object} candidato aletorio devuelto
  */
-function candidatoAleatorio() {
+function candidatoAleatorio(id) {
     var candidato = {
+        id: id,
         nombre: nombre[linearGenerator(0, nombre.length)],
         provincia: provincia[linearGenerator(0, provincia.length)],
         perfil: perfil[linearGenerator(0, perfil.length)],
@@ -124,7 +130,7 @@ function candidatoAleatorio() {
 function generadorCandidatos(amount) {
     var array = [];
     for (var i = 0; i < amount; i++) {
-        array.push(candidatoAleatorio());
+        array.push(candidatoAleatorio(i));
     }
     return array;
 }
