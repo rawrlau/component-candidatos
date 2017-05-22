@@ -15,7 +15,7 @@ angular.module('ghr.candidatos', [])
     })
     .component('ghrCandidatosList', {
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-        controller($filter) {
+        controller($filter, $uibModal, $log, $document) {
             const vm = this;
             vm.busqueda = "";
             vm.bolsaCandidatos = generadorCandidatos(400);
@@ -30,11 +30,56 @@ angular.module('ghr.candidatos', [])
                 vm.currentPage = pageNo;
             };
             vm.maxSize = 10;
+
+            // Modal
+            vm.open = function($index) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    component: 'modalComponent',
+                    resolve: {
+                        seleccionado: function() {
+                            return $index;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function(selectedItem) {
+                    vm.selected = selectedItem;
+                    vm.candidatosFiltrados.splice(selectedItem, 1)
+                }, function() {
+                    $log.info('modal-component dismissed at: ' + new Date());
+                });
+            };
+        }
+    })
+    .component('modalComponent', {
+        templateUrl: '../bower_components/component-candidatos/myModalContent.html',
+        bindings: {
+            resolve: '<',
+            close: '&',
+            dismiss: '&'
+        },
+        controller: function() {
+            const vm = this;
+            vm.$onInit = function() {
+                vm.selected = vm.resolve.seleccionado;
+            };
+            vm.ok = function(seleccionado) {
+                vm.close({
+                    $value: seleccionado
+                });
+            };
+            vm.cancel = function() {
+                vm.dismiss({
+                    $value: 'cancel'
+                });
+            };
         }
     })
     .run($log => {
         $log.log('Ejecutando Componente Candidatos');
     });
+
 
 /**
  * Genera un número aleatorio entre 0 y "max"
