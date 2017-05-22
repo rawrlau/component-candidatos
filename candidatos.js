@@ -26,9 +26,6 @@ angular.module('ghr.candidatos', [])
                 vm.totalItems = vm.candidatosFiltrados.length;
             }
             vm.currentPage = 1;
-            vm.setPage = function(pageNo) {
-                vm.currentPage = pageNo;
-            };
             vm.maxSize = 10;
 
             // Modal
