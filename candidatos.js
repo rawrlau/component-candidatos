@@ -22,7 +22,9 @@ angular.module('ghr.candidatos', [])
             vm.candidatosFiltrados = vm.bolsaCandidatos;
             vm.totalItems = vm.bolsaCandidatos.length;
             vm.actualizarArray = function() {
-                vm.candidatosFiltrados = $filter('filter')(vm.bolsaCandidatos, vm.busqueda);
+                vm.candidatosFiltrados = vm.bolsaCandidatos;
+                for (var i = 0; i < vm.busqueda.length; i++)
+                    vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
                 vm.totalItems = vm.candidatosFiltrados.length;
             }
             vm.currentPage = 1;
