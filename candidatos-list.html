@@ -16,7 +16,7 @@
           <th>acción</th>
         </tr>
         <tbody>
-            <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize">
+            <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize track by $index">
                 <td scope="row"
                 ng-if ="fila !== 'expect_economica'" ng-class="$last ? 'hidden-xs' : ''"
                 ng-repeat="fila in $ctrl.cabeceras">{{candidato[fila]}}</td>
@@ -24,7 +24,7 @@
                 ng-if ="fila === 'expect_economica'" ng-class="$last ? 'hidden-xs' : ''"
                 ng-repeat="fila in $ctrl.cabeceras">{{candidato[fila] | currency:'€'}}</td>
                 <td>
-                    <div class="btn-group" uib-dropdown>
+                    <div class="btn-group" uib-dropdown class="modal-demo">
                         <button id="split-button" type="button" class="btn btn-primary">Ver</button>
                         <button type="button" class="btn btn-primary" uib-dropdown-toggle>
                             <span class="caret"></span>
@@ -35,7 +35,7 @@
                             <li role="menuitem"><a href="#">Editar</a></li>
                             <li role="menuitem"><a href="#">Editar estado</a></li>
                             <li class="divider"></li>
-                            <li role="menuitem"><a href="#">Eliminar</a></li>
+                            <li role="menuitem"><a href="#" ng-click="$ctrl.open($index)">Eliminar</a></li>
                         </ul>
                     </div>
                 </td>
