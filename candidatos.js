@@ -128,7 +128,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 modalInstance.result.then(function(objetoSeleccionado) {
                     vm.selected = objetoSeleccionado;
                     var candidatoAEliminar;
-                    for (var i = 0; i < vm.bolsaCandidatos.length; i++)
+                    for (var i = 0; i < vm.bolsaCandidatos.length || candidatoAEliminar === undefined; i++)
                         if (vm.bolsaCandidatos[i].id === objetoSeleccionado)
                             candidatoAEliminar = vm.bolsaCandidatos[i];
                     vm.bolsaCandidatos.splice(vm.bolsaCandidatos.indexOf(candidatoAEliminar), 1);
