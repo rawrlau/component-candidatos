@@ -1,16 +1,20 @@
 angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candidatos
     .component('ghrCandidatos', { //Componente que contiene la url que indica su html
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        controller() { //El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
+        // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
+        controller(candidatoFactory, $log, $stateParams) {
             const vm = this;
-            vm.master = {};
-            vm.update = function(user) {
-                vm.master = angular.copy(user);
+            vm.update = function(candidato) {
+                vm.original = candidato;
             };
             vm.reset = function() {
-                vm.user = angular.copy(vm.master);
+                vm.candidato = angular.copy(vm.original);
             };
             vm.reset();
+
+            for (var i = 0; i < candidatoFactory.length || vm.candidato === undefined; i++)
+                if (candidatoFactory[i].id == $stateParams.id)
+                    vm.original = angular.copy(vm.candidato = candidatoFactory[i]);
         }
     })
     .factory('candidatoFactory', function() {
@@ -26,11 +30,20 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
 
         // Arrays
         var nombre = ['Hector', 'Adrián', 'Dani', 'Miguel', 'Alex', 'Rodrigo', 'Marta', 'Alejandro', 'Alvaro', 'Luis'];
-        var provincia = ['Madrid', 'Cáceres', 'Barcelona', 'Valencia', 'Badajoz', 'Sevilla', 'Galicia', 'Zaragoza', 'Mordor'];
+        var apellido = ['Martín', 'Alonso', 'Tizón', 'Espinoza', 'Monzón', 'Minguez', 'Moreno', 'Ortiz', 'Fernández'];
         var perfil = ['Analista', 'Programador', 'Diseñador'];
+        var provincia = ['Madrid', 'Cáceres', 'Barcelona', 'Valencia', 'Badajoz', 'Sevilla', 'Galicia', 'Zaragoza', 'Cuenca'];
+        var posicion = ['Arriba', 'Abajo', 'Pal centro', 'Pa dentro'];
+        var experiencia = ['días', 'meses', 'años'];
+        var disp_viajar = ['S', 'N'];
+        var disp_residencia = ['S', 'N'];
+        var disp_incorporacion = ['Ahora no', 'Inmediata', 'A medio plazo'];
         var expect_contractual = ['Jefe', 'CEO', 'Administrativo', 'Programador', 'Diseñador', 'Becario'];
         var feedback_sourcing = ['HB', 'FS', 'GR', 'TD'];
-        var tec_seleccion = ['Poco', 'Medio', 'Alto'];
+        var feedback_tecnico = ['DI', 'TI', 'PO', 'LA'];
+        var tec_seleccion = ['Ancceloti', 'Zidane', 'Simeone'];
+        var referenciado = ['Don Juan', 'Mr. Apolo'];
+        var estado = ['En proceso', 'Descartado', 'Incorporación'];
 
         /**
          * Devuelve un candidato con campos aleatorios
@@ -40,12 +53,22 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             var candidato = {
                 id: id,
                 nombre: nombre[linearGenerator(0, nombre.length)],
-                provincia: provincia[linearGenerator(0, provincia.length)],
+                apellido: apellido[linearGenerator(0, apellido.length)],
                 perfil: perfil[linearGenerator(0, perfil.length)],
+                provincia: provincia[linearGenerator(0, provincia.length)],
+                posicion: posicion[linearGenerator(0, posicion.length)],
+                experiencia: linearGenerator(0, 20) + ' ' + experiencia[linearGenerator(0, experiencia.length)],
+                disp_viajar: disp_viajar[linearGenerator(0, disp_viajar.length)],
+                disp_residencia: disp_residencia[linearGenerator(0, disp_residencia.length)],
+                disp_incorporacion: disp_incorporacion[linearGenerator(0, disp_incorporacion.length)],
                 expect_contractual: expect_contractual[linearGenerator(0, expect_contractual.length)],
                 expect_economica: linearGenerator(0, 4000),
+                fecha_entrevista: new Date(new Date().getTime() - linearGenerator(0, 999999999999)),
                 feedback_sourcing: feedback_sourcing[linearGenerator(0, feedback_sourcing.length)],
-                tec_seleccion: tec_seleccion[linearGenerator(0, tec_seleccion.length)]
+                feedback_tecnico: feedback_tecnico[linearGenerator(0, feedback_tecnico.length)],
+                tec_seleccion: tec_seleccion[linearGenerator(0, tec_seleccion.length)],
+                referenciado: referenciado[linearGenerator(0, referenciado.length)],
+                estado: estado[linearGenerator(0, estado.length)]
             };
             return candidato;
         }
@@ -58,7 +81,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
         function generadorCandidatos(amount) {
             var array = [];
             for (var i = 0; i < amount; i++)
-                array.push(candidatoAleatorio(i));
+                array.push(candidatoAleatorio(i + 1));
             return array;
         }
         return generadorCandidatos(400);
