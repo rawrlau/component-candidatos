@@ -1,33 +1,33 @@
 <h1>Candidatos</h1>
 <form name="formulario_candidatos" ng-init="user={}">
     <div class="formulario">
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid col-sm-2 container-fluid">
             <label for="nombre">Nombre*: </label>
-            <input required ng-model="user.nombre" placeholder="ej: María" name="nombre" ng-value="$ctrl.candidato.nombre">
+            <input class="form-control " required ng-model="user.nombre" placeholder="ej: María" name="nombre" ng-value="$ctrl.candidato.nombre">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="apellidos">Apellidos: </label>
-            <input ng-model="user.apellidos" placeholder="ej: Gómez García" name="apellidos">
+            <input class="form-control" ng-model="user.apellidos" placeholder="ej: Gómez García" name="apellidos">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="provincia">Provincia*: </label>
-            <input required ng-model="user.provincia" placeholder="ej: Madrid" name="provincia" ng-value="$ctrl.candidato.provincia">
+            <input class="form-control" required ng-model="user.provincia" placeholder="ej: Madrid" name="provincia" ng-value="$ctrl.candidato.provincia">
         </div>
 
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="perfil">Perfil*: </label>
-            <input required ng-model="user.perfil" placeholder="ej: Programador" name="perfil" ng-value="$ctrl.candidato.perfil">
+            <input class="form-control" required ng-model="user.perfil" placeholder="ej: Programador" name="perfil" ng-value="$ctrl.candidato.perfil">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="posicion">Posición: </label>
-            <input ng-model="user.posicion" placeholder="ej: ?¿?¿?¿" name="posicion">
+            <input class="form-control" ng-model="user.posicion" placeholder="ej: ?¿?¿?¿" name="posicion">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="experiencia">Experiencia*: </label>
-            <input required placeholder="ej: 5 años" name="experiencia" ng-value="$ctrl.candidato.experiencia">
+            <input class="form-control" required placeholder="ej: 5 años" name="experiencia" ng-value="$ctrl.candidato.experiencia">
         </div>
 
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="disp_viajar">Disp. viajar: </label>
             <div>
                 <span>Sí </span><input type="radio" name="disp_viajar" value="S">
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="disp_residencia">Disp. residencia: </label>
             <div>
                 <span>Sí </span><input type="radio" name="disp_residencia" value="S">
@@ -43,73 +43,77 @@
             </div>
         </div>
 
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="disp_incorporacion">Disp. incorporación: </label>
-            <input placeholder="ej: Inmediata" name="disp_incorporacion">
+            <input class="form-control" placeholder="ej: Inmediata" name="disp_incorporacion">
         </div>
 
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="expect_contractual">Expec. contractual*: </label>
-            <input required placeholder="ej: CEO" name="expect_contractual" ng-value="$ctrl.candidato.expect_contractual">
+            <input class="form-control" required placeholder="ej: CEO" name="expect_contractual" ng-value="$ctrl.candidato.expect_contractual">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="expect_economica">Expec. económica*: </label>
-            <input required placeholder="ej: $9000" name="expect_economica" ng-value="$ctrl.candidato.expect_economica ">
+            <input class="form-control" required placeholder="ej: $9000" name="expect_economica" ng-value="$ctrl.candidato.expect_economica ">
         </div>
 
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="fecha_entrevista">Fecha entrevista: </label>
-            <input type="date" name="fecha_entrevista">
+            <input class="form-control" type="date" name="fecha_entrevista">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="feedback_sourcing">Feedback sourcing*: </label>
-            <input required placeholder="ej: ¿?¿?¿?¿?" name="feedback_sourcing" ng-value="$ctrl.candidato.feedback_sourcing">
+            <input class="form-control" required placeholder="ej: ¿?¿?¿?¿?" name="feedback_sourcing" ng-value="$ctrl.candidato.feedback_sourcing">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="feedback_tecnico">Feedback técnico*: </label>
-            <input required placeholder="ej: ¿?¿?¿?¿?¿" name="feedback_tecnico" ng-value="$ctrl.candidato.feedback_tecnico">
+            <input class="form-control" required placeholder="ej: ¿?¿?¿?¿?¿" name="feedback_tecnico" ng-value="$ctrl.candidato.feedback_tecnico">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="tecnico_seleccion">Técnico selección: </label>
-            <input placeholder="ej: Lopetegui" name="tecnico_seleccion">
+            <input class="form-control" placeholder="ej: Lopetegui" name="tecnico_seleccion">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-3 container-fluid">
             <label for="referenciado">Referenciado: </label>
-            <input placeholder="ej: Juancho" name="referenciado">
+            <input class="form-control" placeholder="ej: Juancho" name="referenciado">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-m-2 container-fluid">
             <label for="estado">Estado: </label>
-            <select name="estado" form="formulario_candidatos">
+            <br>
+            <select class="btn btn-default" name="estado" form="formulario_candidatos">
                 <option value="proceso">En proceso</option>
                 <option value="descartado">Descartado</option>
                 <option value="incorporacion">Incorporación</option>
             </select>
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-4 container-fluid">
             <label for="cv_softtek">CV Softtek: </label>
-            <input type="file" name="cv_softtek">
+            <input class="form-control" type="file" name="cv_softtek">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-4 container-fluid">
             <label for="cv_personal">CV personal: </label>
-            <input type="file" name="cv_personal">
+            <input class="form-control" type="file" name="cv_personal">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="fecha_contacto">Fecha contacto: </label>
-            <input type="date" name="fecha_contacto">
+            <input class="form-control" type="date" name="fecha_contacto">
         </div>
-        <div class="input_content">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="actualizado">Fecha actualizado*: </label>
-            <input required type="date" name="fecha_actualizado">
+            <input class="form-control" required type="date" name="fecha_actualizado">
         </div>
     </div>
-    <div class="botonera">
-        <input type="button" ng-click="$ctrl.reset()" value="Resetear" class="reset">
-        <input type="submit" ng-click="$ctrl.update(user)" value="Enviar" class="submit">
+    <div class="botonera  container-fluid ">
+        <input type="button" class="btn btn-danger" ng-click="$ctrl.reset()" value="Resetear" class="reset">
+        <input type="submit" class="btn btn-success" ng-click="$ctrl.update(user)" value="Enviar" class="submit">
     </div>
 </form>
-<pre>
-    user = {{user | json}}
-</pre>
-<pre>
-    master = {{$ctrl.master | json}}
-</pre>
+<br>
+<div class="texto col-sm-8 container-fluid ">
+  <pre>
+      user = {{user | json}}
+  </pre>
+  <pre>
+      master = {{$ctrl.master | json}}
+  </pre>
+</div>
