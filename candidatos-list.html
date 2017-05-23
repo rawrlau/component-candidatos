@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
     <h1 class="h1">Lista de Candidatos</h1>
     <div class="row form-group">
@@ -16,7 +15,7 @@
           <th>acción</th>
         </tr>
         <tbody>
-            <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize track by candidato.id">
+            <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.totalPantalla:($ctrl.paginaActual-1)*$ctrl.totalPantalla track by candidato.id">
                 <td scope="row"
                 ng-if ="fila !== 'expect_economica'" ng-class="$last ? 'hidden-xs' : ''"
                 ng-repeat="fila in $ctrl.cabeceras">{{candidato[fila]}}</td>
@@ -44,6 +43,6 @@
       </thead>
     </table>
     <div class="pagination">
-        <ul uib-pagination total-items="$ctrl.totalItems" ng-model="$ctrl.currentPage" max-size="5" class="pagination-sm" boundary-link-numbers="true"></ul>
+        <ul uib-pagination total-items="$ctrl.elementosTotales" ng-model="$ctrl.paginaActual" max-size="5" class="pagination-sm" boundary-link-numbers="true"></ul>
     </div>
 </div>
