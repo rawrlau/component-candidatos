@@ -13,13 +13,65 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.reset();
         }
     })
+    .factory('candidatoFactory', function() {
+        /**
+         * Genera un número aleatorio entre 0 y "max"
+         * con una distribucion linear
+         * @param  {int} max    número máximo +1 del rango
+         * @return {int}        número aleatorio devuelto
+         */
+        function linearGenerator(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+        }
+
+        // Arrays
+        var nombre = ['Hector', 'Adrián', 'Dani', 'Miguel', 'Alex', 'Rodrigo', 'Marta', 'Alejandro', 'Alvaro', 'Luis'];
+        var provincia = ['Madrid', 'Cáceres', 'Barcelona', 'Valencia', 'Badajoz', 'Sevilla', 'Galicia', 'Zaragoza', 'Mordor'];
+        var perfil = ['Analista', 'Programador', 'Diseñador'];
+        var expect_contractual = ['Jefe', 'CEO', 'Administrativo', 'Programador', 'Diseñador', 'Becario'];
+        var feedback_sourcing = ['HB', 'FS', 'GR', 'TD'];
+        var tec_seleccion = ['Poco', 'Medio', 'Alto'];
+
+        /**
+         * Devuelve un candidato con campos aleatorios
+         * @return {object} candidato aletorio devuelto
+         */
+        function candidatoAleatorio(id) {
+            var candidato = {
+                id: id,
+                nombre: nombre[linearGenerator(0, nombre.length)],
+                provincia: provincia[linearGenerator(0, provincia.length)],
+                perfil: perfil[linearGenerator(0, perfil.length)],
+                expect_contractual: expect_contractual[linearGenerator(0, expect_contractual.length)],
+                expect_economica: linearGenerator(0, 4000),
+                feedback_sourcing: feedback_sourcing[linearGenerator(0, feedback_sourcing.length)],
+                tec_seleccion: tec_seleccion[linearGenerator(0, tec_seleccion.length)]
+            };
+            return candidato;
+        }
+
+        /**
+         * Genera una cantidad de candidatos pasada por parámetro
+         * @param  {[type]} amount [description]
+         * @return {[type]}        [description]
+         */
+        function generadorCandidatos(amount) {
+            var array = [];
+            for (var i = 0; i < amount; i++) {
+                array.push(candidatoAleatorio(i));
+            }
+            return array;
+        }
+        return generadorCandidatos(400);
+    })
     .component('ghrCandidatosList', { //Componente para el listado de los candidatos
-        templateUrl: '../bower_components/component-candidatos/candidatos-list.html', //url con el html respectivo
-        controller($filter, $uibModal, $log, $document) { //Controlador cuyo contenido será el filtro y el modal
+        templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
+        //url con el html respectivo
+        controller($filter, $uibModal, $log, $document, candidatoFactory) { //Controlador cuyo contenido será el filtro y el modal
             const vm = this;
             vm.busqueda = "";
-            //Hacemos la llamada a la funcion para generar candidatos aleatorios y los recogemos en un array
-            vm.bolsaCandidatos = generadorCandidatos(400);
+            // Lo igualamos con el factory
+            vm.bolsaCandidatos = candidatoFactory;
             //Metemos todos los candidatos generados en esta nueva variable que será la que vayamos filtrando en la busqueda
             vm.candidatosFiltrados = vm.bolsaCandidatos;
             //Creamos esta variable para saber la cantidad de candidatos que nos ha creado y poder recorrer el array
@@ -35,7 +87,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.paginaActual = 1;
             vm.totalPantalla = 10;
 
-            // Modal
+            // Ventana Modal
             vm.open = function(id) {
                 var modalInstance = $uibModal.open({
                     animation: true,
@@ -60,7 +112,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                     vm.bolsaCandidatos.splice(vm.bolsaCandidatos.indexOf(candidatoAEliminar), 1);
                     vm.actualizarArray();
                 }, function() {
-                    $log.info('modal-component dismissed at: ' + new Date());//Comentario en consola para ver que todo ejecuta correctamente
+                    $log.info('modal-component dismissed at: ' + new Date()); //Comentario en consola para ver que todo ejecuta correctamente
                 });
             };
         }
@@ -95,53 +147,3 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
     .run($log => {
         $log.log('Ejecutando Componente Candidatos');
     });
-
-
-/**
- * Genera un número aleatorio entre 0 y "max"
- * con una distribucion linear
- * @param  {int} max    número máximo +1 del rango
- * @return {int}        número aleatorio devuelto
- */
-function linearGenerator(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-}
-
-// Arrays
-var nombre = ['Hector', 'Adrián', 'Dani', 'Miguel', 'Alex', 'Rodrigo', 'Marta', 'Alejandro', 'Alvaro', 'Luis'];
-var provincia = ['Madrid', 'Cáceres', 'Barcelona', 'Valencia', 'Badajoz', 'Sevilla', 'Galicia', 'Zaragoza', 'Mordor'];
-var perfil = ['Analista', 'Programador', 'Diseñador'];
-var expect_contractual = ['Jefe', 'CEO', 'Administrativo', 'Programador', 'Diseñador', 'Becario'];
-var feedback_sourcing = ['HB', 'FS', 'GR', 'TD'];
-var tec_seleccion = ['Poco', 'Medio', 'Alto'];
-
-/**
- * Devuelve un candidato con campos aleatorios
- * @return {object} candidato aletorio devuelto
- */
-function candidatoAleatorio(id) {
-    var candidato = {
-        id: id,
-        nombre: nombre[linearGenerator(0, nombre.length)],
-        provincia: provincia[linearGenerator(0, provincia.length)],
-        perfil: perfil[linearGenerator(0, perfil.length)],
-        expect_contractual: expect_contractual[linearGenerator(0, expect_contractual.length)],
-        expect_economica: linearGenerator(0, 4000),
-        feedback_sourcing: feedback_sourcing[linearGenerator(0, feedback_sourcing.length)],
-        tec_seleccion: tec_seleccion[linearGenerator(0, tec_seleccion.length)]
-    };
-    return candidato;
-}
-
-/**
- * Genera una cantidad de candidatos pasada por parámetro
- * @param  {[type]} amount [description]
- * @return {[type]}        [description]
- */
-function generadorCandidatos(amount) {
-    var array = [];
-    for (var i = 0; i < amount; i++) {
-        array.push(candidatoAleatorio(i));
-    }
-    return array;
-}
