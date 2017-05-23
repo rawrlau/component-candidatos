@@ -57,9 +57,8 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
          */
         function generadorCandidatos(amount) {
             var array = [];
-            for (var i = 0; i < amount; i++) {
+            for (var i = 0; i < amount; i++)
                 array.push(candidatoAleatorio(i));
-            }
             return array;
         }
         return generadorCandidatos(400);
