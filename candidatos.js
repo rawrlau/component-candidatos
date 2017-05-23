@@ -1,7 +1,7 @@
 angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad candidatos
   .component('ghrCandidatos', { // Componente que contiene la url que indica su html
     templateUrl: '../bower_components/component-candidatos/candidatos.html',
-    controller() { // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
+    controller(candidatoFactory, $log, $stateParams) { // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
       const vm = this;
       vm.master = {};
       vm.update = function (user) {
@@ -11,6 +11,15 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
         vm.user = angular.copy(vm.master);
       };
       vm.reset();
+      $log.log($stateParams);
+      vm.id = $stateParams.id;
+      vm.candidato;
+      for (var i = 0; i < candidatoFactory.length || vm.candidato === undefined; i++) {
+        if (candidatoFactory[i].id == vm.id) {
+          vm.candidato = candidatoFactory[i];
+          console.log(vm.candidato);
+        }
+      }
     }
   })
   .factory('candidatoFactory', function () {
@@ -58,7 +67,7 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
     function generadorCandidatos(amount) {
       var array = [];
       for (var i = 0; i < amount; i++) {
-        array.push(candidatoAleatorio(i));
+        array.push(candidatoAleatorio(i + 1));
       }
       return array;
     }

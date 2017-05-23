@@ -3,7 +3,7 @@
     <div class="formulario">
         <div class="input_content">
             <label for="nombre">Nombre*: </label>
-            <input required ng-model="user.nombre" placeholder="ej: María" name="nombre">
+            <input required ng-model="user.nombre" placeholder="ej: María" name="nombre" ng-value="$ctrl.candidato.nombre">
         </div>
         <div class="input_content">
             <label for="apellidos">Apellidos: </label>
@@ -11,12 +11,12 @@
         </div>
         <div class="input_content">
             <label for="provincia">Provincia*: </label>
-            <input required ng-model="user.provincia" placeholder="ej: Madrid" name="provincia">
+            <input required ng-model="user.provincia" placeholder="ej: Madrid" name="provincia" ng-value="$ctrl.candidato.provincia">
         </div>
 
         <div class="input_content">
             <label for="perfil">Perfil*: </label>
-            <input required ng-model="user.perfil" placeholder="ej: Programador" name="perfil">
+            <input required ng-model="user.perfil" placeholder="ej: Programador" name="perfil" ng-value="$ctrl.candidato.perfil">
         </div>
         <div class="input_content">
             <label for="posicion">Posición: </label>
@@ -24,7 +24,7 @@
         </div>
         <div class="input_content">
             <label for="experiencia">Experiencia*: </label>
-            <input required placeholder="ej: 5 años" name="experiencia">
+            <input required placeholder="ej: 5 años" name="experiencia" ng-value="$ctrl.candidato.experiencia">
         </div>
 
         <div class="input_content">
@@ -50,11 +50,11 @@
 
         <div class="input_content">
             <label for="expect_contractual">Expec. contractual*: </label>
-            <input required placeholder="ej: CEO" name="expect_contractual">
+            <input required placeholder="ej: CEO" name="expect_contractual" ng-value="$ctrl.candidato.expect_contractual">
         </div>
         <div class="input_content">
             <label for="expect_economica">Expec. económica*: </label>
-            <input required placeholder="ej: $9000" name="expect_economica">
+            <input required placeholder="ej: $9000" name="expect_economica" ng-value="$ctrl.candidato.expect_economica ">
         </div>
 
         <div class="input_content">
@@ -63,11 +63,11 @@
         </div>
         <div class="input_content">
             <label for="feedback_sourcing">Feedback sourcing*: </label>
-            <input required placeholder="ej: ¿?¿?¿?¿?" name="feedback_sourcing">
+            <input required placeholder="ej: ¿?¿?¿?¿?" name="feedback_sourcing" ng-value="$ctrl.candidato.feedback_sourcing">
         </div>
         <div class="input_content">
             <label for="feedback_tecnico">Feedback técnico*: </label>
-            <input required placeholder="ej: ¿?¿?¿?¿?¿" name="feedback_tecnico">
+            <input required placeholder="ej: ¿?¿?¿?¿?¿" name="feedback_tecnico" ng-value="$ctrl.candidato.feedback_tecnico">
         </div>
         <div class="input_content">
             <label for="tecnico_seleccion">Técnico selección: </label>
