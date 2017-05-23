@@ -146,7 +146,8 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
           $value: 'cancel'
         }); >>>
         >>>
-        > Stashed changes
+        >
+        Stashed changes
       };
       vm.maxSize = 10;
     }
