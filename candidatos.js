@@ -20,13 +20,15 @@ angular.module('ghr.candidatos', [])
             vm.busqueda = "";
             vm.bolsaCandidatos = generadorCandidatos(400);
             vm.candidatosFiltrados = vm.bolsaCandidatos;
-            vm.totalItems = vm.bolsaCandidatos.length;
+            vm.elementosTotales = vm.bolsaCandidatos.length;
             vm.actualizarArray = function() {
-                vm.candidatosFiltrados = $filter('filter')(vm.bolsaCandidatos, vm.busqueda);
-                vm.totalItems = vm.candidatosFiltrados.length;
+                vm.candidatosFiltrados = vm.bolsaCandidatos;
+                for (var i = 0; i < vm.busqueda.length; i++)
+                    vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
+                vm.elementosTotales = vm.candidatosFiltrados.length;
             }
-            vm.currentPage = 1;
-            vm.maxSize = 10;
+            vm.paginaActual = 1;
+            vm.totalPaginas = 10;
 
             // Modal
             vm.open = function(id) {
