@@ -15,7 +15,7 @@
           <th>acción</th>
         </tr>
         <tbody>
-            <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.maxSize:($ctrl.currentPage-1)*$ctrl.maxSize track by candidato.id">
+            <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | filter:busqueda | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.totalPantalla:($ctrl.paginaActual-1)*$ctrl.totalPantalla track by candidato.id">
                 <td scope="row"
                 ng-if ="fila !== 'expect_economica'" ng-class="$last ? 'hidden-xs' : ''"
                 ng-repeat="fila in $ctrl.cabeceras">{{candidato[fila]}}</td>
