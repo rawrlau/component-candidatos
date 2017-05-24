@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <h1>Candidatos</h1>
-    <form name="formulario_candidatos">
+    <form name="formulario">
         <div class="formulario">
             <div class="input_content form-group col-md-3 col-sm-2 container-fluid">
                 <label for="ID">ID: </label>
@@ -112,7 +112,7 @@
         <div class="botonera text-right col-md-3 col-sm-4 col-xs-6 form-group ">
             <br>
             <input type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default">
-            <input type="submit" ng-click="$ctrl.update($ctrl.candidato)" value="Enviar" class="submit btn btn-primary">
+            <input type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato)" ng-disabled="formulario.$invalid" value="Enviar" class="submit btn btn-primary">
         </div>
     </form>
 </div>

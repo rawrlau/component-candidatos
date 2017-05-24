@@ -5,15 +5,22 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
         controller(candidatoFactory, $log, $stateParams) {
             const vm = this;
 
-            vm.update = function(candidato) {
-                vm.candidato = candidatoFactory.update(candidato);
+            vm.candidato = {}
+
+            vm.updateOrCreate = function(candidato) {
+                console.log(candidato);
+                if ($stateParams.id != 0)
+                    vm.candidato = candidatoFactory.update(candidato);
+                else
+                    vm.candidato = candidatoFactory.create(candidato);
             };
             vm.reset = function() {
                 vm.candidato = angular.copy(vm.original);
             };
             vm.reset();
 
-            vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
+            if ($stateParams.id != 0)
+                vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
 
             vm.desplegable = function() {
                 vm.estados = [{
@@ -38,7 +45,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.desplegable();
         }
     })
-    .factory('candidatoFactory', function() {
+    .factory('candidatoFactory', function($filter) {
         /**
          * Genera un número aleatorio entre 0 y "max"
          * con una distribucion linear
@@ -132,12 +139,33 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             return arrayCandidatos.indexOf(_getReferenceById(id));
         }
 
+        /**
+         * Devuelve el id máximo del array
+         * @constructor
+         * @return      {[type]} [description]
+         */
+        function _mockId() {
+            var orderedById = $filter('orderBy')(arrayCandidatos, '-id');
+            return orderedById[0].id + 1;
+        }
+
         var arrayCandidatos = generadorCandidatos(400);
 
         return {
             // Devuelve una copia del arrayCandidatos
             getAll: function _getAll() {
                 return angular.copy(arrayCandidatos);
+            },
+            // Crea un nuevo candidato
+            create: function _create(candidato) {
+                if (!candidato)
+                    throw 'El objeto carece de id y no se puede crear: ' + JSON.stringify(candidato);
+                else {
+                    candidato.id = _mockId();
+                    arrayCandidatos.push(candidato);
+                    return candidato;
+                }
+                throw 'El objeto no se puede crear: ' + JSON.stringify(candidato);
             },
             // Devuelve una copia del candidato con la id pasada
             read: function _read(id) {
@@ -171,7 +199,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
     .component('ghrCandidatosList', { //Componente para el listado de los candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
         //url con el html respectivo
-        controller($filter, $uibModal, $log, $document, candidatoFactory) { //Controlador cuyo contenido será el filtro y el modal
+        controller($filter, $uibModal, $log, $document, candidatoFactory, $state) { //Controlador cuyo contenido será el filtro y el modal
             const vm = this;
             vm.busqueda = "";
             // Lo igualamos con el factory
@@ -190,6 +218,8 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             //y otra el tamaño maximo de candidatos por pantalla
             vm.paginaActual = 1;
             vm.totalPantalla = 10;
+
+            vm.state = $state;
 
             // Ventana Modal
             vm.open = function(id) {
