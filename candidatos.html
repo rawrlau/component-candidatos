@@ -89,35 +89,44 @@
 
             <br>
             <div class="btn-group" uib-dropdown >
-              <select name="estado" form="formulario_candidatos" type="button" class="btn btn-default">
+            <!--   <select name="estado" form="formulario_candidatos" type="button" class="btn btn-default">
                 <option ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']" value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">
                     {{estado}}
                 </option>
-            </select>
-            <!--  <button  type="button" class="btn btn-default"  uib-dropdown-toggle ng-init="estado =['En proceso', 'Descartado', 'Incorporación']">
-                {{estado}} <span class="caret"></span>
+            </select>-->
+          <!--  <button  type="button" class="btn btn-default"  uib-dropdown-toggle ng-init>
+              En Proceso <span class="caret"></span>
+                <span class="sr-only">Split button!</span>
+            </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                  <li role="menuitem" ng-click="" ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']"
+                   value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado"><a href="#" ng-click="setAction(action)">{{estado}}</a></li>
+              </ul>-->
+              <button type="button" class="btn btn-default"  uib-dropdown-toggle>
+                  {{$ctrl.selectEstado.name}} <span class="caret"></span>
                   <span class="sr-only">Split button!</span>
               </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                    <li role="menuitem" ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']"
-                    value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">{{estado}}</li>
-                </ul>-->
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                <li role="menuitem" ng-repeat="estado in $ctrl.estados" value="{{estado}}">
+                  <a href="#" ng-click="$ctrl.setEstado(estado)">{{estado.name}}</a>
+                </li>
+              </ul>
             </div>
         </div>
 
-        <div  class="form-group col-sm-4 col-xs-6 container-fluid">
+        <div  class="form-group col-md-4 col-sm-4 col-xs-6 container-fluid">
             <label for="cv_softtek">CV Softtek: </label>
             <input class="form-control" type="file" name="cv_softtek">
         </div>
-        <div  class="form-group col-sm-4 col-xs-6 container-fluid">
+        <div  class="form-group col-md-4 col-sm-4 col-xs-6 container-fluid">
             <label for="cv_personal">CV personal: </label>
             <input class="form-control" type="file" name="cv_personal">
         </div>
-        <div  class="form-group col-sm-2 col-xs-6 container-fluid">
+        <div  class="form-group col-md-2 col-sm-2 col-xs-6 container-fluid">
             <label for="fecha_contacto">Fecha contacto: </label>
             <input class="form-control" type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
         </div>
-        <div  class="form-group col-sm-2 col-xs-6 container-fluid">
+        <div  class="form-group col-md-2 col-sm-2 col-xs-6 container-fluid">
             <label for="actualizado">Fecha actualizado*: </label>
             <input class="form-control"  required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
         </div>
@@ -128,7 +137,7 @@
         <input type="submit" ng-click="$ctrl.update($ctrl.candidato)" value="Enviar" class="submit btn btn-success">
     </div>
     <br>
-    <div class="col-sm-8 container-fluid">
+    <div class=" col-md-8 col-sm-8 col-xs-8 container-fluid">
         <pre>$ctrl.candidato = {{$ctrl.candidato | json}}</pre>
         <pre>$ctrl.original = {{$ctrl.original | json}}</pre>
     </div>

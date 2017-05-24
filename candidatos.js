@@ -17,6 +17,23 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
           vm.original = angular.copy(vm.candidato = candidatoFactory[i]);
         }
       }
+    },
+    controller: function () {
+      const vm = this;
+      vm.estados = [{
+        name: 'En Proceso'
+      },
+      {
+        name: 'Descartado'
+      },
+      {
+        name: 'Incorporación'
+      }
+      ];
+      vm.selectEstado = vm.estados[0];
+      vm.setEstado = function (estado) {
+        vm.selectEstado = estado;
+      };
     }
   })
   .factory('candidatoFactory', function () {
@@ -89,6 +106,7 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
       }
       return array;
     }
+
     return generadorCandidatos(400);
   })
   .component('ghrCandidatosList', { // Componente para el listado de los candidatos
