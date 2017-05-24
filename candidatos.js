@@ -17,24 +17,29 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
           vm.original = angular.copy(vm.candidato = candidatoFactory[i]);
         }
       }
-    },
-    controller: function () {
-      const vm = this;
-      vm.estados = [{
-        name: 'En Proceso'
-      },
-      {
-        name: 'Descartado'
-      },
-      {
-        name: 'Incorporación'
-      }
-      ];
-      vm.selectEstado = vm.estados[0];
-      vm.setEstado = function (estado) {
-        vm.selectEstado = estado;
+      vm.desplegable = function () {
+        vm.estados = [{
+          id: 1,
+          name: 'En Proceso'
+        },
+        {
+          id: 2,
+          name: 'Descartado'
+        },
+        {
+          id: 3,
+          name: 'Incorporacion'
+        }
+        ];
+        vm.selectEstado = vm.estados[0];
+
+        vm.setEstado = function (estado) {
+          vm.candidato.estado = estado;
+        };
       };
+      vm.desplegable();
     }
+
   })
   .factory('candidatoFactory', function () {
     /**
@@ -62,7 +67,7 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
     var feedback_tecnico = ['DI', 'TI', 'PO', 'LA'];
     var tec_seleccion = ['Ancceloti', 'Zidane', 'Simeone'];
     var referenciado = ['Don Juan', 'Mr. Apolo'];
-    var estado = ['En proceso', 'Descartado', 'Incorporación'];
+    var estado = ['En Proceso', 'Descartado', 'Incorporación'];
 
     /**
      * Devuelve un candidato con campos aleatorios

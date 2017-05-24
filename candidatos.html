@@ -84,31 +84,17 @@
             <input class="form-control" name="referenciado" ng-model="$ctrl.candidato.referenciado">
         </div>
 
-        <div  class="form-group col-m-2 container-fluid">
+        <div  class="form-group col-md-2 col-m-2 container-fluid">
             <label for="estado">Estado: </label>
-
             <br>
             <div class="btn-group" uib-dropdown >
-            <!--   <select name="estado" form="formulario_candidatos" type="button" class="btn btn-default">
-                <option ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']" value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">
-                    {{estado}}
-                </option>
-            </select>-->
-          <!--  <button  type="button" class="btn btn-default"  uib-dropdown-toggle ng-init>
-              En Proceso <span class="caret"></span>
-                <span class="sr-only">Split button!</span>
-            </button>
-              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                  <li role="menuitem" ng-click="" ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']"
-                   value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado"><a href="#" ng-click="setAction(action)">{{estado}}</a></li>
-              </ul>-->
               <button type="button" class="btn btn-default"  uib-dropdown-toggle>
-                  {{$ctrl.selectEstado.name}} <span class="caret"></span>
+                  {{$ctrl.candidato.estado}} <span class="caret"></span>
                   <span class="sr-only">Split button!</span>
               </button>
               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                <li role="menuitem" ng-repeat="estado in $ctrl.estados" value="{{estado}}">
-                  <a href="#" ng-click="$ctrl.setEstado(estado)">{{estado.name}}</a>
+                <li role="menuitem" ng-repeat="estado in $ctrl.estados" value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">
+                  <a href="#" ng-click="$ctrl.setEstado(estado.name)">{{estado.name}}</a>
                 </li>
               </ul>
             </div>
@@ -132,9 +118,10 @@
         </div>
 
     </div>
-    <div class="botonera container-fluid">
-        <input type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-danger">
-        <input type="submit" ng-click="$ctrl.update($ctrl.candidato)" value="Enviar" class="submit btn btn-success">
+
+    <div class="botonera  container-fluid">
+        <input type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default">
+        <input type="submit" ng-click="$ctrl.update($ctrl.candidato)" value="Enviar" class="submit btn btn-primary">
     </div>
     <br>
     <div class=" col-md-8 col-sm-8 col-xs-8 container-fluid">
