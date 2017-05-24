@@ -17,6 +17,7 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
           vm.original = angular.copy(vm.candidato = candidatoFactory[i]);
         }
       }
+
       vm.desplegable = function () {
         vm.estados = [{
           id: 1,

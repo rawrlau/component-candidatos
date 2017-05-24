@@ -4,7 +4,7 @@
     <div class="formulario">
         <div class="input_content form-group col-md-3 col-sm-2 container-fluid">
             <label for="ID">ID: </label>
-            <input disabled class="form-control" name="id" ng-model="$ctrl.candidato.id">
+            <input disabled class="form-control" name="id" ng-model="$ctrl.candidato.id ">
         </div>
         <div class="input_content form-group col-md-4 col-sm-2 container-fluid">
             <label for="nombre">Nombre*: </label>
@@ -35,8 +35,8 @@
         <div  class="form col-md-3 col-sm-2 container-fluid">
             <label for="disp_viajar">Disp. viajar: </label>
             <div class="radio">
-                <label><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'S'">Sí</label>
-                <label><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'N'">No</label>
+                <label><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'S'">Sí</label>
+                <label><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'N'">No</label>
             </div>
         </div>
 
