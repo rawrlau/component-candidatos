@@ -1,117 +1,137 @@
-<h1>Candidatos</h1>
-<form name="formulario_candidatos">
-    <div class="formulario">
-        <div class="input_content">
-            <label for="ID">ID: </label>
-            <input disabled name="id" ng-model="$ctrl.candidato.id">
-        </div>
-        <div class="input_content">
-            <label for="nombre">Nombre*: </label>
-            <input required name="nombre" ng-model="$ctrl.candidato.nombre" autofocus>
-        </div>
-        <div class="input_content">
-            <label for="apellido">Apellidos: </label>
-            <input name="apellido" ng-model="$ctrl.candidato.apellido">
-        </div>
-        <div class="input_content">
-            <label for="provincia">Provincia*: </label>
-            <input required name="provincia" ng-model="$ctrl.candidato.provincia">
-        </div>
-
-        <div class="input_content">
-            <label for="perfil">Perfil*: </label>
-            <input required name="perfil" ng-model="$ctrl.candidato.perfil">
-        </div>
-        <div class="input_content">
-            <label for="posicion">Posición: </label>
-            <input name="posicion" ng-model="$ctrl.candidato.posicion">
-        </div>
-        <div class="input_content">
-            <label for="experiencia">Experiencia*: </label>
-            <input required name="experiencia" ng-model="$ctrl.candidato.experiencia">
-        </div>
-
-        <div class="input_content">
-            <label for="disp_viajar">Disp. viajar: </label>
-            <div>
-                <span>Sí </span><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'S'">
-                <span>No </span><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'N'">
+<div class="container-fluid">
+    <h1>Candidatos</h1>
+    <form name="formulario_candidatos">
+        <div class="formulario">
+            <div class="input_content form-group col-sm-2 container-fluid">
+                <label for="ID">ID: </label>
+                <input disabled class="form-control" name="id" ng-model="$ctrl.candidato.id">
             </div>
-        </div>
-
-        <div class="input_content">
-            <label for="disp_residencia">Disp. residencia: </label>
-            <div>
-                <span>Sí </span><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'S'">
-                <span>No </span><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'N'">
+            <div class="input_content form-group col-sm-2 container-fluid">
+                <label for="nombre">Nombre*: </label>
+                <input required class="form-control"  name="nombre" ng-model="$ctrl.candidato.nombre" autofocus>
             </div>
-        </div>
+            <div class="input_content form-group col-sm-2 container-fluid">
+                <label for="apellido">Apellidos: </label>
+                <input class="form-control" name="apellido" ng-model="$ctrl.candidato.apellido">
+            </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="provincia">Provincia*: </label>
+                <input class="form-control" required name="provincia" ng-model="$ctrl.candidato.provincia">
+            </div>
 
-        <div class="input_content">
-            <label for="disp_incorporacion">Disp. incorporación: </label>
-            <input name="disp_incorporacion" ng-model="$ctrl.candidato.disp_incorporacion">
-        </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="perfil">Perfil*: </label>
+                <input class="form-control" required name="perfil" ng-model="$ctrl.candidato.perfil">
+            </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="posicion">Posición: </label>
+                <input class="form-control" name="posicion" ng-model="$ctrl.candidato.posicion">
+            </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="experiencia">Experiencia*: </label>
+                <input class="form-control" required name="experiencia" ng-model="$ctrl.candidato.experiencia">
+            </div>
 
-        <div class="input_content">
-            <label for="expect_contractual">Expec. contractual*: </label>
-            <input required name="expect_contractual" ng-model="$ctrl.candidato.expect_contractual">
-        </div>
-        <div class="input_content">
-            <label for="expect_economica">Expec. económica*: </label>
-            <input required name="expect_economica" ng-model="$ctrl.candidato.expect_economica">
-        </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="disp_viajar">Disp. viajar: </label>
+                <div>
+                    <span>Sí </span><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'S'">
+                    <span>No </span><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'N'">
+                </div>
+            </div>
 
-        <div class="input_content">
-            <label for="fecha_entrevista">Fecha entrevista: </label>
-            <input type="date" name="fecha_entrevista" ng-model="$ctrl.candidato.fecha_entrevista">
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="disp_residencia">Disp. residencia: </label>
+                <div>
+                    <span>Sí </span><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'S'">
+                    <span>No </span><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'N'">
+                </div>
+            </div>
+
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="disp_incorporacion">Disp. incorporación: </label>
+                <input class="form-control" name="disp_incorporacion" ng-model="$ctrl.candidato.disp_incorporacion">
+            </div>
+
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="expect_contractual">Expec. contractual*: </label>
+                <input class="form-control" required name="expect_contractual" ng-model="$ctrl.candidato.expect_contractual">
+            </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="expect_economica">Expec. económica*: </label>
+                <input class="form-control" required name="expect_economica" ng-model="$ctrl.candidato.expect_economica">
+            </div>
+
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="fecha_entrevista">Fecha entrevista: </label>
+                <input class="form-control" type="date" name="fecha_entrevista" ng-model="$ctrl.candidato.fecha_entrevista">
+            </div>
+
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="feedback_sourcing">Feedback sourcing*: </label>
+                <input class="form-control" required name="feedback_sourcing" ng-model="$ctrl.candidato.feedback_sourcing">
+            </div>
+
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="feedback_tecnico">Feedback técnico*: </label>
+                <input class="form-control" required name="feedback_tecnico" ng-model="$ctrl.candidato.feedback_tecnico">
+            </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="tecnico_seleccion">Técnico selección: </label>
+                <input class="form-control" name="tec_seleccion" ng-model="$ctrl.candidato.tec_seleccion">
+            </div>
+            <div  class="form-group col-sm-2 container-fluid">
+                <label for="referenciado">Referenciado: </label>
+                <input class="form-control" name="referenciado" ng-model="$ctrl.candidato.referenciado">
+            </div>
+
+            <div  class="form-group col-m-2 container-fluid">
+                <label for="estado">Estado: </label>
+
+                <br>
+                <div class="btn-group" uib-dropdown >
+                  <select name="estado" form="formulario_candidatos" type="button" class="btn btn-default">
+                    <option ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']" value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">
+                        {{estado}}
+                    </option>
+                </select>
+                <!--  <button  type="button" class="btn btn-default"  uib-dropdown-toggle ng-init="estado =['En proceso', 'Descartado', 'Incorporación']">
+                    {{estado}} <span class="caret"></span>
+                      <span class="sr-only">Split button!</span>
+                  </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                        <li role="menuitem" ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']"
+                        value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">{{estado}}</li>
+                    </ul>-->
+                </div>
+            </div>
+
+            <div  class="form-group col-sm-4 col-xs-6 container-fluid">
+                <label for="cv_softtek">CV Softtek: </label>
+                <input class="form-control" type="file" name="cv_softtek">
+            </div>
+            <div  class="form-group col-sm-4 col-xs-6 container-fluid">
+                <label for="cv_personal">CV personal: </label>
+                <input class="form-control" type="file" name="cv_personal">
+            </div>
+            <div  class="form-group col-sm-2 col-xs-6 container-fluid">
+                <label for="fecha_contacto">Fecha contacto: </label>
+                <input class="form-control" type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
+            </div>
+            <div  class="form-group col-sm-2 col-xs-6 container-fluid">
+                <label for="actualizado">Fecha actualizado*: </label>
+                <input class="form-control"  required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
+            </div>
+
         </div>
-        <div class="input_content">
-            <label for="feedback_sourcing">Feedback sourcing*: </label>
-            <input required name="feedback_sourcing" ng-model="$ctrl.candidato.feedback_sourcing">
+        <div class="botonera container-fluid">
+            <input type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-danger">
+            <input type="submit" ng-click="$ctrl.update($ctrl.candidato)" value="Enviar" class="submit btn btn-success">
         </div>
-        <div class="input_content">
-            <label for="feedback_tecnico">Feedback técnico*: </label>
-            <input required name="feedback_tecnico" ng-model="$ctrl.candidato.feedback_tecnico">
+        <br>
+        <div class="col-sm-8 container-fluid">
+            <pre>$ctrl.candidato = {{$ctrl.candidato | json}}</pre>
+            <pre>$ctrl.original = {{$ctrl.original | json}}</pre>
         </div>
-        <div class="input_content">
-            <label for="tecnico_seleccion">Técnico selección: </label>
-            <input name="tec_seleccion" ng-model="$ctrl.candidato.tec_seleccion">
-        </div>
-        <div class="input_content">
-            <label for="referenciado">Referenciado: </label>
-            <input name="referenciado" ng-model="$ctrl.candidato.referenciado">
-        </div>
-        <div class="input_content">
-            <label for="estado">Estado: </label>
-            <select name="estado" form="formulario_candidatos">
-                <option ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']" value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">
-                    {{estado}}
-                </option>
-            </select>
-        </div>
-        <div class="input_content">
-            <label for="cv_softtek">CV Softtek: </label>
-            <input type="file" name="cv_softtek">
-        </div>
-        <div class="input_content">
-            <label for="cv_personal">CV personal: </label>
-            <input type="file" name="cv_personal">
-        </div>
-        <div class="input_content">
-            <label for="fecha_contacto">Fecha contacto: </label>
-            <input type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
-        </div>
-        <div class="input_content">
-            <label for="actualizado">Fecha actualizado*: </label>
-            <input required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
-        </div>
-    </div>
-    <div class="botonera">
-        <input type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset">
-        <input type="submit" ng-click="$ctrl.update($ctrl.candidato)" value="Enviar" class="submit">
-    </div>
-    <div class="">
-        <pre>$ctrl.candidato = {{$ctrl.candidato | json}}</pre>
-        <pre>$ctrl.original = {{$ctrl.original | json}}</pre>
-    </div>
-</form>
+    </form>
+</div>
