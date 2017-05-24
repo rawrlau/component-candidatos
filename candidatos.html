@@ -1,129 +1,135 @@
 <h1>Candidatos</h1>
-<form name="formulario_candidatos" ng-init="user={}">
+<form name="formulario_candidatos">
     <div class="formulario">
-        <div  class="form-group col-sm-2 container-fluid col-sm-2 container-fluid">
-            <label for="nombre">Nombre*: </label>
-            <input class="form-control " required ng-model="user.nombre" placeholder="ej: María" name="nombre" ng-value="$ctrl.candidato.nombre">
+        <div class="input_content form-group col-sm-2 container-fluid">
+            <label for="ID">ID: </label>
+            <input disabled class="form-control" name="id" ng-model="$ctrl.candidato.id">
         </div>
-        <div  class="form-group col-sm-2 container-fluid">
-            <label for="apellidos">Apellidos: </label>
-            <input class="form-control" ng-model="user.apellidos" placeholder="ej: Gómez García" name="apellidos">
+        <div class="input_content form-group col-sm-2 container-fluid">
+            <label for="nombre">Nombre*: </label>
+            <input required class="form-control"  name="nombre" ng-model="$ctrl.candidato.nombre" autofocus>
+        </div>
+        <div class="input_content form-group col-sm-2 container-fluid">
+            <label for="apellido">Apellidos: </label>
+            <input class="form-control" name="apellido" ng-model="$ctrl.candidato.apellido">
         </div>
         <div  class="form-group col-sm-2 container-fluid">
             <label for="provincia">Provincia*: </label>
-            <input class="form-control" required ng-model="user.provincia" placeholder="ej: Madrid" name="provincia" ng-value="$ctrl.candidato.provincia">
+            <input class="form-control" required name="provincia" ng-model="$ctrl.candidato.provincia">
         </div>
 
         <div  class="form-group col-sm-2 container-fluid">
             <label for="perfil">Perfil*: </label>
-            <input class="form-control" required ng-model="user.perfil" placeholder="ej: Programador" name="perfil" ng-value="$ctrl.candidato.perfil">
+            <input class="form-control" required name="perfil" ng-model="$ctrl.candidato.perfil">
         </div>
         <div  class="form-group col-sm-2 container-fluid">
             <label for="posicion">Posición: </label>
-            <input class="form-control" ng-model="user.posicion" placeholder="ej: ?¿?¿?¿" name="posicion">
+            <input class="form-control" name="posicion" ng-model="$ctrl.candidato.posicion">
         </div>
         <div  class="form-group col-sm-2 container-fluid">
             <label for="experiencia">Experiencia*: </label>
-            <input class="form-control" required placeholder="ej: 5 años" name="experiencia" ng-value="$ctrl.candidato.experiencia">
+            <input class="form-control" required name="experiencia" ng-model="$ctrl.candidato.experiencia">
         </div>
 
         <div  class="form-group col-sm-2 container-fluid">
             <label for="disp_viajar">Disp. viajar: </label>
             <div>
-                <span>Sí </span><input type="radio" name="disp_viajar" value="S">
-                <span>No </span><input type="radio" name="disp_viajar" value="N">
+                <span>Sí </span><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'S'">
+                <span>No </span><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp_viajar === 'N'">
             </div>
         </div>
 
         <div  class="form-group col-sm-2 container-fluid">
             <label for="disp_residencia">Disp. residencia: </label>
             <div>
-                <span>Sí </span><input type="radio" name="disp_residencia" value="S">
-                <span>No </span><input type="radio" name="disp_residencia" value="N">
+                <span>Sí </span><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'S'">
+                <span>No </span><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'N'">
             </div>
         </div>
 
         <div  class="form-group col-sm-2 container-fluid">
             <label for="disp_incorporacion">Disp. incorporación: </label>
-            <input class="form-control" placeholder="ej: Inmediata" name="disp_incorporacion">
+            <input class="form-control" name="disp_incorporacion" ng-model="$ctrl.candidato.disp_incorporacion">
         </div>
 
         <div  class="form-group col-sm-2 container-fluid">
             <label for="expect_contractual">Expec. contractual*: </label>
-            <input class="form-control" required placeholder="ej: CEO" name="expect_contractual" ng-value="$ctrl.candidato.expect_contractual">
+            <input class="form-control" required name="expect_contractual" ng-model="$ctrl.candidato.expect_contractual">
         </div>
         <div  class="form-group col-sm-2 container-fluid">
             <label for="expect_economica">Expec. económica*: </label>
-            <input class="form-control" required placeholder="ej: $9000" name="expect_economica" ng-value="$ctrl.candidato.expect_economica ">
+            <input class="form-control" required name="expect_economica" ng-model="$ctrl.candidato.expect_economica">
         </div>
 
         <div  class="form-group col-sm-2 container-fluid">
             <label for="fecha_entrevista">Fecha entrevista: </label>
-            <input class="form-control" type="date" name="fecha_entrevista">
+            <input class="form-control" type="date" name="fecha_entrevista" ng-model="$ctrl.candidato.fecha_entrevista">
         </div>
+
         <div  class="form-group col-sm-2 container-fluid">
             <label for="feedback_sourcing">Feedback sourcing*: </label>
-            <input class="form-control" required placeholder="ej: ¿?¿?¿?¿?" name="feedback_sourcing" ng-value="$ctrl.candidato.feedback_sourcing">
+            <input class="form-control" required name="feedback_sourcing" ng-model="$ctrl.candidato.feedback_sourcing">
         </div>
+
         <div  class="form-group col-sm-2 container-fluid">
             <label for="feedback_tecnico">Feedback técnico*: </label>
-            <input class="form-control" required placeholder="ej: ¿?¿?¿?¿?¿" name="feedback_tecnico" ng-value="$ctrl.candidato.feedback_tecnico">
+            <input class="form-control" required name="feedback_tecnico" ng-model="$ctrl.candidato.feedback_tecnico">
         </div>
         <div  class="form-group col-sm-2 container-fluid">
             <label for="tecnico_seleccion">Técnico selección: </label>
-            <input class="form-control" placeholder="ej: Lopetegui" name="tecnico_seleccion">
+            <input class="form-control" name="tec_seleccion" ng-model="$ctrl.candidato.tec_seleccion">
         </div>
-        <div  class="form-group col-sm-3 container-fluid">
+        <div  class="form-group col-sm-2 container-fluid">
             <label for="referenciado">Referenciado: </label>
-            <input class="form-control" placeholder="ej: Juancho" name="referenciado">
+            <input class="form-control" name="referenciado" ng-model="$ctrl.candidato.referenciado">
         </div>
+
         <div  class="form-group col-m-2 container-fluid">
             <label for="estado">Estado: </label>
+
             <br>
             <div class="btn-group" uib-dropdown >
-              <button  type="button" class="btn btn-default"  uib-dropdown-toggle>
-                En Proceso <span class="caret"></span>
+              <select name="estado" form="formulario_candidatos" type="button" class="btn btn-default">
+                <option ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']" value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">
+                    {{estado}}
+                </option>
+            </select>
+            <!--  <button  type="button" class="btn btn-default"  uib-dropdown-toggle ng-init="estado =['En proceso', 'Descartado', 'Incorporación']">
+                {{estado}} <span class="caret"></span>
                   <span class="sr-only">Split button!</span>
               </button>
                 <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                    <li role="menuitem" ng-click="" ><a href="#">En proceso</a></li>
-                    <li role="menuitem" ng-click=""><a href="#">Descartado</a></li>
-                    <li role="menuitem" ng-click=""><a href="#">Incorporación</a></li>
-
-                </ul>
+                    <li role="menuitem" ng-repeat="estado in ['En proceso', 'Descartado', 'Incorporación']"
+                    value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">{{estado}}</li>
+                </ul>-->
             </div>
-
-
-
         </div>
-        <div  class="form-group col-sm-4 container-fluid">
+
+        <div  class="form-group col-sm-4 col-xs-6 container-fluid">
             <label for="cv_softtek">CV Softtek: </label>
             <input class="form-control" type="file" name="cv_softtek">
         </div>
-        <div  class="form-group col-sm-4 container-fluid">
+        <div  class="form-group col-sm-4 col-xs-6 container-fluid">
             <label for="cv_personal">CV personal: </label>
             <input class="form-control" type="file" name="cv_personal">
         </div>
-        <div  class="form-group col-sm-2 container-fluid">
+        <div  class="form-group col-sm-2 col-xs-6 container-fluid">
             <label for="fecha_contacto">Fecha contacto: </label>
-            <input class="form-control" type="date" name="fecha_contacto">
+            <input class="form-control" type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
         </div>
-        <div  class="form-group col-sm-2 container-fluid">
+        <div  class="form-group col-sm-2 col-xs-6 container-fluid">
             <label for="actualizado">Fecha actualizado*: </label>
-            <input class="form-control" required type="date" name="fecha_actualizado">
+            <input class="form-control"  required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
         </div>
+
     </div>
-    <div class="botonera  container-fluid ">
-        <input type="button" class="btn btn-danger" ng-click="$ctrl.reset()" value="Resetear" class="reset">
-        <input type="submit" class="btn btn-success" ng-click="$ctrl.update(user)" value="Enviar" class="submit">
+    <div class="botonera container-fluid">
+        <input type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-danger">
+        <input type="submit" ng-click="$ctrl.update($ctrl.candidato)" value="Enviar" class="submit btn btn-success">
+    </div>
+    <br>
+    <div class="col-sm-8 container-fluid">
+        <pre>$ctrl.candidato = {{$ctrl.candidato | json}}</pre>
+        <pre>$ctrl.original = {{$ctrl.original | json}}</pre>
     </div>
 </form>
-<br>
-<div class="texto col-sm-8 container-fluid ">
-  <pre>
-      user = {{user | json}}
-  </pre>
-  <pre>
-      master = {{$ctrl.master | json}}
-  </pre>
-</div>
