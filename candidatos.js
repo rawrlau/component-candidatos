@@ -6,14 +6,14 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             const vm = this;
 
             vm.update = function(candidato) {
-                vm.original = candidato;
+                vm.candidato = candidatoFactory.update(candidato);
             };
             vm.reset = function() {
                 vm.candidato = angular.copy(vm.original);
             };
             vm.reset();
 
-            vm.original = angular.copy(vm.candidato = candidatoFactory.getById($stateParams.id));
+            vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
         }
     })
     .factory('candidatoFactory', function() {
@@ -86,20 +86,63 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             return array;
         }
 
+        /**
+         * Devuelve la referencia de un candidato
+         * @param       {[type]} id [description]
+         * @constructor
+         * @return      {[type]}    [description]
+         */
+        function _getReferenceById(id) {
+            var candidato;
+            for (var i = 0; i < arrayCandidatos.length || candidato === undefined; i++)
+                if (arrayCandidatos[i].id == id)
+                    candidato = arrayCandidatos[i];
+            return candidato;
+        }
+
+        /**
+         * Devuelve el índice en el arrayCandidatos de un candidato
+         * @param       {[type]} id [description]
+         * @constructor
+         * @return      {[type]}    [description]
+         */
+        function _getIndexById(id) {
+            return arrayCandidatos.indexOf(_getReferenceById(id));
+        }
+
         var arrayCandidatos = generadorCandidatos(400);
 
         return {
             // Devuelve una copia del arrayCandidatos
-            getAll: function getAll() {
+            getAll: function _getAll() {
                 return angular.copy(arrayCandidatos);
             },
             // Devuelve una copia del candidato con la id pasada
-            getById: function getById(id) {
-                var candidato;
-                for (var i = 0; i < arrayCandidatos.length || candidato === undefined; i++)
-                    if (arrayCandidatos[i].id == id)
-                        candidato = angular.copy(arrayCandidatos[i]);
-                return candidato;
+            read: function _read(id) {
+                return angular.copy(_getReferenceById(id));
+            },
+            // Actualiza un candidato
+            update: function _update(candidato) {
+                if (!candidato.id)
+                    throw 'El objeto carece de id y no se puede actualizar: ' + JSON.stringify(candidato);
+                if (candidato) {
+                    var newCandidato = arrayCandidatos[_getIndexById(candidato.id)] = angular.copy(candidato);
+                    return angular.copy(newCandidato);
+                }
+                throw 'El objeto no se puede actualizar: ' + JSON.stringify(candidato);
+            },
+            // Borra un candidato
+            delete: function _delete(candidato) {
+                if (!candidato.id)
+                    throw 'El objeto carece de id y no se puede borrar: ' + JSON.stringify(candidato);
+                oldCandidato = _getReferenceById(candidato.id);
+                if (oldCandidato) {
+                    var indice = _getIndexById(candidato.id);
+                    if (indice > -1)
+                        arrayCandidatos.splice(indice, 1);
+                    else
+                        throw 'El objeto no se puede borrar: ' + JSON.stringify(candidato);
+                }
             }
         };
     })
@@ -116,7 +159,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             //Creamos esta variable para saber la cantidad de candidatos que nos ha creado y poder recorrer el array
             vm.elementosTotales = vm.bolsaCandidatos.length;
             vm.actualizarArray = function() { //Funcion que actualiza la lista de los candidatos con el filtro introducido
-                vm.candidatosFiltrados = vm.bolsaCandidatos;
+                vm.candidatosFiltrados = candidatoFactory.getAll();
                 for (var i = 0; i < vm.busqueda.length; i++)
                     vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
                 vm.elementosTotales = vm.candidatosFiltrados.length;
@@ -144,11 +187,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 //para que nos actualice la lista y nos elimine de la lista el candidato borrado
                 modalInstance.result.then(function(objetoSeleccionado) {
                     vm.selected = objetoSeleccionado;
-                    var candidatoAEliminar;
-                    for (var i = 0; i < vm.bolsaCandidatos.length || candidatoAEliminar === undefined; i++)
-                        if (vm.bolsaCandidatos[i].id === objetoSeleccionado)
-                            candidatoAEliminar = vm.bolsaCandidatos[i];
-                    vm.bolsaCandidatos.splice(vm.bolsaCandidatos.indexOf(candidatoAEliminar), 1);
+                    candidatoFactory.delete(candidatoFactory.read(vm.selected));
                     vm.actualizarArray();
                 }, function() {
                     $log.info('modal-component dismissed at: ' + new Date()); //Comentario en consola para ver que todo ejecuta correctamente
