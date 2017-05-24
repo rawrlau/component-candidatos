@@ -14,6 +14,28 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.reset();
 
             vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
+
+            vm.desplegable = function() {
+                vm.estados = [{
+                        id: 1,
+                        name: 'En Proceso'
+                    },
+                    {
+                        id: 2,
+                        name: 'Descartado'
+                    },
+                    {
+                        id: 3,
+                        name: 'Incorporacion'
+                    }
+                ];
+                vm.selectEstado = vm.estados[0];
+
+                vm.setEstado = function(estado) {
+                    vm.candidato.estado = estado;
+                };
+            };
+            vm.desplegable();
         }
     })
     .factory('candidatoFactory', function() {
