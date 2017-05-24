@@ -4,6 +4,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
         // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
         controller(candidatoFactory, $log, $stateParams) {
             const vm = this;
+
             vm.update = function(candidato) {
                 vm.original = candidato;
             };
@@ -12,9 +13,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             };
             vm.reset();
 
-            for (var i = 0; i < candidatoFactory.length || vm.candidato === undefined; i++)
-                if (candidatoFactory[i].id == $stateParams.id)
-                    vm.original = angular.copy(vm.candidato = candidatoFactory[i]);
+            vm.original = angular.copy(vm.candidato = candidatoFactory.getById($stateParams.id));
         }
     })
     .factory('candidatoFactory', function() {
@@ -68,7 +67,9 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 feedback_tecnico: feedback_tecnico[linearGenerator(0, feedback_tecnico.length)],
                 tec_seleccion: tec_seleccion[linearGenerator(0, tec_seleccion.length)],
                 referenciado: referenciado[linearGenerator(0, referenciado.length)],
-                estado: estado[linearGenerator(0, estado.length)]
+                estado: estado[linearGenerator(0, estado.length)],
+                fecha_contacto: new Date(new Date().getTime() - linearGenerator(0, 999999999999)),
+                fecha_actualizado: new Date(new Date().getTime() - linearGenerator(0, 999999999999)),
             };
             return candidato;
         }
@@ -84,7 +85,23 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 array.push(candidatoAleatorio(i + 1));
             return array;
         }
-        return generadorCandidatos(400);
+
+        var arrayCandidatos = generadorCandidatos(400);
+
+        return {
+            // Devuelve una copia del arrayCandidatos
+            getAll: function getAll() {
+                return angular.copy(arrayCandidatos);
+            },
+            // Devuelve una copia del candidato con la id pasada
+            getById: function getById(id) {
+                var candidato;
+                for (var i = 0; i < arrayCandidatos.length || candidato === undefined; i++)
+                    if (arrayCandidatos[i].id == id)
+                        candidato = angular.copy(arrayCandidatos[i]);
+                return candidato;
+            }
+        };
     })
     .component('ghrCandidatosList', { //Componente para el listado de los candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
@@ -93,7 +110,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             const vm = this;
             vm.busqueda = "";
             // Lo igualamos con el factory
-            vm.bolsaCandidatos = candidatoFactory;
+            vm.bolsaCandidatos = candidatoFactory.getAll();
             //Metemos todos los candidatos generados en esta nueva variable que será la que vayamos filtrando en la busqueda
             vm.candidatosFiltrados = vm.bolsaCandidatos;
             //Creamos esta variable para saber la cantidad de candidatos que nos ha creado y poder recorrer el array
