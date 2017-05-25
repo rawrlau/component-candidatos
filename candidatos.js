@@ -2,17 +2,25 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
     .component('ghrCandidatos', { //Componente que contiene la url que indica su html
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
         // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
-        controller(candidatoFactory, $log, $stateParams) {
+        controller(candidatoFactory, $log, $stateParams, $state) {
             const vm = this;
 
-            vm.candidato = {}
+            vm.$onInit = function() {
+                vm.candidato = {}
+            }
 
-            vm.updateOrCreate = function(candidato) {
+            vm.updateOrCreate = function(candidato, formulario) {
                 console.log(candidato);
-                if ($stateParams.id != 0)
-                    vm.candidato = candidatoFactory.update(candidato);
-                else
-                    vm.candidato = candidatoFactory.create(candidato);
+                if (formulario.$valid) {
+                    if ($stateParams.id != 0)
+                        vm.candidato = candidatoFactory.update(candidato);
+                    else {
+                        vm.candidato = candidatoFactory.create(candidato);
+                        $state.go($state.current, {
+                            id: candidato.id
+                        });
+                    }
+                }
             };
             vm.reset = function() {
                 vm.candidato = angular.copy(vm.original);
