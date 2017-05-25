@@ -111,7 +111,7 @@
         <div class="botonera col-md-offset-9 col-sm-offset-7 col-xs-offset-6  col-md-3 col-sm-5 col-xs-6 form-group ">
             <br>
             <input type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default">
-            <input type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato)" ng-disabled="formulario.$invalid" value="Enviar" class="submit btn btn-primary">
+            <input type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario)" ng-disabled="formulario.$invalid" value="Enviar" class="submit btn btn-primary">
         </div>
     </form>
 </div>
