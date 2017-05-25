@@ -4,8 +4,9 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
     // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
     controller(candidatoFactory, $log, $stateParams) {
       const vm = this;
-
-      vm.candidato = {};
+      vm.$onInit = function () {
+        vm.candidato = {};
+      };
 
       vm.updateOrCreate = function (candidato) {
         console.log(candidato);
