@@ -4,12 +4,11 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
     // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
     controller(candidatoFactory, $log, $stateParams) {
       const vm = this;
-      vm.$onInit = function () {
+      /* vm.$onInit = function () {
         vm.candidato = {};
-      };
-
+      }; */
+      vm.candidato = {};
       vm.updateOrCreate = function (candidato) {
-        console.log(candidato);
         if ($stateParams.id != 0) {
           vm.candidato = candidatoFactory.update(candidato);
         } else {
@@ -37,7 +36,6 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
         }
         ];
         vm.selectEstado = vm.estados[0];
-
         vm.setEstado = function (estado) {
           vm.candidato.estado = estado;
         };
@@ -63,8 +61,8 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
     var provincia = ['Madrid', 'Cáceres', 'Barcelona', 'Valencia', 'Badajoz', 'Sevilla', 'Galicia', 'Zaragoza', 'Cuenca'];
     var posicion = ['Arriba', 'Abajo', 'Pal centro', 'Pa dentro'];
     var experiencia = ['días', 'meses', 'años'];
-    var disp_viajar = ['S', 'N'];
-    var disp_residencia = ['S', 'N'];
+    var disp_viajar = ['Sí', 'No'];
+    var disp_residencia = ['Sí', 'No'];
     var disp_incorporacion = ['Ahora no', 'Inmediata', 'A medio plazo'];
     var expect_contractual = ['Jefe', 'CEO', 'Administrativo', 'Programador', 'Diseñador', 'Becario'];
     var feedback_sourcing = ['HB', 'FS', 'GR', 'TD'];

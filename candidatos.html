@@ -2,77 +2,98 @@
     <h1>Candidatos</h1>
     <form name="formulario">
         <div class="formulario">
-            <div class="form-group col-md-3 col-sm-2 col-xs-2 container-fluid">
+            <div class="form-group col-md-3 col-sm-2 col-xs-2 ">
                 <label for="ID">ID: </label>
                 <input disabled class="form-control" name="id" ng-model="$ctrl.candidato.id">
             </div>
-            <div class="input_content  form-group col-md-4 col-sm-5 col-xs-8 ">
-                <label for="nombre">Nombre*: </label>
+            <div class="  form-group col-md-4 col-sm-5 col-xs-8 has-success has-feedback ">
+                <label for="nombre">Nombre *: </label>
+                <div
                 <input required class="form-control"  name="nombre" ng-model="$ctrl.candidato.nombre" autofocus>
+                <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+              </div>
+
             </div>
-            <div class="input_content form-group col-md-4 col-sm-5 col-xs-8 container-fluid">
+        </div>
+            <div class="input_content form-group col-md-4 col-sm-5 col-xs-8">
                 <label for="apellido">Apellidos: </label>
                 <input class="form-control" name="apellido" ng-model="$ctrl.candidato.apellido">
             </div>
-            <div  class="form-group col-md-3 col-sm-3 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-3 col-xs-6">
                 <label for="provincia">Provincia*: </label>
                 <input class="form-control" required name="provincia" ng-model="$ctrl.candidato.provincia">
             </div>
-            <div  class="form-group col-md-3 col-sm-3 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-3 col-xs-6">
                 <label for="perfil">Perfil*: </label>
                 <input class="form-control" required name="perfil" ng-model="$ctrl.candidato.perfil">
             </div>
-            <div  class="form-group col-md-3 col-sm-3 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-3 col-xs-6">
                 <label for="posicion">Posición: </label>
                 <input class="form-control" name="posicion" ng-model="$ctrl.candidato.posicion">
             </div>
-            <div  class="form-group col-md-3 col-sm-3 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-3 col-xs-6">
                 <label for="experiencia">Experiencia*: </label>
                 <input class="form-control" required name="experiencia" ng-model="$ctrl.candidato.experiencia">
             </div>
-            <div  class="form col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="disp_viajar">Disp. viajar: </label>
-                <div class="radio">
-                    <label><input type="radio" name="disp_viajar" ng-checked="$ctrl.candidato.disp-viajar === 'S'">Sí</label>
-                    <label><input type="radio" name="disp-viajar" ng-checked="$ctrl.candidato.disp-viajar === 'N'">No</label>
+                <br>
+                <div class="btn-group" uib-dropdown >
+                    <button type="button" class="btn btn-default"  uib-dropdown-toggle>
+                      <!--  {{$ctrl.candidato.disp_viajar || $ctrl.disponibilidad[0].name}}--> <span class="caret"></span>
+                        <span class="sr-only">Split button!</span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                        <li role="menuitem" ng-repeat="disp in $ctrl.disponibilidad" value="{{disp}}" ng-selected="$ctrl.candidato.disp_viajar === disp">
+                            <a href="#" ng-click="$ctrl.setEstado(disp.name)">{{disp.name}}</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div  class="form col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="disp_residencia">Disp. residencia: </label>
-                <div class="radio">
-                    <label><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'S'">Sí</label>
-                    <label><input type="radio" name="disp_residencia" ng-checked="$ctrl.candidato.disp_residencia === 'N'">No</label>
+                <br>
+                <div class="btn-group" uib-dropdown >
+                  <button type="button" class="btn btn-default"  uib-dropdown-toggle>
+                <!--      {{$ctrl.candidato.disp_residencia || $ctrl.disponibilidad[0].name}}--> <span class="caret"></span>
+                      <span class="sr-only">Split button!</span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                      <li role="menuitem" ng-repeat="disp in $ctrl.disponibilidad" value="{{disp}}" ng-selected="$ctrl.candidato.disp_residencia === disp">
+                          <a href="#" ng-click="$ctrl.setEstado(disp.name)">{{disp.name}}</a>
+                      </li>
+                  </ul>
                 </div>
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="disp_incorporacion">Disp. incorporación: </label>
                 <input class="form-control" name="disp_incorporacion" ng-model="$ctrl.candidato.disp_incorporacion">
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="expect_contractual">Expec. contractual*: </label>
                 <input class="form-control" required name="expect_contractual" ng-model="$ctrl.candidato.expect_contractual">
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="expect_economica">Expec. económica*: </label>
                 <input class="form-control" required name="expect_economica" ng-model="$ctrl.candidato.expect_economica">
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="fecha_entrevista">Fecha entrevista: </label>
                 <input class="form-control" type="date" name="fecha_entrevista" ng-model="$ctrl.candidato.fecha_entrevista">
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="feedback_sourcing">Feedback sourcing*: </label>
                 <input class="form-control" required name="feedback_sourcing" ng-model="$ctrl.candidato.feedback_sourcing">
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="feedback_tecnico">Feedback técnico*: </label>
                 <input class="form-control" required name="feedback_tecnico" ng-model="$ctrl.candidato.feedback_tecnico">
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="tecnico_seleccion">Técnico selección: </label>
                 <input class="form-control" name="tec_seleccion" ng-model="$ctrl.candidato.tec_seleccion">
             </div>
-            <div  class="form-group col-md-3 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="referenciado">Referenciado: </label>
                 <input class="form-control" name="referenciado" ng-model="$ctrl.candidato.referenciado">
             </div>
@@ -91,19 +112,19 @@
                     </ul>
                 </div>
             </div>
-            <div  class="form-group col-md-4 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-4 col-sm-4 col-xs-6">
                 <label for="cv_softtek">CV Softtek: </label>
                 <input class="form-control" type="file" name="cv_softtek">
             </div>
-            <div  class="form-group col-md-4 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-4 col-sm-4 col-xs-6">
                 <label for="cv_personal">CV personal: </label>
                 <input class="form-control" type="file" name="cv_personal">
             </div>
-              <div  class="form-group col-md-2 col-sm-4 col-xs-6 container-fluid">
+              <div  class="form-group col-md-2 col-sm-4 col-xs-6">
                 <label for="fecha_contacto">Fecha contacto: </label>
                 <input class="form-control" type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
             </div>
-            <div  class="form-group col-md-2 col-sm-4 col-xs-6 container-fluid">
+            <div  class="form-group col-md-2 col-sm-4 col-xs-6">
                 <label for="actualizado">Fecha actualizado*: </label>
                 <input class="form-control"  required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
             </div>
@@ -112,7 +133,7 @@
             <br>
           <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">Descartar Cambios <span class ="glyphicon glyphicon-remove"></span></button>
             <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
-            Guardar  <span class="glyphicon glyphicon-floppy-disk"></span></button>
+            Guardar  <span class="glyphicon glyphicon-send"></span></button>
         </div>
     </form>
 </div>
