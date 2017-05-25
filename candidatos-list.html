@@ -5,10 +5,12 @@
             <input class="form-control" type="text" ng-list="," placeholder="Buscar" ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
         </div>
 
+
         <div class="row form-group col-md-1 col-sm-2 col-xs-2">
           <button id="split-button" type="button" class="btn btn-primary"
-          ui-sref="app.candidatos-nuevo">Nuevo</button>
+          ui-sref="app.candidatos-perfil({id:0})">Nuevo</button>
         </div>
+
     </div>
     <table class="table table-responsive table-striped">
       <thead class="thead-inverse">
