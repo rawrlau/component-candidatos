@@ -54,7 +54,9 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.desplegable();
         }
     })
-    .factory('candidatoFactory', function($filter) {
+    .constant('canBaseUrl', 'http://localhost:3003/api/')
+    .constant('canEntidad', 'candidatos')
+    .factory('candidatoFactory', function ($filter, $http, canEntidad, canBaseUrl) {
         /**
          * Genera un número aleatorio entre 0 y "max"
          * con una distribucion linear
@@ -160,10 +162,16 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
 
         var arrayCandidatos = generadorCandidatos(400);
 
+        var serviceUrl = canBaseUrl + canEntidad;
         return {
             // Devuelve una copia del arrayCandidatos
             getAll: function _getAll() {
-                return angular.copy(arrayCandidatos);
+                return $http({
+                  method: 'GET',
+                  url: serviceUrl
+                }).then(function onSuccess(response) {
+                  return response.data;
+                });
             },
             // Crea un nuevo candidato
             create: function _create(candidato) {
@@ -212,11 +220,13 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             const vm = this;
             vm.busqueda = "";
             // Lo igualamos con el factory
-            vm.bolsaCandidatos = candidatoFactory.getAll();
-            //Metemos todos los candidatos generados en esta nueva variable que será la que vayamos filtrando en la busqueda
-            vm.candidatosFiltrados = vm.bolsaCandidatos;
-            //Creamos esta variable para saber la cantidad de candidatos que nos ha creado y poder recorrer el array
-            vm.elementosTotales = vm.bolsaCandidatos.length;
+            candidatoFactory.getAll().then(function onSuccess(response) {
+              vm.bolsaCandidatos = response;
+              //Metemos todos los candidatos generados en esta nueva variable que será la que vayamos filtrando en la busqueda
+              vm.candidatosFiltrados = vm.bolsaCandidatos;
+              //Creamos esta variable para saber la cantidad de candidatos que nos ha creado y poder recorrer el array
+              vm.elementosTotales = vm.bolsaCandidatos.length;
+            });
             vm.actualizarArray = function() { //Funcion que actualiza la lista de los candidatos con el filtro introducido
                 vm.candidatosFiltrados = candidatoFactory.getAll();
                 for (var i = 0; i < vm.busqueda.length; i++)
