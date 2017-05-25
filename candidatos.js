@@ -31,23 +31,28 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             if ($stateParams.id != 0)
                 vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
 
-            vm.desplegable = function() {
+            vm.desplegables = function() {
                 vm.estados = [{
-                        id: 1,
-                        name: 'En Proceso'
+                        disp_viajar: 'Indeterminado',
+                        disp_residencia: 'Indeterminado',
+                        estado: 'En Proceso'
                     },
                     {
-                        id: 2,
-                        name: 'Descartado'
+                        disp_viajar: 'Sí',
+                        disp_residencia: 'Sí',
+                        estado: 'Descartado'
                     },
                     {
-                        id: 3,
-                        name: 'Incorporacion'
+                        disp_viajar: 'No',
+                        disp_residencia: 'No',
+                        estado: 'Incorporacion'
                     }
                 ];
                 vm.selectEstado = vm.estados[0];
 
-                vm.setEstado = function(estado) {
+                vm.setEstado = function(disp_viajar, disp_residencia, estado) {
+                    vm.candidato.disp_viajar = disp_viajar;
+                    vm.candidato.disp_residencia = disp_residencia;
                     vm.candidato.estado = estado;
                 };
             };
@@ -201,7 +206,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             // Borra un candidato
             delete: function _delete(candidato) {
                 if (!candidato.id || candidato.id)
-                    throw canEntidad + ' inválida'
+                    throw canEntidad + ' inválida';
                 oldCandidato = _getReferenceById(candidato.id);
                 if (oldCandidato) {
                     var indice = _getIndexById(candidato.id);

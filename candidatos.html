@@ -7,42 +7,32 @@
                 <input disabled class="form-control" name="id" ng-model="$ctrl.candidato.id">
                 <span class="oculto help-block">La Id es obligatoria</span>
             </div>
-            <div class="sin-margen form-group col-md-4 col-sm-5 col-xs-8"
-                ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !focus &&  formulario.nombre.$valid}">
+            <div class="sin-margen form-group col-md-4 col-sm-5 col-xs-8" ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !focus &&  formulario.nombre.$valid}">
                 <label for="nombre">Nombre <span class="glyphicon glyphicon-asterisk"></span> :</label>
-                <input id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus
-                    pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" aria-describedby="helpBlock2"
-                    ng-model="$ctrl.candidato.nombre" ng-focus="focus=true" ng-blur="focus=false">
+                <input id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.candidato.nombre" ng-focus="focus=true" ng-blur="focus=false">
                 <span class="help-block" ng-class="!formulario.nombre.$error.pattern ? 'oculto' : ''">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-4 col-sm-5 col-xs-8"
-                ng-class="{ 'has-error' : formulario.provincia.$invalid && !formulario.provincia.$pristine }">
+            <div class="sin-margen form-group col-md-4 col-sm-5 col-xs-8" ng-class="{ 'has-error' : formulario.provincia.$invalid && !formulario.provincia.$pristine }">
                 <label for="apellido">Apellido :</label>
-                <input id="inputSuccess2" class="form-control has-success" name="apellido"
-                    pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" aria-describedby="helpBlock2"
-                    ng-model="$ctrl.candidato.apellido" ng-focus="focus=true" ng-blur="focus=false">
+                <input id="inputSuccess2" class="form-control has-success" name="apellido" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.candidato.apellido" ng-focus="focus=true" ng-blur="focus=false">
                 <span class="help-block" ng-class="!formulario.apellido.$error.pattern ? 'oculto' : ''">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6"
-                ng-class="{ 'has-error' : formulario.provincia.$invalid && !formulario.provincia.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.provincia.$invalid && !formulario.provincia.$pristine }">
                 <label for="provincia">Provincia <span class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="provincia" ng-model="$ctrl.candidato.provincia" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.provincia.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6"
-                ng-class="{ 'has-error' : formulario.perfil.$invalid && !formulario.perfil.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.perfil.$invalid && !formulario.perfil.$pristine }">
                 <label for="perfil">Perfil <span class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="perfil" ng-model="$ctrl.candidato.perfil" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.perfil.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6"
-                ng-class="{ 'has-error' : formulario.posicion.$invalid && !formulario.posicion.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.posicion.$invalid && !formulario.posicion.$pristine }">
                 <label for="posicion">Posición : </label>
                 <input pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="posicion" ng-model="$ctrl.candidato.posicion" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.posicion.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6"
-                ng-class="{ 'has-error' : formulario.experiencia.$invalid && !formulario.experiencia.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.experiencia.$invalid && !formulario.experiencia.$pristine }">
                 <label for="experiencia">Experiencia <span class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ 0-9]{0,}" class="form-control" name="experiencia" ng-model="$ctrl.candidato.experiencia" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.experiencia.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras y números</span>
@@ -50,14 +40,14 @@
             <div class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="disp_viajar">Disp. viajar: </label>
                 <br>
-                <div class="btn-group" uib-dropdown >
-                    <button type="button" class="btn btn-default"  uib-dropdown-toggle>
-                      <!--  {{$ctrl.candidato.disp_viajar || $ctrl.disponibilidad[0].name}}--> <span class="caret"></span>
+                <div class="btn-group" uib-dropdown>
+                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                        <span class="caret"></span>
                         <span class="sr-only">Split button!</span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                         <li role="menuitem" ng-repeat="disp in $ctrl.disponibilidad" value="{{disp}}" ng-selected="$ctrl.candidato.disp_viajar === disp">
-                            <a href="#" ng-click="$ctrl.setEstado(disp.name)">{{disp.name}}</a>
+                            <a href="#" ng-click="$ctrl.setEstado(disp.disp_viajar)">{{disp.name}}</a>
                         </li>
                     </ul>
                 </div>
@@ -65,32 +55,29 @@
             <div class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="disp_residencia">Disp. residencia: </label>
                 <br>
-                <div class="btn-group" uib-dropdown >
-                  <button type="button" class="btn btn-default"  uib-dropdown-toggle>
-                <!--      {{$ctrl.candidato.disp_residencia || $ctrl.disponibilidad[0].name}}--> <span class="caret"></span>
-                      <span class="sr-only">Split button!</span>
-                  </button>
-                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                      <li role="menuitem" ng-repeat="disp in $ctrl.disponibilidad" value="{{disp}}" ng-selected="$ctrl.candidato.disp_residencia === disp">
-                          <a href="#" ng-click="$ctrl.setEstado(disp.name)">{{disp.name}}</a>
-                      </li>
-                  </ul>
+                <div class="btn-group" uib-dropdown>
+                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                        <span class="caret"></span>
+                        <span class="sr-only">Split button!</span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                        <li role="menuitem" ng-repeat="disp in $ctrl.disponibilidad" value="{{disp}}" ng-selected="$ctrl.candidato.disp_residencia === disp">
+                            <a href="#" ng-click="$ctrl.setEstado(disp.name)">{{disp.name}}</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6"
-                ng-class="{ 'has-error' : formulario.disp_incorporacion.$invalid && !formulario.disp_incorporacion.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.disp_incorporacion.$invalid && !formulario.disp_incorporacion.$pristine }">
                 <label for="disp_incorporacion">Disp. incorporación : </label>
                 <input pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="disp_incorporacion" ng-model="$ctrl.candidato.disp_incorporacion" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.disp_incorporacion.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6"
-                ng-class="{ 'has-error' : formulario.expect_contractual.$invalid && !formulario.expect_contractual.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.expect_contractual.$invalid && !formulario.expect_contractual.$pristine }">
                 <label for="expect_contractual">Expect. contractual <span class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="expect_contractual" ng-model="$ctrl.candidato.expect_contractual" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.expect_contractual.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6"
-                ng-class="{ 'has-error' : formulario.expect_economica.$invalid && !formulario.expect_economica.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.expect_economica.$invalid && !formulario.expect_economica.$pristine }">
                 <label for="expect_economica">Expect. económica <span class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input required pattern="[0-9]{0,}" class="form-control" name="expect_economica" ng-model="$ctrl.candidato.expect_economica" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.expect_economica.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir números</span>
@@ -99,26 +86,22 @@
                 <label for="fecha_entrevista">Fecha entrevista: </label>
                 <input class="form-control" type="date" name="fecha_entrevista" ng-model="$ctrl.candidato.fecha_entrevista">
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6"
-                ng-class="{ 'has-error' : formulario.feedback_sourcing.$invalid && !formulario.feedback_sourcing.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.feedback_sourcing.$invalid && !formulario.feedback_sourcing.$pristine }">
                 <label for="feedback_sourcing">Feedback sourcing <span class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="feedback_sourcing" ng-model="$ctrl.candidato.feedback_sourcing" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.feedback_sourcing.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6"
-                ng-class="{ 'has-error' : formulario.feedback_tecnico.$invalid && !formulario.feedback_sourcing.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.feedback_tecnico.$invalid && !formulario.feedback_sourcing.$pristine }">
                 <label for="feedback_tecnico">Feedback técnico <span class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="feedback_tecnico" ng-model="$ctrl.candidato.feedback_tecnico" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.feedback_tecnico.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6"
-                ng-class="{ 'has-error' : formulario.tecnico_seleccion.$invalid && !formulario.tecnico_seleccion.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.tecnico_seleccion.$invalid && !formulario.tecnico_seleccion.$pristine }">
                 <label for="tecnico_seleccion">Técnico selección : </label>
                 <input pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="tecnico_seleccion" ng-model="$ctrl.candidato.tecnico_seleccion" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.tecnico_seleccion.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6"
-                ng-class="{ 'has-error' : formulario.referenciado.$invalid && !formulario.referenciado.$pristine }">
+            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.referenciado.$invalid && !formulario.referenciado.$pristine }">
                 <label for="referenciado">Referenciado : </label>
                 <input pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="referenciado" ng-model="$ctrl.candidato.referenciado" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.referenciado.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
@@ -126,8 +109,8 @@
             <div class="sin-margen form-group col-md-2 col-sm-4 col-xs-6 ">
                 <label for="estado">Estado: </label>
                 <br>
-                <div class="btn-group" uib-dropdown >
-                    <button type="button" class="btn btn-default"  uib-dropdown-toggle>
+                <div class="btn-group" uib-dropdown>
+                    <button type="button" class="btn btn-default" uib-dropdown-toggle>
                         {{$ctrl.candidato.estado || $ctrl.estados[0].name}} <span class="caret"></span>
                         <span class="sr-only">Split button!</span>
                     </button>
@@ -139,37 +122,35 @@
                 </div>
                 <span class="oculto help-block">Debe elegir uno</span>
             </div>
-          <div  class="form-group col-md-12 col-sm-4 col-xs-6">
-            <div class="form-group col-md-4 col-sm-4 col-xs-6">
-                <label for="cv_softtek">CV Softtek: </label>
-                <input class="form-control" type="file" name="cv_softtek">
+            <div class="form-group col-md-12 col-sm-4 col-xs-6">
+                <div class="form-group col-md-4 col-sm-4 col-xs-6">
+                    <label for="cv_softtek">CV Softtek: </label>
+                    <input class="form-control" type="file" name="cv_softtek">
+                </div>
+                <div class="form-group col-md-4 col-sm-4 col-xs-6">
+                    <label for="cv_personal">CV personal: </label>
+                    <input class="form-control" type="file" name="cv_personal">
+                </div>
+                <div class="form-group col-md-2 col-sm-4 col-xs-6">
+                    <label for="fecha_contacto">Fecha contacto: </label>
+                    <input class="form-control" type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
+                </div>
+                <div class="form-group col-md-2 col-sm-4 col-xs-6">
+                    <label for="actualizado">Fecha actualizado*: </label>
+                    <input class="form-control" required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
+                </div>
             </div>
-            <div class="form-group col-md-4 col-sm-4 col-xs-6">
-                <label for="cv_personal">CV personal: </label>
-                <input class="form-control" type="file" name="cv_personal">
-            </div>
-            <div class="form-group col-md-2 col-sm-4 col-xs-6">
-                <label for="fecha_contacto">Fecha contacto: </label>
-                <input class="form-control" type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
-            </div>
-            <div class="form-group col-md-2 col-sm-4 col-xs-6">
-                <label for="actualizado">Fecha actualizado*: </label>
-                <input class="form-control"  required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
-            </div>
-        </div>
-
-
-
-        <div class="form-group col-md-12 col-sm-12 col-xs-12"></div>
-        <div class="form-group col-md-12 col-sm-12 col-xs-12"></div>
-        <div class="form-group col-md-12 col-sm-12 col-xs-12">
-            <div class="col-md-9 col-sm-7 col-xs-6">
-                <span class="leyenda">Los campos con asterisco (<span class="glyphicon glyphicon-asterisk"></span>) son obligatorios.</span>
-            </div>
-            <div class="botonera col-md-3 col-sm-5 col-xs-6 form-group ">
-                <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">Descartar Cambios <span class ="glyphicon glyphicon-remove"></span></button>
-                <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
+            <div class="form-group col-md-12 col-sm-12 col-xs-12"></div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12"></div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-9 col-sm-7 col-xs-6">
+                    <span class="leyenda">Los campos con asterisco (<span class="glyphicon glyphicon-asterisk"></span>) son obligatorios.</span>
+                </div>
+                <div class="botonera col-md-3 col-sm-5 col-xs-6 form-group ">
+                    <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">Descartar Cambios <span class ="glyphicon glyphicon-remove"></span></button>
+                    <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
                   Guardar  <span class="glyphicon glyphicon-send"></span></button>
+                </div>
             </div>
         </div>
     </form>
