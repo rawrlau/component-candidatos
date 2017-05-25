@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <h1 class="h1">Lista de Candidatos</h1>
     <div class="row form-group">
-        <div class="col-md-offset-6 col-sm-offset-4 col-xs-offset-2 col-md-5  col-sm-6 col-xs-8">
+        <div class="col-md-offset-5 col-sm-offset-3  col-md-6  col-sm-8 col-xs-10">
             <input class="form-control" type="text" ng-list="," placeholder="Buscar" ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
         </div>
 
 
-        <div class="row form-group col-md-1 col-sm-2 col-xs-2">
+        <div class="row form-group col-md-1 col-sm-1 col-xs-2">
           <button id="split-button" type="button" class="btn btn-primary"
           ui-sref="app.candidatos-perfil({id:0})">Nuevo</button>
         </div>

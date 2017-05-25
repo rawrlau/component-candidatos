@@ -26,15 +26,12 @@ angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad cand
 
       vm.desplegable = function () {
         vm.estados = [{
-          id: 1,
           name: 'En Proceso'
         },
         {
-          id: 2,
           name: 'Descartado'
         },
         {
-          id: 3,
           name: 'Incorporacion'
         }
         ];
