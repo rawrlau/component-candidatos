@@ -6,7 +6,8 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             const vm = this;
 
             vm.$onInit = function() {
-                vm.candidato = {}
+                if ($stateParams.id == 0)
+                    vm.candidato = {}
             }
 
             vm.updateOrCreate = function(candidato, formulario) {

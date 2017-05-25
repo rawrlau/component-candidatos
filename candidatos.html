@@ -9,24 +9,19 @@
             </div>
             <div class="sin-margen form-group col-md-4 col-sm-2"
                 ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !focus &&  formulario.nombre.$valid}">
-                <label for="nombre">
-                    Nombre <span class="glyphicon glyphicon-asterisk"></span> :
-                </label>
-                <input id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus 
-                    pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}"
-                    ng-model="$ctrl.candidato.nombre"
-                    aria-describedby="helpBlock2"
-                    ng-focus="focus=true" ng-blur="focus=false">
-                <span class="help-block"
-                    ng-class="!formulario.nombre.$error.pattern ? 'oculto' : ''">
-                    Sólo puede incluir letras
-                </span>
+                <label for="nombre">Nombre <span class="glyphicon glyphicon-asterisk"></span> :</label>
+                <input id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus
+                    pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" aria-describedby="helpBlock2"
+                    ng-model="$ctrl.candidato.nombre" ng-focus="focus=true" ng-blur="focus=false">
+                <span class="help-block" ng-class="!formulario.nombre.$error.pattern ? 'oculto' : ''">Sólo puede incluir letras</span>
             </div>
             <div class="sin-margen form-group col-md-4 col-sm-2"
-                ng-class="{ 'has-error' : formulario.apellido.$invalid && !formulario.apellido.$pristine }">
-                <label for="apellido">Apellido : </label>
-                <input pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="apellido" ng-model="$ctrl.candidato.apellido" aria-describedby="helpBlock2">
-                <span ng-class="!formulario.apellido.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
+                ng-class="{ 'has-error' : formulario.provincia.$invalid && !formulario.provincia.$pristine }">
+                <label for="apellido">Apellido :</label>
+                <input id="inputSuccess2" class="form-control has-success" name="apellido"
+                    pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" aria-describedby="helpBlock2"
+                    ng-model="$ctrl.candidato.apellido" ng-focus="focus=true" ng-blur="focus=false">
+                <span class="help-block" ng-class="!formulario.apellido.$error.pattern ? 'oculto' : ''">Sólo puede incluir letras</span>
             </div>
             <div class="sin-margen form-group col-md-3 col-sm-2"
                 ng-class="{ 'has-error' : formulario.provincia.$invalid && !formulario.provincia.$pristine }">
