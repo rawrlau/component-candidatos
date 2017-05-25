@@ -1,29 +1,33 @@
-angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad candidatos
-  .component('ghrCandidatos', { // Componente que contiene la url que indica su html
-    templateUrl: '../bower_components/component-candidatos/candidatos.html',
-    // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
-    controller(candidatoFactory, $log, $stateParams) {
-      const vm = this;
-      /* vm.$onInit = function () {
-        vm.candidato = {};
-      }; */
-      vm.candidato = {};
-      vm.updateOrCreate = function (candidato) {
-        if ($stateParams.id != 0) {
-          vm.candidato = candidatoFactory.update(candidato);
-        } else {
-          vm.candidato = candidatoFactory.create(candidato);
-        }
-      };
-      vm.reset = function () {
-        vm.candidato = angular.copy(vm.original);
-      };
-      vm.reset();
+angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candidatos
+    .component('ghrCandidatos', { //Componente que contiene la url que indica su html
+        templateUrl: '../bower_components/component-candidatos/candidatos.html',
+        // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
+        controller(candidatoFactory, $log, $stateParams, $state) {
+            const vm = this;
 
-      if ($stateParams.id != 0) {
-        vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
-      }
+            vm.$onInit = function() {
+                if ($stateParams.id == 0)
+                    vm.candidato = {}
+            }
 
+            vm.updateOrCreate = function(candidato, formulario) {
+                console.log(candidato);
+                if (formulario.$valid) {
+                    if ($stateParams.id != 0)
+                        vm.candidato = candidatoFactory.update(candidato);
+                    else {
+                        vm.candidato = candidatoFactory.create(candidato);
+                        $state.go($state.current, {
+                            id: candidato.id
+                        });
+                    }
+                }
+            };
+            vm.reset = function() {
+                vm.candidato = angular.copy(vm.original);
+            };
+            vm.reset();
+          
       vm.desplegable = function () {
         vm.estados = [{
           name: 'En Proceso'
