@@ -6,6 +6,10 @@
             <button type="button" class="btn btn-primary" ui-sref="app.candidatos-perfil({id:0})">Primary</button>
         </div>
     </div>
+    <div class="form-group text-right">
+      <button id="split-button" type="button" class="btn btn-primary"
+      ui-sref="app.candidatos-nuevo">Nuevo</button>
+    </div>
     <table class="table table-responsive table-striped">
       <thead class="thead-inverse">
         <tr ng-init="$ctrl.orderByPropiedad=''; $ctrl.cabeceras=['nombre','provincia', 'perfil','expect_contractual', 'expect_economica']">
