@@ -200,8 +200,8 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             },
             // Borra un candidato
             delete: function _delete(candidato) {
-                if (!candidato.id)
-                    throw 'El objeto carece de id y no se puede borrar: ' + JSON.stringify(candidato);
+                if (!candidato.id || candidato.id)
+                    throw canEntidad + ' inválida'
                 oldCandidato = _getReferenceById(candidato.id);
                 if (oldCandidato) {
                     var indice = _getIndexById(candidato.id);
