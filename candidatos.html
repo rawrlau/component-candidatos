@@ -49,6 +49,7 @@
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="disp_viajar">Disp. viajar: </label>
+                <br>
                 <div class="btn-group" uib-dropdown >
                     <button type="button" class="btn btn-default"  uib-dropdown-toggle>
                       <!--  {{$ctrl.candidato.disp_viajar || $ctrl.disponibilidad[0].name}}--> <span class="caret"></span>
@@ -122,7 +123,7 @@
                 <input pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]{0,}" class="form-control" name="referenciado" ng-model="$ctrl.candidato.referenciado" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.referenciado.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras</span>
             </div>
-            <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6 ">
+            <div class="sin-margen form-group col-md-2 col-sm-4 col-xs-6 ">
                 <label for="estado">Estado: </label>
                 <br>
                 <div class="btn-group" uib-dropdown >
@@ -138,7 +139,7 @@
                 </div>
                 <span class="oculto help-block">Debe elegir uno</span>
             </div>
-   <div  class="form-group col-md-2 col-sm-4 col-xs-6">
+          <div  class="form-group col-md-12 col-sm-4 col-xs-6">
             <div class="form-group col-md-4 col-sm-4 col-xs-6">
                 <label for="cv_softtek">CV Softtek: </label>
                 <input class="form-control" type="file" name="cv_softtek">
@@ -157,19 +158,18 @@
             </div>
         </div>
 
-        
+
 
         <div class="form-group col-md-12 col-sm-12 col-xs-12"></div>
         <div class="form-group col-md-12 col-sm-12 col-xs-12"></div>
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
             <div class="col-md-9 col-sm-7 col-xs-6">
                 <span class="leyenda">Los campos con asterisco (<span class="glyphicon glyphicon-asterisk"></span>) son obligatorios.</span>
             </div>
-            <div class="botonera col-md-offset-8 col-sm-offset-7 col-xs-offset-4  col-md-4 col-sm-5 col-xs-8 form-group ">
-            <br>
-          <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">Descartar Cambios <span class ="glyphicon glyphicon-remove"></span></button>
-            <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
-            Guardar  <span class="glyphicon glyphicon-send"></span></button>
+            <div class="botonera col-md-3 col-sm-5 col-xs-6 form-group ">
+                <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">Descartar Cambios <span class ="glyphicon glyphicon-remove"></span></button>
+                <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
+                  Guardar  <span class="glyphicon glyphicon-send"></span></button>
             </div>
         </div>
     </form>
