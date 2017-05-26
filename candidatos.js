@@ -5,21 +5,38 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
         controller(candidatoFactory, $log, $stateParams, $state) {
             const vm = this;
 
+            /**
+             * Al iniciar
+             * @return {[type]} [description]
+             */
             vm.$onInit = function() {
                 if ($stateParams.id == 0)
                     vm.candidato = {}
             }
 
+            /**
+             * Actualiza o crea un nuevo candidato
+             * @param  {[type]} candidato  [description]
+             * @param  {[type]} formulario [description]
+             * @return {[type]}            [description]
+             */
             vm.updateOrCreate = function(candidato, formulario) {
-                console.log(candidato);
                 if (formulario.$valid) {
-                    if ($stateParams.id != 0)
-                        vm.candidato = candidatoFactory.update(candidato);
-                    else {
-                        vm.candidato = candidatoFactory.create(candidato);
-                        $state.go($state.current, {
-                            id: candidato.id
-                        });
+                    if ($stateParams.id != 0) {
+                        for (var campo in candidato) {
+                            if (candidato.hasOwnProperty(campo)) {
+
+                            }
+                        }
+                    } else {
+                        candidatoFactory.create(candidato).then(
+                            function(response) {
+                                delete vm.candidato.id;
+                                $state.go($state.current, {
+                                    id: response.id
+                                });
+                            }
+                        );
                     }
                 }
             };
@@ -28,9 +45,30 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             };
             vm.reset();
 
-            if ($stateParams.id != 0)
-                vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
+            if ($stateParams.id != 0) {
+                candidatoFactory.read($stateParams.id).then(
+                    function(response) {
+                        vm.original = angular.copy(vm.candidato = vm.formatearFecha(response));
+                    }
+                );
+            }
 
+            /**
+             * Formatea la fecha recivida del servidor
+             * @param  {[type]} response [description]
+             * @return {[type]}          [description]
+             */
+            vm.formatearFecha = function formatearFecha(response) {
+                response.fecha_entrevista = new Date(response.fecha_entrevista);
+                response.fecha_contacto = new Date(response.fecha_contacto);
+                response.fecha_actualizado = new Date(response.fecha_actualizado);
+                return response;
+            }
+
+            /**
+             * Inicializa las ociones de los desplegables
+             * @return {[type]} [description]
+             */
             vm.desplegar = function() {
                 vm.opcionesDesplegable = [{
                         disp_viajar: 'Indeterminado',
@@ -66,74 +104,6 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
     .constant('canBaseUrl', 'http://localhost:3003/api/')
     .constant('canEntidad', 'candidatos')
     .factory('candidatoFactory', function($filter, $http, canBaseUrl, canEntidad) {
-        /**
-         * Genera un número aleatorio entre 0 y "max"
-         * con una distribucion linear
-         * @param  {int} max    número máximo +1 del rango
-         * @return {int}        número aleatorio devuelto
-         */
-        function linearGenerator(min, max) {
-            return Math.floor(Math.random() * (max - min) + min);
-        }
-
-        // Arrays
-        var nombre = ['Hector', 'Adrián', 'Dani', 'Miguel', 'Alex', 'Rodrigo', 'Marta', 'Alejandro', 'Alvaro', 'Luis'];
-        var apellido = ['Martín', 'Alonso', 'Tizón', 'Espinoza', 'Monzón', 'Minguez', 'Moreno', 'Ortiz', 'Fernández'];
-        var perfil = ['Analista', 'Programador', 'Diseñador'];
-        var provincia = ['Madrid', 'Cáceres', 'Barcelona', 'Valencia', 'Badajoz', 'Sevilla', 'Galicia', 'Zaragoza', 'Cuenca'];
-        var posicion = ['Arriba', 'Abajo', 'Pal centro', 'Pa dentro'];
-        var experiencia = ['días', 'meses', 'años'];
-        var disp_viajar = ['S', 'N'];
-        var disp_residencia = ['S', 'N'];
-        var disp_incorporacion = ['Ahora no', 'Inmediata', 'A medio plazo'];
-        var expect_contractual = ['Jefe', 'CEO', 'Administrativo', 'Programador', 'Diseñador', 'Becario'];
-        var feedback_sourcing = ['HB', 'FS', 'GR', 'TD'];
-        var feedback_tecnico = ['DI', 'TI', 'PO', 'LA'];
-        var tec_seleccion = ['Ancceloti', 'Zidane', 'Simeone'];
-        var referenciado = ['Don Juan', 'Mr. Apolo'];
-        var estado = ['En proceso', 'Descartado', 'Incorporación'];
-
-        /**
-         * Devuelve un candidato con campos aleatorios
-         * @return {object} candidato aletorio devuelto
-         */
-        function candidatoAleatorio(id) {
-            var candidato = {
-                id: id,
-                nombre: nombre[linearGenerator(0, nombre.length)],
-                apellido: apellido[linearGenerator(0, apellido.length)],
-                perfil: perfil[linearGenerator(0, perfil.length)],
-                provincia: provincia[linearGenerator(0, provincia.length)],
-                posicion: posicion[linearGenerator(0, posicion.length)],
-                experiencia: linearGenerator(0, 20) + ' ' + experiencia[linearGenerator(0, experiencia.length)],
-                disp_viajar: disp_viajar[linearGenerator(0, disp_viajar.length)],
-                disp_residencia: disp_residencia[linearGenerator(0, disp_residencia.length)],
-                disp_incorporacion: disp_incorporacion[linearGenerator(0, disp_incorporacion.length)],
-                expect_contractual: expect_contractual[linearGenerator(0, expect_contractual.length)],
-                expect_economica: linearGenerator(0, 4000),
-                fecha_entrevista: new Date(new Date().getTime() - linearGenerator(0, 999999999999)),
-                feedback_sourcing: feedback_sourcing[linearGenerator(0, feedback_sourcing.length)],
-                feedback_tecnico: feedback_tecnico[linearGenerator(0, feedback_tecnico.length)],
-                tec_seleccion: tec_seleccion[linearGenerator(0, tec_seleccion.length)],
-                referenciado: referenciado[linearGenerator(0, referenciado.length)],
-                estado: estado[linearGenerator(0, estado.length)],
-                fecha_contacto: new Date(new Date().getTime() - linearGenerator(0, 999999999999)),
-                fecha_actualizado: new Date(new Date().getTime() - linearGenerator(0, 999999999999)),
-            };
-            return candidato;
-        }
-
-        /**
-         * Genera una cantidad de candidatos pasada por parámetro
-         * @param  {[type]} amount [description]
-         * @return {[type]}        [description]
-         */
-        function generadorCandidatos(amount) {
-            var array = [];
-            for (var i = 0; i < amount; i++)
-                array.push(candidatoAleatorio(i + 1));
-            return array;
-        }
 
         /**
          * Devuelve la referencia de un candidato
@@ -169,8 +139,6 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             return orderedById[0].id + 1;
         }
 
-        var arrayCandidatos = generadorCandidatos(400);
-
         var serviceUrl = canBaseUrl + canEntidad;
         return {
             // Devuelve una copia del arrayCandidatos
@@ -184,41 +152,40 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             },
             // Crea un nuevo candidato
             create: function _create(candidato) {
-                if (!candidato)
-                    throw 'El objeto carece de id y no se puede crear: ' + JSON.stringify(candidato);
-                else {
-                    candidato.id = _mockId();
-                    arrayCandidatos.push(candidato);
-                    return candidato;
-                }
-                throw 'El objeto no se puede crear: ' + JSON.stringify(candidato);
+                return $http({
+                    method: 'POST',
+                    url: serviceUrl,
+                    data: candidato
+                }).then(function onSuccess(response) {
+                    return response.data;
+                });
             },
             // Devuelve una copia del candidato con la id pasada
             read: function _read(id) {
-                return angular.copy(_getReferenceById(id));
+                return $http({
+                    method: 'GET',
+                    url: serviceUrl + '/' + id
+                }).then(function onSuccess(response) {
+                    return response.data;
+                });
             },
             // Actualiza un candidato
-            update: function _update(candidato) {
-                if (!candidato.id)
-                    throw 'El objeto carece de id y no se puede actualizar: ' + JSON.stringify(candidato);
-                if (candidato) {
-                    var newCandidato = arrayCandidatos[_getIndexById(candidato.id)] = angular.copy(candidato);
-                    return angular.copy(newCandidato);
-                }
-                throw 'El objeto no se puede actualizar: ' + JSON.stringify(candidato);
+            update: function _update(id, candidato) {
+                return $http({
+                    method: 'PATCH',
+                    url: serviceUrl + '/' + id
+                }).then(function onSuccess(response) {
+                    return response.data;
+                });
             },
             // Borra un candidato
-            delete: function _delete(candidato) {
-                if (!candidato.id || candidato.id)
-                    throw canEntidad + ' inválida';
-                oldCandidato = _getReferenceById(candidato.id);
-                if (oldCandidato) {
-                    var indice = _getIndexById(candidato.id);
-                    if (indice > -1)
-                        arrayCandidatos.splice(indice, 1);
-                    else
-                        throw 'El objeto no se puede borrar: ' + JSON.stringify(candidato);
-                }
+            delete: function _delete(id) {
+                return $http({
+                    method: 'DELETE',
+                    url: serviceUrl + '/' + id
+                }).then(function onSuccess(response) {
+                    return response.data;
+                });
             }
         };
     })
@@ -236,7 +203,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 }
             );
             vm.actualizarArray = function() { //Funcion que actualiza la lista de los candidatos con el filtro introducido
-                vm.candidatosFiltrados = candidatoFactory.getAll();
+                vm.candidatosFiltrados = vm.bolsaCandidatos;
                 for (var i = 0; i < vm.busqueda.length; i++)
                     vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
                 vm.elementosTotales = vm.candidatosFiltrados.length;
@@ -260,14 +227,13 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                     }
                 });
 
-                //En esta funcion pasamos por parametro el candidato seleccionado en cuestion
-                //Aqui lo que haremos será recorrer el array de candidatos y al encontrar el candidato en concreto que coincida
-                //con la id que le pasamos lo borramos con el metodo splice y despues llamamos a la funcion actualizarArray
-                //para que nos actualice la lista y nos elimine de la lista el candidato borrado
-                modalInstance.result.then(function(objetoSeleccionado) {
-                    vm.selected = objetoSeleccionado;
-                    candidatoFactory.delete(candidatoFactory.read(vm.selected));
-                    vm.actualizarArray();
+                modalInstance.result.then(function(id) {
+                    candidatoFactory.delete(id).then(function() {
+                        candidatoFactory.getAll().then(function(response) {
+                            vm.bolsaCandidatos = response;
+                            vm.actualizarArray();
+                        });
+                    });
                 }, function() {
                     $log.info('modal-component dismissed at: ' + new Date()); //Comentario en consola para ver que todo ejecuta correctamente
                 });
