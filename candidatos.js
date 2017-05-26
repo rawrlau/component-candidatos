@@ -224,18 +224,17 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
     })
     .component('ghrCandidatosList', { //Componente para el listado de los candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-        //url con el html respectivo
         controller($filter, $uibModal, $log, $document, candidatoFactory, $state) { //Controlador cuyo contenido será el filtro y el modal
             const vm = this;
             vm.busqueda = "";
-            // Lo igualamos con el factory
-            candidatoFactory.getAll().then(function onSuccess(response) {
-                vm.bolsaCandidatos = response;
-                //Metemos todos los candidatos generados en esta nueva variable que será la que vayamos filtrando en la busqueda
-                vm.candidatosFiltrados = vm.bolsaCandidatos;
-                //Creamos esta variable para saber la cantidad de candidatos que nos ha creado y poder recorrer el array
-                vm.elementosTotales = vm.bolsaCandidatos.length;
-            });
+
+            candidatoFactory.getAll().then(
+                function onSuccess(response) {
+                    vm.bolsaCandidatos = response;
+                    vm.candidatosFiltrados = vm.bolsaCandidatos;
+                    vm.elementosTotales = vm.bolsaCandidatos.length;
+                }
+            );
             vm.actualizarArray = function() { //Funcion que actualiza la lista de los candidatos con el filtro introducido
                 vm.candidatosFiltrados = candidatoFactory.getAll();
                 for (var i = 0; i < vm.busqueda.length; i++)
