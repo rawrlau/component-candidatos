@@ -37,35 +37,37 @@
                 <input required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ 0-9]{0,}" class="form-control" name="experiencia" ng-model="$ctrl.candidato.experiencia" aria-describedby="helpBlock2">
                 <span ng-class="!formulario.experiencia.$error.pattern ? 'oculto' : ''" class="help-block">Sólo puede incluir letras y números</span>
             </div>
-            <div class="form-group col-md-3 col-sm-4 col-xs-6">
-                <label for="disp_viajar">Disp. viajar: </label>
+            <div class="sin-margen form-group col-md-2 col-sm-4 col-xs-6 ">
+                <label for="disp_viajar">Disp. Viajar: </label>
                 <br>
                 <div class="btn-group" uib-dropdown>
                     <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                        <span class="caret"></span>
+                        {{$ctrl.candidato.disp_viajar || $ctrl.opcionesDesplegable[0].disp_viajar}} <span class="caret"></span>
                         <span class="sr-only">Split button!</span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                        <li role="menuitem" ng-repeat="disp in $ctrl.disponibilidad" value="{{disp}}" ng-selected="$ctrl.candidato.disp_viajar === disp">
-                            <a href="#" ng-click="$ctrl.setEstado(disp.disp_viajar)">{{disp.name}}</a>
+                        <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.disp_viajar}}" ng-selected="$ctrl.candidato.disp_viajar === opcion.disp_viajar">
+                            <a href="#" ng-click="$ctrl.setViajar(opcion.disp_viajar)">{{opcion.disp_viajar}}</a>
                         </li>
                     </ul>
                 </div>
+                <span class="oculto help-block">Debe elegir uno</span>
             </div>
-            <div class="form-group col-md-3 col-sm-4 col-xs-6">
-                <label for="disp_residencia">Disp. residencia: </label>
+            <div class="sin-margen form-group col-md-2 col-sm-4 col-xs-6 ">
+                <label for="disp_residencia">Disp. Residencia: </label>
                 <br>
                 <div class="btn-group" uib-dropdown>
                     <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                        <span class="caret"></span>
+                        {{$ctrl.candidato.disp_residencia || $ctrl.opcionesDesplegable[0].disp_residencia}} <span class="caret"></span>
                         <span class="sr-only">Split button!</span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                        <li role="menuitem" ng-repeat="disp in $ctrl.disponibilidad" value="{{disp}}" ng-selected="$ctrl.candidato.disp_residencia === disp">
-                            <a href="#" ng-click="$ctrl.setEstado(disp.name)">{{disp.name}}</a>
+                        <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.disp_residencia}}" ng-selected="$ctrl.candidato.disp_residencia === opcion.disp_residencia">
+                            <a href="#" ng-click="$ctrl.setResidencia(opcion.disp_residencia)">{{opcion.disp_residencia}}</a>
                         </li>
                     </ul>
                 </div>
+                <span class="oculto help-block">Debe elegir uno</span>
             </div>
             <div class="sin-margen form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.disp_incorporacion.$invalid && !formulario.disp_incorporacion.$pristine }">
                 <label for="disp_incorporacion">Disp. incorporación : </label>
@@ -111,12 +113,12 @@
                 <br>
                 <div class="btn-group" uib-dropdown>
                     <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                        {{$ctrl.candidato.estado || $ctrl.estados[0].name}} <span class="caret"></span>
+                        {{$ctrl.candidato.estado || $ctrl.opcionesDesplegable[0].estado}} <span class="caret"></span>
                         <span class="sr-only">Split button!</span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                        <li role="menuitem" ng-repeat="estado in $ctrl.estados" value="{{estado}}" ng-selected="$ctrl.candidato.estado === estado">
-                            <a href="#" ng-click="$ctrl.setEstado(estado.name)">{{estado.name}}</a>
+                        <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.estado}}" ng-selected="$ctrl.candidato.estado === opcion.estado">
+                            <a href="#" ng-click="$ctrl.setEstado(opcion.estado)">{{opcion.estado}}</a>
                         </li>
                     </ul>
                 </div>

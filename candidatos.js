@@ -31,8 +31,8 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             if ($stateParams.id != 0)
                 vm.original = angular.copy(vm.candidato = candidatoFactory.read($stateParams.id));
 
-            vm.desplegables = function() {
-                vm.estados = [{
+            vm.desplegar = function() {
+                vm.opcionesDesplegable = [{
                         disp_viajar: 'Indeterminado',
                         disp_residencia: 'Indeterminado',
                         estado: 'En Proceso'
@@ -45,18 +45,22 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                     {
                         disp_viajar: 'No',
                         disp_residencia: 'No',
-                        estado: 'Incorporacion'
+                        estado: 'Incorporación'
                     }
                 ];
-                vm.selectEstado = vm.estados[0];
+                vm.selectEstado = vm.opcionesDesplegable[0];
 
-                vm.setEstado = function(disp_viajar, disp_residencia, estado) {
+                vm.setViajar = function(disp_viajar) {
                     vm.candidato.disp_viajar = disp_viajar;
+                };
+                vm.setResidencia = function(disp_residencia) {
                     vm.candidato.disp_residencia = disp_residencia;
+                };
+                vm.setEstado = function(estado) {
                     vm.candidato.estado = estado;
                 };
             };
-            vm.desplegable();
+            vm.desplegar();
         }
     })
     .constant('canBaseUrl', 'http://localhost:3003/api/')
