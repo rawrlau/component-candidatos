@@ -2,7 +2,9 @@
   "name": "component-candidatos",
   "homepage": "https://github.com/SofttekFormacion2017/component-candidatos",
   "description": "componente candidatos",
-  "main": ["candidatos.js", "candidatos.html"],
+  "main": [
+    "candidatos.js"
+  ],
   "authors": [
     "Equipo candidatos"
   ],
@@ -14,5 +16,6 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {}
 }
