@@ -1,53 +1,78 @@
-angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candidatos
-    .component('ghrCandidatos', { //Componente que contiene la url que indica su html
-        templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
-        controller(candidatoFactory, $log, $stateParams, $state) {
-            const vm = this;
+angular.module('ghr.candidatos', []) // Creamos este modulo para la entidad candidatos
+  .component('ghrCandidatos', { // Componente que contiene la url que indica su html
+    templateUrl: '../bower_components/component-candidatos/candidatos.html',
+    // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
+    controller(candidatoFactory, $log, $stateParams, $state) {
+      const vm = this;
 
-            vm.$onInit = function() {
-                if ($stateParams.id == 0)
-                    vm.candidato = {}
-            }
+      vm.$onInit = function () {
+        if ($stateParams.id == 0) {
+          vm.candidato = {};
+        }
+      };
 
-            vm.updateOrCreate = function(candidato, formulario) {
-                console.log(candidato);
-                if (formulario.$valid) {
-                    if ($stateParams.id != 0)
-                        vm.candidato = candidatoFactory.update(candidato);
-                    else {
-                        vm.candidato = candidatoFactory.create(candidato);
-                        $state.go($state.current, {
-                            id: candidato.id
-                        });
-                    }
-                }
-            };
-            vm.reset = function() {
-                vm.candidato = angular.copy(vm.original);
-            };
-            vm.reset();
-          
-      vm.desplegable = function () {
-        vm.estados = [{
-          name: 'En Proceso'
+      vm.updateOrCreate = function (candidato, formulario) {
+        console.log(candidato);
+        if (formulario.$valid) {
+          if ($stateParams.id != 0) {
+            vm.candidato = candidatoFactory.update(candidato);
+          } else {
+            vm.candidato = candidatoFactory.create(candidato).then(function (candidato) {
+              delete vm.candidato.id;
+              $state.go($state.current, {
+                id: candidato.id
+              });
+            });
+          }
+        }
+      };
+      vm.reset = function () {
+        vm.candidato = angular.copy(vm.original);
+      };
+      vm.reset();
+
+      if ($stateParams.id != 0) {
+        candidatoFactory.read($stateParams.id).then(
+          function (candidato) {
+            vm.original = angular.copy(vm.candidato = candidato);
+          });
+      }
+
+      vm.desplegar = function () {
+        vm.opcionesDesplegable = [{
+          disp_viajar: 'Indeterminado',
+          disp_residencia: 'Indeterminado',
+          estado: 'En Proceso'
         },
         {
-          name: 'Descartado'
+          disp_viajar: 'Sí',
+          disp_residencia: 'Sí',
+          estado: 'Descartado'
         },
         {
-          name: 'Incorporacion'
+          disp_viajar: 'No',
+          disp_residencia: 'No',
+          estado: 'Incorporación'
         }
         ];
-        vm.selectEstado = vm.estados[0];
+        vm.selectEstado = vm.opcionesDesplegable[0];
+
+        vm.setViajar = function (disp_viajar) {
+          vm.candidato.disp_viajar = disp_viajar;
+        };
+        vm.setResidencia = function (disp_residencia) {
+          vm.candidato.disp_residencia = disp_residencia;
+        };
         vm.setEstado = function (estado) {
           vm.candidato.estado = estado;
         };
       };
-      vm.desplegable();
+      vm.desplegar();
     }
   })
-  .factory('candidatoFactory', function ($filter) {
+  .constant('canBaseUrl', 'http://localhost:3003/api/')
+  .constant('canEntidad', 'candidatos')
+  .factory('candidatoFactory', function ($filter, $http, canBaseUrl, canEntidad) {
     /**
      * Genera un número aleatorio entre 0 y "max"
      * con una distribucion linear
@@ -65,8 +90,8 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
     var provincia = ['Madrid', 'Cáceres', 'Barcelona', 'Valencia', 'Badajoz', 'Sevilla', 'Galicia', 'Zaragoza', 'Cuenca'];
     var posicion = ['Arriba', 'Abajo', 'Pal centro', 'Pa dentro'];
     var experiencia = ['días', 'meses', 'años'];
-    var disp_viajar = ['Sí', 'No'];
-    var disp_residencia = ['Sí', 'No'];
+    var disp_viajar = ['S', 'N'];
+    var disp_residencia = ['S', 'N'];
     var disp_incorporacion = ['Ahora no', 'Inmediata', 'A medio plazo'];
     var expect_contractual = ['Jefe', 'CEO', 'Administrativo', 'Programador', 'Diseñador', 'Becario'];
     var feedback_sourcing = ['HB', 'FS', 'GR', 'TD'];
@@ -156,68 +181,73 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
 
     var arrayCandidatos = generadorCandidatos(400);
 
+    var serviceUrl = canBaseUrl + canEntidad;
     return {
       // Devuelve una copia del arrayCandidatos
       getAll: function _getAll() {
-        return angular.copy(arrayCandidatos);
+        return $http({
+          method: 'GET',
+          url: serviceUrl
+        }).then(function onSuccess(response) {
+          return response.data;
+        });
       },
       // Crea un nuevo candidato
       create: function _create(candidato) {
-        if (!candidato) {
-          throw 'El objeto carece de id y no se puede crear: ' + JSON.stringify(candidato);
-        } else {
-          candidato.id = _mockId();
-          arrayCandidatos.push(candidato);
-          return candidato;
-        }
-        throw 'El objeto no se puede crear: ' + JSON.stringify(candidato);
+        return $http({
+          method: 'POST',
+          url: serviceUrl,
+          data: candidato
+        }).then(function onSuccess(response) {
+          return response.data;
+        });
       },
       // Devuelve una copia del candidato con la id pasada
       read: function _read(id) {
-        return angular.copy(_getReferenceById(id));
+        return $http({
+          method: 'GET',
+          url: serviceUrl + '/' + id
+        }).then(function onSuccess(response) {
+          return response.data;
+        });
       },
       // Actualiza un candidato
       update: function _update(candidato) {
-        if (!candidato.id) {
-          throw 'El objeto carece de id y no se puede actualizar: ' + JSON.stringify(candidato);
-        }
-        if (candidato) {
-          var newCandidato = arrayCandidatos[_getIndexById(candidato.id)] = angular.copy(candidato);
-          return angular.copy(newCandidato);
-        }
-        throw 'El objeto no se puede actualizar: ' + JSON.stringify(candidato);
+        return $http({
+          method: 'GET',
+          url: serviceUrl + '/' + id
+        }).then(function onSuccess(response) {
+          return response.data;
+        });
       },
       // Borra un candidato
-      delete: function _delete(candidato) {
-        if (!candidato.id) {
-          throw 'El objeto carece de id y no se puede borrar: ' + JSON.stringify(candidato);
-        }
-        oldCandidato = _getReferenceById(candidato.id);
-        if (oldCandidato) {
-          var indice = _getIndexById(candidato.id);
-          if (indice > -1) {
-            arrayCandidatos.splice(indice, 1);
-          } else {
-            throw 'El objeto no se puede borrar: ' + JSON.stringify(candidato);
-          }
-        }
+      delete: function _delete(id) {
+        return $http({
+          method: 'DELETE',
+          url: serviceUrl + '/' + id
+        }).then(function onSuccess(response) {
+          return response.data;
+        });
       }
     };
   })
+
   .component('ghrCandidatosList', { // Componente para el listado de los candidatos
     templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-    // url con el html respectivo
     controller($filter, $uibModal, $log, $document, candidatoFactory, $state) { // Controlador cuyo contenido será el filtro y el modal
       const vm = this;
       vm.busqueda = '';
-      // Lo igualamos con el factory
-      vm.bolsaCandidatos = candidatoFactory.getAll();
-      // Metemos todos los candidatos generados en esta nueva variable que será la que vayamos filtrando en la busqueda
-      vm.candidatosFiltrados = vm.bolsaCandidatos;
-      // Creamos esta variable para saber la cantidad de candidatos que nos ha creado y poder recorrer el array
-      vm.elementosTotales = vm.bolsaCandidatos.length;
+
+      candidatoFactory.getAll().then(
+        function onSuccess(response) {
+          vm.bolsaCandidatos = response;
+          vm.candidatosFiltrados = vm.bolsaCandidatos;
+          vm.elementosTotales = vm.bolsaCandidatos.length;
+        }
+      );
       vm.actualizarArray = function () { // Funcion que actualiza la lista de los candidatos con el filtro introducido
-        vm.candidatosFiltrados = candidatoFactory.getAll();
+        vm.candidatosFiltrados = vm.bolsaCandidatos;
+
         for (var i = 0; i < vm.busqueda.length; i++) {
           vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
         }
@@ -246,10 +276,15 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
         // Aqui lo que haremos será recorrer el array de candidatos y al encontrar el candidato en concreto que coincida
         // con la id que le pasamos lo borramos con el metodo splice y despues llamamos a la funcion actualizarArray
         // para que nos actualice la lista y nos elimine de la lista el candidato borrado
-        modalInstance.result.then(function (objetoSeleccionado) {
-          vm.selected = objetoSeleccionado;
-          candidatoFactory.delete(candidatoFactory.read(vm.selected));
-          vm.actualizarArray();
+        modalInstance.result.then(function (id) {
+          candidatoFactory.delete(id).then(function () {
+            candidatoFactory.getAll().then(function (candidatos) {
+              vm.bolsaCandidatos = candidatos;
+              vm.actualizarArray();
+            });
+          });
+
+          // vm.actualizarArray();
         }, function () {
           $log.info('modal-component dismissed at: ' + new Date()); // Comentario en consola para ver que todo ejecuta correctamente
         });
