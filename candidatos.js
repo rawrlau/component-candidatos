@@ -24,15 +24,12 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                 if (formulario.$valid) {
                     if ($stateParams.id != 0) {
                         var candidatoModificado = {}
-                        var modificado = false;
                         for (var i = 0; i < formulario.$$controls.length; i++) {
                             var input = formulario.$$controls[i];
-                            if (input.$dirty) {
+                            if (input.$dirty)
                                 candidatoModificado[input.$name] = input.$modelValue;
-                                modificado = true;
-                            }
                         }
-                        if (modificado) {
+                        if (formulario.$dirty) {
                             candidatoFactory.update(candidato.id, candidatoModificado).then(
                                 function(response) {
                                     vm.candidato = vm.formatearFecha(response);
@@ -48,6 +45,7 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                                 $state.go($state.current, {
                                     id: response.id
                                 });
+                                toastr.success('Candidato creado correctamente', '¡Éxito!');
                             }
                         );
                     }
@@ -116,7 +114,7 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
     })
     .constant('canBaseUrl', 'http://localhost:3003/api/')
     .constant('canEntidad', 'candidatos')
-    .factory('candidatoFactory', function($filter, $http, canBaseUrl, canEntidad) {
+    .factory('candidatoFactory', function($filter, $http, canBaseUrl, canEntidad, toastr) {
 
         /**
          * Devuelve la referencia de un candidato
@@ -161,6 +159,8 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     url: serviceUrl
                 }).then(function onSuccess(response) {
                     return response.data;
+                }, function error() {
+                    toastr.error('No ha sido posible obtener los candidatos', 'Error');
                 });
             },
             // Crea un nuevo candidato
@@ -171,6 +171,8 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     data: candidato
                 }).then(function onSuccess(response) {
                     return response.data;
+                }, function error() {
+                    toastr.error('No ha sido posible crear el candidato', 'Error');
                 });
             },
             // Devuelve una copia del candidato con la id pasada
@@ -180,6 +182,8 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     url: serviceUrl + '/' + id
                 }).then(function onSuccess(response) {
                     return response.data;
+                }, function error() {
+                    toastr.error('No ha sido posible leer el candidato', 'Error');
                 });
             },
             // Actualiza un candidato
@@ -190,6 +194,8 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     data: candidatoModificado
                 }).then(function onSuccess(response) {
                     return response.data;
+                }, function error() {
+                    toastr.error('No ha sido posible modificar el candidato', 'Error');
                 });
             },
             // Borra un candidato
@@ -199,6 +205,8 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     url: serviceUrl + '/' + id
                 }).then(function onSuccess(response) {
                     return response.data;
+                }, function error() {
+                    toastr.error('No ha sido posible borrar el candidato', 'Error');
                 });
             }
         };
@@ -214,7 +222,7 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
     })
     .component('ghrCandidatosList', { //Componente para el listado de los candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-        controller($filter, $uibModal, $log, $document, candidatoFactory, $state) { //Controlador cuyo contenido será el filtro y el modal
+        controller($filter, $uibModal, $log, $document, candidatoFactory, $state, toastr) { //Controlador cuyo contenido será el filtro y el modal
             const vm = this;
             vm.busqueda = "";
 
@@ -255,6 +263,7 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                         candidatoFactory.getAll().then(function(response) {
                             vm.bolsaCandidatos = response;
                             vm.actualizarArray();
+                            toastr.success('Candidato borrado correctamente', '¡Éxito!');
                         });
                     });
                 }, function() {
