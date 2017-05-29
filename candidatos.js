@@ -27,7 +27,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                             if (campo.$dirty)
                                 candidato[campo.$name] = campo.$modelValue;
                         }
-                        candidatoFactory.update(candidato.id, candidato).then(
+                        candidatoFactory.update(candidato).then(
                             function(response) {
                                 vm.candidato = vm.formatearFecha(response);
                             }
@@ -174,10 +174,10 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 });
             },
             // Actualiza un candidato
-            update: function _update(id, candidato) {
+            update: function _update(candidato) {
                 return $http({
                     method: 'PATCH',
-                    url: serviceUrl + '/' + id,
+                    url: serviceUrl + '/' + candidato.id,
                     data: candidato
                 }).then(function onSuccess(response) {
                     return response.data;
