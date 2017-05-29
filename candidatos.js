@@ -23,7 +23,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.updateOrCreate = function(candidato, formulario) {
                 if (formulario.$valid) {
                     if ($stateParams.id != 0) {
-                        for (var campo in candidato) {
+                        for (var campo in formulario) {
                             if (candidato.hasOwnProperty(campo)) {
 
                             }
