@@ -23,11 +23,15 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.updateOrCreate = function(candidato, formulario) {
                 if (formulario.$valid) {
                     if ($stateParams.id != 0) {
-                        for (var campo in formulario) {
-                            if (candidato.hasOwnProperty(campo)) {
-
-                            }
+                        for (var campo in formulario.$$controls) {
+                            if (campo.$dirty)
+                                candidato[campo.$name] = campo.$modelValue;
                         }
+                        candidatoFactory.update(candidato.id, candidato).then(
+                            function(response) {
+                                vm.candidato = vm.formatearFecha(response);
+                            }
+                        );
                     } else {
                         candidatoFactory.create(candidato).then(
                             function(response) {
@@ -173,7 +177,8 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             update: function _update(id, candidato) {
                 return $http({
                     method: 'PATCH',
-                    url: serviceUrl + '/' + id
+                    url: serviceUrl + '/' + id,
+                    data: candidato
                 }).then(function onSuccess(response) {
                     return response.data;
                 });
