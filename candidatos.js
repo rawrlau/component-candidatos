@@ -1,8 +1,8 @@
-angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candidatos
+angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entidad candidatos
     .component('ghrCandidatos', { //Componente que contiene la url que indica su html
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
         // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
-        controller(candidatoFactory, $log, $stateParams, $state) {
+        controller(toastr, candidatoFactory, $log, $stateParams, $state) {
             const vm = this;
 
             /**
@@ -23,15 +23,24 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             vm.updateOrCreate = function(candidato, formulario) {
                 if (formulario.$valid) {
                     if ($stateParams.id != 0) {
-                        for (var campo in formulario.$$controls) {
-                            if (campo.$dirty)
-                                candidato[campo.$name] = campo.$modelValue;
-                        }
-                        candidatoFactory.update(candidato).then(
-                            function(response) {
-                                vm.candidato = vm.formatearFecha(response);
+                        var candidatoModificado = {}
+                        var modificado = false;
+                        for (var i = 0; i < formulario.$$controls.length; i++) {
+                            var input = formulario.$$controls[i];
+                            if (input.$dirty) {
+                                candidatoModificado[input.$name] = input.$modelValue;
+                                modificado = true;
                             }
-                        );
+                        }
+                        if (modificado) {
+                            candidatoFactory.update(candidato.id, candidatoModificado).then(
+                                function(response) {
+                                    vm.candidato = vm.formatearFecha(response);
+                                    toastr.success('Candidato modificado correctamente', '¡Éxito!');
+                                }
+                            );
+                        } else
+                            toastr.info('No hay nada que modificar', 'Info');
                     } else {
                         candidatoFactory.create(candidato).then(
                             function(response) {
@@ -174,11 +183,11 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 });
             },
             // Actualiza un candidato
-            update: function _update(candidato) {
+            update: function _update(id, candidatoModificado) {
                 return $http({
                     method: 'PATCH',
-                    url: serviceUrl + '/' + candidato.id,
-                    data: candidato
+                    url: serviceUrl + '/' + id,
+                    data: candidatoModificado
                 }).then(function onSuccess(response) {
                     return response.data;
                 });
@@ -193,6 +202,15 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 });
             }
         };
+    })
+    .config(function(toastrConfig) {
+        angular.extend(toastrConfig, {
+            allowHtml: true,
+            closeButton: true,
+            extendedTimeOut: 2000,
+            tapToDismiss: true,
+            timeOut: 5000,
+        });
     })
     .component('ghrCandidatosList', { //Componente para el listado de los candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
