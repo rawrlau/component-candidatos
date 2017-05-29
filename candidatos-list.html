@@ -21,9 +21,8 @@
         <th>acción</th>
       </tr>
       <tbody>
-        <tr ng-repeat="candidato in $ctrl.candidatosFiltrados  | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.totalPantalla:($ctrl.paginaActual-1)*$ctrl.totalPantalla track by candidato.id">
+        <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.totalPantalla:($ctrl.paginaActual-1)*$ctrl.totalPantalla track by candidato.id">
           <td scope="row" ng-if="fila !== 'expect_economica'" ng-class="$last ? 'hidden-xs' : ''" ng-repeat="fila in $ctrl.cabeceras">{{candidato[fila]}}</td>
-        
           <td>
             <div class="btn-group" uib-dropdown class="modal-demo">
               <button id="split-button" type="button" class="btn btn-primary" ui-sref="app.candidatos-perfil({id:candidato.id})"><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -34,7 +33,7 @@
               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
 
                 <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id})"><span class="glyphicon glyphicon-eye-open"></span> Ver</a></li>
-                <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-edit"></span> Editar</a></li>
+                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id})"><span class="glyphicon glyphicon-edit"></span> Editar</a></li>
                 <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-pencil"></span> Editar estado</a></li>
 
                 <li class="divider"></li>
