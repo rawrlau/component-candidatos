@@ -114,14 +114,17 @@ angular.module('ghr.candidatos', ['toastr'])
                 ];
                 vm.selectEstado = vm.opcionesDesplegable[0];
 
-                vm.setViajar = function(disp_viajar) {
+                vm.setViajar = function(disp_viajar, formulario) {
                     vm.candidato.disp_viajar = disp_viajar;
+                    formulario.$dirty = true;
                 };
-                vm.setResidencia = function(disp_residencia) {
+                vm.setResidencia = function(disp_residencia, formulario) {
                     vm.candidato.disp_residencia = disp_residencia;
+                    formulario.$dirty = true;
                 };
-                vm.setEstado = function(estado) {
+                vm.setEstado = function(estado, formulario) {
                     vm.candidato.estado = estado;
+                    formulario.$dirty = true;
                 };
             };
             vm.desplegar();
