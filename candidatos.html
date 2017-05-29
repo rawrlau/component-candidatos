@@ -47,7 +47,7 @@
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                         <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.disp_viajar}}" ng-selected="$ctrl.candidato.disp_viajar === opcion.disp_viajar">
-                            <a href="#" ng-click="$ctrl.setViajar(opcion.disp_viajar)">{{opcion.disp_viajar}}</a>
+                            <a href="#" name="disp_viajar" ng-click="$ctrl.setViajar(opcion.disp_viajar)">{{opcion.disp_viajar}}</a>
                         </li>
                     </ul>
                 </div>

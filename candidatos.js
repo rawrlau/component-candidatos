@@ -1,12 +1,11 @@
-angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entidad candidatos
-    .component('ghrCandidatos', { //Componente que contiene la url que indica su html
+angular.module('ghr.candidatos', ['toastr'])
+    .component('ghrCandidatos', { // Componente de formulario candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
         controller(toastr, candidatoFactory, $log, $stateParams, $state) {
             const vm = this;
 
             /**
-             * Al iniciar
+             * Al iniciar, si el parámetro id es cero crea un candidato vacío
              * @return {[type]} [description]
              */
             vm.$onInit = function() {
@@ -22,6 +21,7 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
              */
             vm.updateOrCreate = function(candidato, formulario) {
                 if (formulario.$valid) {
+                    // Update
                     if ($stateParams.id != 0) {
                         var candidatoModificado = {}
                         for (var i = 0; i < formulario.$$controls.length; i++) {
@@ -31,35 +31,50 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                         }
                         if (formulario.$dirty) {
                             candidatoFactory.update(candidato.id, candidatoModificado).then(
-                                function(response) {
+                                function onSuccess(response) {
                                     vm.candidato = vm.formatearFecha(response);
-                                    toastr.success('Candidato modificado correctamente', '¡Éxito!');
+                                    console.log(candidatoModificado);
+                                    toastr.success('El candidato se ha actualizado correctamente.');
+                                },
+                                function onFailure() {
+                                    toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                                 }
                             );
                         } else
                             toastr.info('No hay nada que modificar', 'Info');
-                    } else {
+                    }
+                    // Create
+                    else {
                         candidatoFactory.create(candidato).then(
-                            function(response) {
+                            function onSuccess(response) {
                                 delete vm.candidato.id;
                                 $state.go($state.current, {
                                     id: response.id
                                 });
-                                toastr.success('Candidato creado correctamente', '¡Éxito!');
+                                toastr.success('Candidato creado correctamente');
+                            },
+                            function onFailure() {
+                                toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                             }
                         );
                     }
                 }
             };
+
+            // Descatar cambios
             vm.reset = function() {
                 vm.candidato = angular.copy(vm.original);
             };
             vm.reset();
 
+            // Ver candidato
             if ($stateParams.id != 0) {
                 candidatoFactory.read($stateParams.id).then(
-                    function(response) {
+                    function onSuccess(response) {
                         vm.original = angular.copy(vm.candidato = vm.formatearFecha(response));
+                    },
+                    function onFailure() {
+                        toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                     }
                 );
             }
@@ -140,27 +155,15 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
             return arrayCandidatos.indexOf(_getReferenceById(id));
         }
 
-        /**
-         * Devuelve el id máximo del array
-         * @constructor
-         * @return      {[type]} [description]
-         */
-        function _mockId() {
-            var orderedById = $filter('orderBy')(arrayCandidatos, '-id');
-            return orderedById[0].id + 1;
-        }
-
         var serviceUrl = canBaseUrl + canEntidad;
         return {
-            // Devuelve una copia del arrayCandidatos
+            // Devuelve un array con todos los candidatos
             getAll: function _getAll() {
                 return $http({
                     method: 'GET',
                     url: serviceUrl
                 }).then(function onSuccess(response) {
                     return response.data;
-                }, function error() {
-                    toastr.error('No ha sido posible obtener los candidatos', 'Error');
                 });
             },
             // Crea un nuevo candidato
@@ -171,19 +174,15 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     data: candidato
                 }).then(function onSuccess(response) {
                     return response.data;
-                }, function error() {
-                    toastr.error('No ha sido posible crear el candidato', 'Error');
                 });
             },
-            // Devuelve una copia del candidato con la id pasada
+            // Lee un candidato
             read: function _read(id) {
                 return $http({
                     method: 'GET',
                     url: serviceUrl + '/' + id
                 }).then(function onSuccess(response) {
                     return response.data;
-                }, function error() {
-                    toastr.error('No ha sido posible leer el candidato', 'Error');
                 });
             },
             // Actualiza un candidato
@@ -194,8 +193,6 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     data: candidatoModificado
                 }).then(function onSuccess(response) {
                     return response.data;
-                }, function error() {
-                    toastr.error('No ha sido posible modificar el candidato', 'Error');
                 });
             },
             // Borra un candidato
@@ -205,27 +202,24 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     url: serviceUrl + '/' + id
                 }).then(function onSuccess(response) {
                     return response.data;
-                }, function error() {
-                    toastr.error('No ha sido posible borrar el candidato', 'Error');
                 });
             }
         };
     })
-    .config(function(toastrConfig) {
+    .config(function(toastrConfig) { // Configura los toastr
         angular.extend(toastrConfig, {
-            allowHtml: true,
             closeButton: true,
             extendedTimeOut: 2000,
             tapToDismiss: true,
-            timeOut: 5000,
         });
     })
-    .component('ghrCandidatosList', { //Componente para el listado de los candidatos
+    .component('ghrCandidatosList', { // Componente para el listado de los candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-        controller($filter, $uibModal, $log, $document, candidatoFactory, $state, toastr) { //Controlador cuyo contenido será el filtro y el modal
+        controller($filter, $uibModal, $log, $document, candidatoFactory, $state, toastr) {
             const vm = this;
             vm.busqueda = "";
 
+            // Actualiza el array de candidatos
             candidatoFactory.getAll().then(
                 function onSuccess(response) {
                     vm.bolsaCandidatos = response;
@@ -233,14 +227,14 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     vm.elementosTotales = vm.bolsaCandidatos.length;
                 }
             );
-            vm.actualizarArray = function() { //Funcion que actualiza la lista de los candidatos con el filtro introducido
+            // Funcion que actualiza la lista de los candidatos con el filtro introducido
+            vm.actualizarArray = function() {
                 vm.candidatosFiltrados = vm.bolsaCandidatos;
                 for (var i = 0; i < vm.busqueda.length; i++)
                     vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
                 vm.elementosTotales = vm.candidatosFiltrados.length;
             }
-            //Estas dos variables nos sirven para el paginado, una dice la pagina actual
-            //y otra el tamaño maximo de candidatos por pantalla
+
             vm.paginaActual = 1;
             vm.totalPantalla = 10;
 
@@ -253,29 +247,31 @@ angular.module('ghr.candidatos', ['toastr']) //Creamos este modulo para la entid
                     component: 'modalComponent',
                     resolve: {
                         seleccionado: function() {
-                            return id; //Del candidato seleccionado en ese momento, devolvemos su id correspondiente
+                            return id;
                         }
                     }
                 });
 
                 modalInstance.result.then(function(id) {
-                    candidatoFactory.delete(id).then(function() {
-                        candidatoFactory.getAll().then(function(response) {
-                            vm.bolsaCandidatos = response;
-                            vm.actualizarArray();
-                            toastr.success('Candidato borrado correctamente', '¡Éxito!');
-                        });
-                    });
+                    candidatoFactory.delete(id).then(
+                        function onSuccess() {
+                            candidatoFactory.getAll().then(function(response) {
+                                vm.bolsaCandidatos = response;
+                                vm.actualizarArray();
+                                toastr.success('Candidato borrado correctamente');
+                            });
+                        },
+                        function onFailure() {
+                            toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+                        }
+                    );
                 }, function() {
-                    $log.info('modal-component dismissed at: ' + new Date()); //Comentario en consola para ver que todo ejecuta correctamente
+                    $log.info('modal-component dismissed at: ' + new Date());
                 });
             };
         }
     })
-    //El componente del modal, la ventana de confirmacion que nos va a aparecer al intentar borrar un candidato
-    //Contiene su url, el resolve, que será un one way binding que almacene el candidato
-    //Y tanto close como dismiss pasará directamente los métodos al componente
-    .component('modalComponent', {
+    .component('modalComponent', { // El componente del modal
         templateUrl: '../bower_components/component-candidatos/myModalContent.html',
         bindings: {
             resolve: '<',
