@@ -47,8 +47,9 @@
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                         <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.disp_viajar}}" ng-selected="$ctrl.candidato.disp_viajar === opcion.disp_viajar">
-                            <a href="#" ng-click="$ctrl.setViajar(opcion.disp_viajar)">{{opcion.disp_viajar}}</a>
+                            <a href="#" ng-click="$ctrl.setViajar(opcion.disp_viajar, disp_viajar)">{{opcion.disp_viajar}}</a>
                         </li>
+                        <input ng-hide="true" name="disp_viajar" ng-model="$ctrl.candidato.disp_viajar">
                     </ul>
                 </div>
                 <span class="oculto help-block">Debe elegir uno</span>
@@ -63,8 +64,9 @@
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                         <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.disp_residencia}}" ng-selected="$ctrl.candidato.disp_residencia === opcion.disp_residencia">
-                            <a href="#" ng-click="$ctrl.setResidencia(opcion.disp_residencia)">{{opcion.disp_residencia}}</a>
+                            <a href="#" ng-click="$ctrl.setResidencia(opcion.disp_residencia, formulario)">{{opcion.disp_residencia}}</a>
                         </li>
+                        <input ng-hide="true" name="disp_residencia" ng-model="$ctrl.candidato.disp_residencia">
                     </ul>
                 </div>
                 <span class="oculto help-block">Debe elegir uno</span>
@@ -118,8 +120,9 @@
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                         <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.estado}}" ng-selected="$ctrl.candidato.estado === opcion.estado">
-                            <a href="#" ng-click="$ctrl.setEstado(opcion.estado)">{{opcion.estado}}</a>
+                            <a href="#" ng-click="$ctrl.setEstado(opcion.estado, formulario)">{{opcion.estado}}</a>
                         </li>
+                        <input ng-hide="true" name="estado" ng-model="$ctrl.candidato.estado">
                     </ul>
                 </div>
                 <span class="oculto help-block">Debe elegir uno</span>
