@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="row form-group  col-md-1 col-sm-1 col-xs-2">
-      <button id="split-button" type="button" class="btn btn-primary " ui-sref="app.candidatos-perfil({id:0})"><span class="glyphicon glyphicon-plus"></span></button>
+      <button id="split-button" type="button" class="btn btn-primary " ui-sref="app.candidatos-perfil({id:0,mode:'edit'})"><span class="glyphicon glyphicon-plus"></span></button>
     </div>
   </div>
   <table class="table table-responsive table-striped">
@@ -32,8 +32,8 @@
               </button>
               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
 
-                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id})"><span class="glyphicon glyphicon-eye-open"></span> Ver</a></li>
-                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id})"><span class="glyphicon glyphicon-edit"></span> Editar</a></li>
+                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id,mode:'read'})"><span class="glyphicon glyphicon-eye-open"></span> Ver</a></li>
+                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id,mode:'edit'})"><span class="glyphicon glyphicon-edit"></span> Editar</a></li>
                 <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-pencil"></span> Editar estado</a></li>
 
                 <li class="divider"></li>
