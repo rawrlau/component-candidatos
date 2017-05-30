@@ -49,17 +49,17 @@
                 <br>
                 <div ng-if="$ctrl.mode === 'edit'" class="btn-group" uib-dropdown>
                     <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                        {{$ctrl.candidato.disp_viajar || $ctrl.opcionesDesplegable[0].disp_viajar}} <span class="caret"></span>
+                        {{$ctrl.formatearDesplegable($ctrl.candidato.disp_viajar) || $ctrl.formatearDesplegable($ctrl.opcionesDesplegable[0].disp_viajar)}}<span class="caret"></span>
                         <span class="sr-only">Split button!</span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                         <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.disp_viajar}}" ng-selected="$ctrl.candidato.disp_viajar === opcion.disp_viajar">
-                            <a href="#" ng-click="$ctrl.candidato.disp_viajar = opcion.disp_viajar; $ctrl.setDirty(formulario, formulario.disp_viajar)">{{opcion.disp_viajar}}</a>
+                            <a href="#" ng-click="$ctrl.candidato.disp_viajar = opcion.disp_viajar; $ctrl.setDirty(formulario, formulario.disp_viajar)">{{$ctrl.formatearDesplegable(opcion.disp_viajar)}}</a>
                         </li>
                         <input ng-hide="true" name="disp_viajar" ng-model="$ctrl.candidato.disp_viajar">
                     </ul>
                 </div>
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.disp_viajar}}</span>
+                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.formatearDesplegable($ctrl.candidato.disp_viajar)}}</span>
                 <span class="oculto help-block">Debe elegir uno</span>
             </div>
             <div class="marginless-bottom form-group col-md-2 col-sm-4 col-xs-6 ">
@@ -67,17 +67,17 @@
                 <br>
                 <div ng-if="$ctrl.mode === 'edit'" class="btn-group" uib-dropdown>
                     <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                        {{$ctrl.candidato.disp_residencia || $ctrl.opcionesDesplegable[0].disp_residencia}} <span class="caret"></span>
+                        {{$ctrl.formatearDesplegable($ctrl.candidato.disp_residencia) || $ctrl.formatearDesplegable($ctrl.opcionesDesplegable[0].disp_residencia)}}<span class="caret"></span>
                         <span class="sr-only">Split button!</span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                         <li role="menuitem" ng-repeat="opcion in $ctrl.opcionesDesplegable" value="{{opcion.disp_residencia}}" ng-selected="$ctrl.candidato.disp_residencia === opcion.disp_residencia">
-                            <a href="#" ng-click="$ctrl.candidato.disp_residencia = opcion.disp_residencia; $ctrl.setDirty(formulario, formulario.disp_residencia)">{{opcion.disp_residencia}}</a>
+                            <a href="#" ng-click="$ctrl.candidato.disp_residencia = opcion.disp_residencia; $ctrl.setDirty(formulario, formulario.disp_residencia)">{{$ctrl.formatearDesplegable(opcion.disp_residencia)}}</a>
                         </li>
                         <input ng-hide="true" name="disp_residencia" ng-model="$ctrl.candidato.disp_residencia">
                     </ul>
                 </div>
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.disp_residencia}}</span>
+                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.formatearDesplegable($ctrl.candidato.disp_residencia)}}</span>
                 <span class="oculto help-block">Debe elegir uno</span>
             </div>
             <div class="marginless-bottom form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.disp_incorporacion.$invalid && !formulario.disp_incorporacion.$pristine, 'has-success': !formulario.disp_incorporacion.$focused && formulario.disp_incorporacion.$valid}">
