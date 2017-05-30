@@ -80,7 +80,7 @@ angular.module('ghr.candidatos', ['toastr'])
                                 delete vm.candidato.id;
                                 $state.go($state.current, {
                                     id: response.id,
-                                    mode: read
+                                    mode: 'read'
                                 });
                                 toastr.success('Candidato creado correctamente');
                             },
@@ -122,24 +122,33 @@ angular.module('ghr.candidatos', ['toastr'])
              */
             vm.desplegar = function() {
                 vm.opcionesDesplegable = [{
-                        disp_viajar: 'Indeterminado',
-                        disp_residencia: 'Indeterminado',
+                        disp_viajar: 'I',
+                        disp_residencia: 'I',
                         estado: 'En Proceso'
                     },
                     {
-                        disp_viajar: 'Sí',
-                        disp_residencia: 'Sí',
+                        disp_viajar: 'S',
+                        disp_residencia: 'S',
                         estado: 'Descartado'
                     },
                     {
-                        disp_viajar: 'No',
-                        disp_residencia: 'No',
+                        disp_viajar: 'N',
+                        disp_residencia: 'N',
                         estado: 'Incorporación'
                     }
                 ];
                 vm.selectEstado = vm.opcionesDesplegable[0];
             };
             vm.desplegar();
+
+            vm.formatearDesplegable = function(opcion) {
+                if (opcion == 'I')
+                    return 'Indeterminado';
+                else if (opcion == 'S')
+                    return 'Sí';
+                else if (opcion == 'N')
+                    return 'No';
+            }
 
             /**
              * Setea el atributo $disty del formulario y
