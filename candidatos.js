@@ -14,6 +14,24 @@ angular.module('ghr.candidatos', ['toastr'])
             }
 
             /**
+             * Crea una copia del canditao en un nuevo objeto para
+             * ser recuperado en caso de descartar cambios
+             * @return {[type]} [description]
+             */
+            vm.setOriginal = function(data) {
+                vm.original = angular.copy(vm.candidato = vm.formatearFecha(data));
+            }
+
+            /**
+             * Descartar cambios
+             * @return {[type]} [description]
+             */
+            vm.reset = function() {
+                vm.candidato = angular.copy(vm.original);
+            };
+            vm.reset();
+
+            /**
              * Actualiza o crea un nuevo candidato
              * @param  {[type]} candidato  [description]
              * @param  {[type]} formulario [description]
@@ -32,8 +50,7 @@ angular.module('ghr.candidatos', ['toastr'])
                         if (formulario.$dirty) {
                             candidatoFactory.update(candidato.id, candidatoModificado).then(
                                 function onSuccess(response) {
-                                    vm.candidato = vm.formatearFecha(response);
-                                    console.log(candidatoModificado);
+                                    vm.setOriginal(response);
                                     toastr.success('El candidato se ha actualizado correctamente.');
                                 },
                                 function onFailure() {
@@ -61,17 +78,11 @@ angular.module('ghr.candidatos', ['toastr'])
                 }
             };
 
-            // Descatar cambios
-            vm.reset = function() {
-                vm.candidato = angular.copy(vm.original);
-            };
-            vm.reset();
-
             // Ver candidato
             if ($stateParams.id != 0) {
                 candidatoFactory.read($stateParams.id).then(
                     function onSuccess(response) {
-                        vm.original = angular.copy(vm.candidato = vm.formatearFecha(response));
+                        vm.setOriginal(response);
                     },
                     function onFailure() {
                         toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
@@ -113,21 +124,20 @@ angular.module('ghr.candidatos', ['toastr'])
                     }
                 ];
                 vm.selectEstado = vm.opcionesDesplegable[0];
-
-                vm.setViajar = function(disp_viajar, formulario) {
-                    vm.candidato.disp_viajar = disp_viajar;
-                    formulario.$dirty = true;
-                };
-                vm.setResidencia = function(disp_residencia, formulario) {
-                    vm.candidato.disp_residencia = disp_residencia;
-                    formulario.$dirty = true;
-                };
-                vm.setEstado = function(estado, formulario) {
-                    vm.candidato.estado = estado;
-                    formulario.$dirty = true;
-                };
             };
             vm.desplegar();
+
+            /**
+             * Setea el atributo $disty del formulario y
+             * del input pasado por parámetro a true
+             * @param  {[type]} formulario [description]
+             * @param  {[type]} input      [description]
+             * @return {[type]}            [description]
+             */
+            vm.setDirty = function(formulario, input) {
+                input.$dirty = true;
+                formulario.$dirty = true;
+            }
         }
     })
     .constant('canBaseUrl', 'http://localhost:3003/api/')
