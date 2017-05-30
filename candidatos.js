@@ -4,6 +4,19 @@ angular.module('ghr.candidatos', ['toastr'])
         controller(toastr, candidatoFactory, $log, $stateParams, $state) {
             const vm = this;
 
+            vm.mode = $stateParams.mode;
+
+            /**
+             * Cambia al modo editar
+             * @return {[type]} [description]
+             */
+            vm.editar = function() {
+                $state.go($state.current, {
+                    mode: 'edit'
+                });
+                vm.mode = $stateParams.mode;
+            }
+
             /**
              * Al iniciar, si el parámetro id es cero crea un candidato vacío
              * @return {[type]} [description]
@@ -66,7 +79,8 @@ angular.module('ghr.candidatos', ['toastr'])
                             function onSuccess(response) {
                                 delete vm.candidato.id;
                                 $state.go($state.current, {
-                                    id: response.id
+                                    id: response.id,
+                                    mode: read
                                 });
                                 toastr.success('Candidato creado correctamente');
                             },
