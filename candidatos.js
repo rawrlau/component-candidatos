@@ -1,4 +1,4 @@
-angular.module('ghr.candidatos', ['toastr'])
+angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
   .component('ghrCandidatos', { // Componente de formulario candidatos
       templateUrl: '../bower_components/component-candidatos/candidatos.html',
       controller(toastr, candidatoFactory, $log, $stateParams, $state) {
