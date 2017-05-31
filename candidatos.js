@@ -1,175 +1,218 @@
 angular.module('ghr.candidatos', ['toastr'])
   .component('ghrCandidatos', { // Componente de formulario candidatos
-    templateUrl: '../bower_components/component-candidatos/candidatos.html',
-    controller(toastr, candidatoFactory, $log, $stateParams, $state) {
-      const vm = this;
+      templateUrl: '../bower_components/component-candidatos/candidatos.html',
+      controller(toastr, candidatoFactory, $log, $stateParams, $state) {
+        const vm = this;
 
-      vm.mode = $stateParams.mode;
-
-      /**
-       * Cambia al modo editar
-       * @return {[type]} [description]
-       */
-      vm.editar = function () {
-        $state.go($state.current, {
-          mode: 'edit'
-        });
         vm.mode = $stateParams.mode;
-      };
 
-      /**
-       * Al iniciar, si el parámetro id es cero crea un candidato vacío
-       * @return {[type]} [description]
-       */
-      vm.$onInit = function () {
-        if ($stateParams.id == 0) {
-          vm.candidato = {};
-        }
-      };
+        /**
+         * Cambia al modo editar
+         * @return {[type]} [description]
+         */
+        vm.editar = function() {
+          $state.go($state.current, {
+            mode: 'edit'
+          });
+          vm.mode = $stateParams.mode;
+        };
 
-      /**
-       * Crea una copia del canditao en un nuevo objeto para
-       * ser recuperado en caso de descartar cambios
-       * @return {[type]} [description]
-       */
-      vm.setOriginal = function (data) {
-        vm.original = angular.copy(vm.candidato = vm.formatearFecha(data));
-      };
+        /**
+         * Al iniciar, si el parámetro id es cero crea un candidato vacío
+         * @return {[type]} [description]
+         */
+        vm.$onInit = function() {
+          if ($stateParams.id == 0) {
+            vm.candidato = {};
+          }
+        };
 
-      /**
-       * Descartar cambios
-       * @return {[type]} [description]
-       */
-      vm.reset = function () {
-        vm.candidato = angular.copy(vm.original);
-      };
-      vm.reset();
+        /**
+         * Crea una copia del canditao en un nuevo objeto para
+         * ser recuperado en caso de descartar cambios
+         * @return {[type]} [description]
+         */
+        vm.setOriginal = function(data) {
+          vm.original = angular.copy(vm.candidato = vm.formatearFecha(data));
+        };
 
-      /**
-       * Actualiza o crea un nuevo candidato
-       * @param  {[type]} candidato  [description]
-       * @param  {[type]} formulario [description]
-       * @return {[type]}            [description]
-       */
-      vm.updateOrCreate = function (candidato, formulario) {
-        if (formulario.$valid) {
-          // Update
-          if ($stateParams.id != 0) {
-            var candidatoModificado = {};
-            for (var i = 0; i < formulario.$$controls.length; i++) {
-              var input = formulario.$$controls[i];
-              if (input.$dirty) {
-                candidatoModificado[input.$name] = input.$modelValue;
+        /**
+         * Descartar cambios
+         * @return {[type]} [description]
+         */
+        vm.reset = function() {
+          vm.candidato = angular.copy(vm.original);
+        };
+        vm.reset();
+
+
+        /**
+         * Actualiza o crea un nuevo candidato
+         * @param  {[type]} candidato  [description]
+         * @param  {[type]} formulario [description]
+         * @return {[type]}            [description]
+         */
+        vm.updateOrCreate = function(candidato, formulario) {
+          if (formulario.$valid) {
+            // Update
+            if ($stateParams.id != 0) {
+              var candidatoModificado = {}
+              for (var i = 0; i < formulario.$$controls.length; i++) {
+                var input = formulario.$$controls[i];
+                if (input.$dirty)
+                  candidatoModificado[input.$name] = input.$modelValue;
               }
+              if (formulario.$dirty) {
+                candidatoFactory.update(candidato.id, candidatoModificado).then(
+                  function onSuccess(response) {
+                    vm.setOriginal(response);
+                    toastr.success('El candidato se ha actualizado correctamente.');
+                  },
+                  function onFailure() {
+                    toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+                  }
+                );
+              } else
+                toastr.info('No hay nada que modificar', 'Info');
             }
-            if (formulario.$dirty) {
-              candidatoFactory.update(candidato.id, candidatoModificado).then(
+            // Create
+            else {
+              candidatoFactory.create(candidato).then(
                 function onSuccess(response) {
-                  vm.setOriginal(response);
-                  toastr.success('El candidato se ha actualizado correctamente.');
+                  delete vm.candidato.id;
+                  $state.go($state.current, {
+                    id: response.id,
+                    mode: 'view'
+                  });
+                  toastr.success('Candidato creado correctamente');
                 },
                 function onFailure() {
                   toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                 }
               );
-            } else {
-              toastr.info('No hay nada que modificar', 'Info');
             }
           }
-          // Create
-          else {
-            candidatoFactory.create(candidato).then(
-              function onSuccess(response) {
-                delete vm.candidato.id;
-                $state.go($state.current, {
-                  id: response.id,
-                  mode: 'read'
-                });
-                toastr.success('Candidato creado correctamente');
-              },
-              function onFailure() {
-                toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
-              }
-            );
-          }
-        }
-      };
+        };
 
-      // Ver candidato
-      if ($stateParams.id != 0) {
-        candidatoFactory.read($stateParams.id).then(
+        // Ver candidato
+        if ($stateParams.id != 0) {
+          candidatoFactory.read($stateParams.id).then(
+            function onSuccess(response) {
+              vm.setOriginal(response);
+            },
+            function onFailure() {
+              toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+            }
+          );
+        }
+        if (formulario.$dirty) {
+          candidatoFactory.update(candidato.id, candidatoModificado).then(
+            function onSuccess(response) {
+              vm.setOriginal(response);
+              toastr.success('El candidato se ha actualizado correctamente.');
+            },
+            function onFailure() {
+              toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+            }
+          );
+        } else {
+          toastr.info('No hay nada que modificar', 'Info');
+        }
+      }
+      // Create
+      else {
+        candidatoFactory.create(candidato).then(
           function onSuccess(response) {
-            vm.setOriginal(response);
+            delete vm.candidato.id;
+            $state.go($state.current, {
+              id: response.id,
+              mode: 'read'
+            });
+            toastr.success('Candidato creado correctamente');
           },
           function onFailure() {
             toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
           }
         );
       }
-
-      /**
-       * Formatea la fecha recivida del servidor
-       * @param  {[type]} response [description]
-       * @return {[type]}          [description]
-       */
-      vm.formatearFecha = function formatearFecha(response) {
-        response.fecha_entrevista = new Date(response.fecha_entrevista);
-        response.fecha_contacto = new Date(response.fecha_contacto);
-        response.fecha_actualizado = new Date(response.fecha_actualizado);
-        return response;
-      };
-
-      /**
-       * Inicializa las ociones de los desplegables
-       * @return {[type]} [description]
-       */
-      vm.desplegar = function () {
-        vm.opcionesDesplegable = [{
-          disp_viajar: 'I',
-          disp_residencia: 'I',
-          estado: 'En Proceso'
-        },
-        {
-          disp_viajar: 'S',
-          disp_residencia: 'S',
-          estado: 'Descartado'
-        },
-        {
-          disp_viajar: 'N',
-          disp_residencia: 'N',
-          estado: 'Incorporación'
-        }
-        ];
-        vm.selectEstado = vm.opcionesDesplegable[0];
-      };
-      vm.desplegar();
-
-      vm.formatearDesplegable = function (opcion) {
-        if (opcion == 'I') {
-          return 'Indeterminado';
-        } else if (opcion == 'S') {
-          return 'Sí';
-        } else if (opcion == 'N') {
-          return 'No';
-        }
-      };
-
-      /**
-       * Setea el atributo $disty del formulario y
-       * del input pasado por parámetro a true
-       * @param  {[type]} formulario [description]
-       * @param  {[type]} input      [description]
-       * @return {[type]}            [description]
-       */
-      vm.setDirty = function (formulario, input) {
-        input.$dirty = true;
-        formulario.$dirty = true;
-      };
     }
-  })
-  .constant('canBaseUrl', 'http://localhost:3003/api/')
+  };
+
+// Ver candidato
+if ($stateParams.id != 0) {
+  candidatoFactory.read($stateParams.id).then(
+    function onSuccess(response) {
+      vm.setOriginal(response);
+    },
+    function onFailure() {
+      toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+    }
+  );
+}
+
+/**
+ * Formatea la fecha recivida del servidor
+ * @param  {[type]} response [description]
+ * @return {[type]}          [description]
+ */
+vm.formatearFecha = function formatearFecha(response) {
+  response.fecha_entrevista = new Date(response.fecha_entrevista);
+  response.fecha_contacto = new Date(response.fecha_contacto);
+  response.fecha_actualizado = new Date(response.fecha_actualizado);
+  return response;
+};
+
+/**
+ * Inicializa las ociones de los desplegables
+ * @return {[type]} [description]
+ */
+vm.desplegar = function() {
+  vm.opcionesDesplegable = [{
+      disp_viajar: 'I',
+      disp_residencia: 'I',
+      estado: 'En Proceso'
+    },
+    {
+      disp_viajar: 'S',
+      disp_residencia: 'S',
+      estado: 'Descartado'
+    },
+    {
+      disp_viajar: 'N',
+      disp_residencia: 'N',
+      estado: 'Incorporación'
+    }
+  ];
+  vm.selectEstado = vm.opcionesDesplegable[0];
+};
+vm.desplegar();
+
+vm.formatearDesplegable = function(opcion) {
+  if (opcion == 'I') {
+    return 'Indeterminado';
+  } else if (opcion == 'S') {
+    return 'Sí';
+  } else if (opcion == 'N') {
+    return 'No';
+  }
+};
+
+/**
+ * Setea el atributo $disty del formulario y
+ * del input pasado por parámetro a true
+ * @param  {[type]} formulario [description]
+ * @param  {[type]} input      [description]
+ * @return {[type]}            [description]
+ */
+vm.setDirty = function(formulario, input) {
+input.$dirty = true;
+formulario.$dirty = true;
+};
+}
+})
+.constant('canBaseUrl', 'http://localhost:3003/api/')
   .constant('canEntidad', 'candidatos')
-  .factory('candidatoFactory', function ($filter, $http, canBaseUrl, canEntidad, toastr) {
+  .factory('candidatoFactory', function($filter, $http, canBaseUrl, canEntidad, toastr) {
     /**
      * Devuelve la referencia de un candidato
      * @param       {[type]} id [description]
@@ -247,7 +290,7 @@ angular.module('ghr.candidatos', ['toastr'])
       }
     };
   })
-  .config(function (toastrConfig) { // Configura los toastr
+  .config(function(toastrConfig) { // Configura los toastr
     angular.extend(toastrConfig, {
       closeButton: true,
       extendedTimeOut: 2000,
@@ -269,7 +312,7 @@ angular.module('ghr.candidatos', ['toastr'])
         }
       );
       // Funcion que actualiza la lista de los candidatos con el filtro introducido
-      vm.actualizarArray = function () {
+      vm.actualizarArray = function() {
         vm.candidatosFiltrados = vm.bolsaCandidatos;
         for (var i = 0; i < vm.busqueda.length; i++) {
           vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
@@ -283,21 +326,21 @@ angular.module('ghr.candidatos', ['toastr'])
       vm.state = $state;
 
       // Ventana Modal
-      vm.open = function (id) {
+      vm.open = function(id) {
         var modalInstance = $uibModal.open({
           animation: true,
           component: 'modalComponent',
           resolve: {
-            seleccionado: function () {
+            seleccionado: function() {
               return id;
             }
           }
         });
 
-        modalInstance.result.then(function (id) {
+        modalInstance.result.then(function(id) {
           candidatoFactory.delete(id).then(
             function onSuccess() {
-              candidatoFactory.getAll().then(function (response) {
+              candidatoFactory.getAll().then(function(response) {
                 vm.bolsaCandidatos = response;
                 vm.actualizarArray();
                 toastr.success('Candidato borrado correctamente');
@@ -307,7 +350,7 @@ angular.module('ghr.candidatos', ['toastr'])
               toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
             }
           );
-        }, function () {
+        }, function() {
           $log.info('modal-component dismissed at: ' + new Date());
         });
       };
@@ -320,17 +363,17 @@ angular.module('ghr.candidatos', ['toastr'])
       close: '&',
       dismiss: '&'
     },
-    controller: function () {
+    controller: function() {
       const vm = this;
-      vm.$onInit = function () {
+      vm.$onInit = function() {
         vm.selected = vm.resolve.seleccionado;
       };
-      vm.ok = function (seleccionado) { // Este metodo nos sirve para marcar el candidato que se ha seleccionado
+      vm.ok = function(seleccionado) { // Este metodo nos sirve para marcar el candidato que se ha seleccionado
         vm.close({
           $value: seleccionado
         });
       };
-      vm.cancel = function () { // Este metodo cancela la operacion
+      vm.cancel = function() { // Este metodo cancela la operacion
         vm.dismiss({
           $value: 'cancel'
         });
