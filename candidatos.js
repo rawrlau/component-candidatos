@@ -1,17 +1,49 @@
-angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candidatos
-    .component('ghrCandidatos', { //Componente que contiene la url que indica su html
+angular.module('ghr.candidatos', ['toastr'])
+    .component('ghrCandidatos', { // Componente de formulario candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        // El controlador de ghrCandidatos tiene las funciones de reset y de copiar a un objeto "master"
-        controller(candidatoFactory, $log, $stateParams, $state) {
+        controller(toastr, candidatoFactory, $log, $stateParams, $state) {
             const vm = this;
+
+            vm.mode = $stateParams.mode;
+
             /**
-             * Al iniciar
+             * Cambia al modo editar
+             * @return {[type]} [description]
+             */
+            vm.editar = function() {
+                $state.go($state.current, {
+                    mode: 'edit'
+                });
+                vm.mode = $stateParams.mode;
+            }
+
+            /**
+             * Al iniciar, si el parámetro id es cero crea un candidato vacío
              * @return {[type]} [description]
              */
             vm.$onInit = function() {
                 if ($stateParams.id == 0)
                     vm.candidato = {}
             }
+
+            /**
+             * Crea una copia del canditao en un nuevo objeto para
+             * ser recuperado en caso de descartar cambios
+             * @return {[type]} [description]
+             */
+            vm.setOriginal = function(data) {
+                vm.original = angular.copy(vm.candidato = vm.formatearFecha(data));
+            }
+
+            /**
+             * Descartar cambios
+             * @return {[type]} [description]
+             */
+            vm.reset = function() {
+                vm.candidato = angular.copy(vm.original);
+            };
+            vm.reset();
+
             /**
              * Actualiza o crea un nuevo candidato
              * @param  {[type]} candidato  [description]
@@ -20,39 +52,58 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
              */
             vm.updateOrCreate = function(candidato, formulario) {
                 if (formulario.$valid) {
+                    // Update
                     if ($stateParams.id != 0) {
-                        for (var campo in formulario.$$controls) {
-                            if (campo.$dirty)
-                                candidato[campo.$name] = campo.$modelValue;
+                        var candidatoModificado = {}
+                        for (var i = 0; i < formulario.$$controls.length; i++) {
+                            var input = formulario.$$controls[i];
+                            if (input.$dirty)
+                                candidatoModificado[input.$name] = input.$modelValue;
                         }
-                        candidatoFactory.update(candidato).then(
-                            function(response) {
-                                vm.candidato = vm.formatearFecha(response);
-                            }
-                        );
-                    } else {
+                        if (formulario.$dirty) {
+                            candidatoFactory.update(candidato.id, candidatoModificado).then(
+                                function onSuccess(response) {
+                                    vm.setOriginal(response);
+                                    toastr.success('El candidato se ha actualizado correctamente.');
+                                },
+                                function onFailure() {
+                                    toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+                                }
+                            );
+                        } else
+                            toastr.info('No hay nada que modificar', 'Info');
+                    }
+                    // Create
+                    else {
                         candidatoFactory.create(candidato).then(
-                            function(response) {
+                            function onSuccess(response) {
                                 delete vm.candidato.id;
                                 $state.go($state.current, {
-                                    id: response.id
+                                    id: response.id,
+                                    mode: 'read'
                                 });
+                                toastr.success('Candidato creado correctamente');
+                            },
+                            function onFailure() {
+                                toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                             }
                         );
                     }
                 }
             };
-            vm.reset = function() {
-                vm.candidato = angular.copy(vm.original);
-            };
-            vm.reset();
+
+            // Ver candidato
             if ($stateParams.id != 0) {
                 candidatoFactory.read($stateParams.id).then(
-                    function(response) {
-                        vm.original = angular.copy(vm.candidato = vm.formatearFecha(response));
+                    function onSuccess(response) {
+                        vm.setOriginal(response);
+                    },
+                    function onFailure() {
+                        toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                     }
                 );
             }
+
             /**
              * Formatea la fecha recivida del servidor
              * @param  {[type]} response [description]
@@ -64,44 +115,58 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 response.fecha_actualizado = new Date(response.fecha_actualizado);
                 return response;
             }
+
             /**
              * Inicializa las ociones de los desplegables
              * @return {[type]} [description]
              */
             vm.desplegar = function() {
                 vm.opcionesDesplegable = [{
-                        disp_viajar: 'Indeterminado',
-                        disp_residencia: 'Indeterminado',
+                        disp_viajar: 'I',
+                        disp_residencia: 'I',
                         estado: 'En Proceso'
                     },
                     {
-                        disp_viajar: 'Sí',
-                        disp_residencia: 'Sí',
+                        disp_viajar: 'S',
+                        disp_residencia: 'S',
                         estado: 'Descartado'
                     },
                     {
-                        disp_viajar: 'No',
-                        disp_residencia: 'No',
+                        disp_viajar: 'N',
+                        disp_residencia: 'N',
                         estado: 'Incorporación'
                     }
                 ];
                 vm.selectEstado = vm.opcionesDesplegable[0];
-                vm.setViajar = function(disp_viajar) {
-                    vm.candidato.disp_viajar = disp_viajar;
-                };
-                vm.setResidencia = function(disp_residencia) {
-                    vm.candidato.disp_residencia = disp_residencia;
-                };
-                vm.setEstado = function(estado) {
-                    vm.candidato.estado = estado;
-                };
             };
             vm.desplegar();
+
+            vm.formatearDesplegable = function(opcion) {
+                if (opcion == 'I')
+                    return 'Indeterminado';
+                else if (opcion == 'S')
+                    return 'Sí';
+                else if (opcion == 'N')
+                    return 'No';
+            }
+
+            /**
+             * Setea el atributo $disty del formulario y
+             * del input pasado por parámetro a true
+             * @param  {[type]} formulario [description]
+             * @param  {[type]} input      [description]
+             * @return {[type]}            [description]
+             */
+            vm.setDirty = function(formulario, input) {
+                input.$dirty = true;
+                formulario.$dirty = true;
+            }
         }
     })
     .constant('canBaseUrl', 'http://localhost:3003/api/')
     .constant('canEntidad', 'candidatos')
-    .factory('candidatoFactory', function($filter, $http, canBaseUrl, canEntidad) {
+    .factory('candidatoFactory', function($filter, $http, canBaseUrl, canEntidad, toastr) {
+
         /**
          * Devuelve la referencia de un candidato
          * @param       {[type]} id [description]
@@ -115,6 +180,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                     candidato = arrayCandidatos[i];
             return candidato;
         }
+
         /**
          * Devuelve el índice en el arrayCandidatos de un candidato
          * @param       {[type]} id [description]
@@ -124,18 +190,10 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
         function _getIndexById(id) {
             return arrayCandidatos.indexOf(_getReferenceById(id));
         }
-        /**
-         * Devuelve el id máximo del array
-         * @constructor
-         * @return      {[type]} [description]
-         */
-        function _mockId() {
-            var orderedById = $filter('orderBy')(arrayCandidatos, '-id');
-            return orderedById[0].id + 1;
-        }
+
         var serviceUrl = canBaseUrl + canEntidad;
         return {
-            // Devuelve una copia del arrayCandidatos
+            // Devuelve un array con todos los candidatos
             getAll: function _getAll() {
                 return $http({
                     method: 'GET',
@@ -154,7 +212,7 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                     return response.data;
                 });
             },
-            // Devuelve una copia del candidato con la id pasada
+            // Lee un candidato
             read: function _read(id) {
                 return $http({
                     method: 'GET',
@@ -164,11 +222,11 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                 });
             },
             // Actualiza un candidato
-            update: function _update(candidato) {
+            update: function _update(id, candidatoModificado) {
                 return $http({
                     method: 'PATCH',
-                    url: serviceUrl + '/' + candidato.id,
-                    data: candidato
+                    url: serviceUrl + '/' + id,
+                    data: candidatoModificado
                 }).then(function onSuccess(response) {
                     return response.data;
                 });
@@ -184,11 +242,20 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
             }
         };
     })
-    .component('ghrCandidatosList', { //Componente para el listado de los candidatos
+    .config(function(toastrConfig) { // Configura los toastr
+        angular.extend(toastrConfig, {
+            closeButton: true,
+            extendedTimeOut: 2000,
+            tapToDismiss: true,
+        });
+    })
+    .component('ghrCandidatosList', { // Componente para el listado de los candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos-list.html',
-        controller($filter, $uibModal, $log, $document, candidatoFactory, $state) { //Controlador cuyo contenido será el filtro y el modal
+        controller($filter, $uibModal, $log, $document, candidatoFactory, $state, toastr) {
             const vm = this;
             vm.busqueda = "";
+
+            // Actualiza el array de candidatos
             candidatoFactory.getAll().then(
                 function onSuccess(response) {
                     vm.bolsaCandidatos = response;
@@ -196,17 +263,19 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                     vm.elementosTotales = vm.bolsaCandidatos.length;
                 }
             );
-            vm.actualizarArray = function() { //Funcion que actualiza la lista de los candidatos con el filtro introducido
+            // Funcion que actualiza la lista de los candidatos con el filtro introducido
+            vm.actualizarArray = function() {
                 vm.candidatosFiltrados = vm.bolsaCandidatos;
                 for (var i = 0; i < vm.busqueda.length; i++)
                     vm.candidatosFiltrados = $filter('filter')(vm.candidatosFiltrados, vm.busqueda[i]);
                 vm.elementosTotales = vm.candidatosFiltrados.length;
             }
-            //Estas dos variables nos sirven para el paginado, una dice la pagina actual
-            //y otra el tamaño maximo de candidatos por pantalla
+
             vm.paginaActual = 1;
             vm.totalPantalla = 10;
+
             vm.state = $state;
+
             // Ventana Modal
             vm.open = function(id) {
                 var modalInstance = $uibModal.open({
@@ -214,27 +283,31 @@ angular.module('ghr.candidatos', []) //Creamos este modulo para la entidad candi
                     component: 'modalComponent',
                     resolve: {
                         seleccionado: function() {
-                            return id; //Del candidato seleccionado en ese momento, devolvemos su id correspondiente
+                            return id;
                         }
                     }
                 });
+
                 modalInstance.result.then(function(id) {
-                    candidatoFactory.delete(id).then(function() {
-                        candidatoFactory.getAll().then(function(response) {
-                            vm.bolsaCandidatos = response;
-                            vm.actualizarArray();
-                        });
-                    });
+                    candidatoFactory.delete(id).then(
+                        function onSuccess() {
+                            candidatoFactory.getAll().then(function(response) {
+                                vm.bolsaCandidatos = response;
+                                vm.actualizarArray();
+                                toastr.success('Candidato borrado correctamente');
+                            });
+                        },
+                        function onFailure() {
+                            toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+                        }
+                    );
                 }, function() {
-                    $log.info('modal-component dismissed at: ' + new Date()); //Comentario en consola para ver que todo ejecuta correctamente
+                    $log.info('modal-component dismissed at: ' + new Date());
                 });
             };
         }
     })
-    //El componente del modal, la ventana de confirmacion que nos va a aparecer al intentar borrar un candidato
-    //Contiene su url, el resolve, que será un one way binding que almacene el candidato
-    //Y tanto close como dismiss pasará directamente los métodos al componente
-    .component('modalComponent', {
+    .component('modalComponent', { // El componente del modal
         templateUrl: '../bower_components/component-candidatos/myModalContent.html',
         bindings: {
             resolve: '<',
