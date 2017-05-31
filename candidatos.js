@@ -80,7 +80,7 @@ angular.module('ghr.candidatos', ['toastr'])
                                 delete vm.candidato.id;
                                 $state.go($state.current, {
                                     id: response.id,
-                                    mode: 'read'
+                                    mode: 'view'
                                 });
                                 toastr.success('Candidato creado correctamente');
                             },
