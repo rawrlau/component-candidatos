@@ -5,37 +5,37 @@
             <div class="form-group col-md-3 col-sm-2 col-xs-2 container-fluid">
                 <label for="ID">ID: </label>
                 <input ng-if="$ctrl.mode === 'edit'" disabled class="form-control" name="id" ng-model="$ctrl.candidato.id">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.id}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.id}}</span>
             </div>
             <div class="form-group col-md-4 col-sm-5 col-xs-8" ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nombre.$focused && formulario.nombre.$valid}">
                 <label for="nombre">Nombre <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> :</label>
                 <input ng-if="$ctrl.mode === 'edit'" id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.candidato.nombre" ng-focus="focus=true" ng-blur="focus=false">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.nombre}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.nombre}}</span>
             </div>
             <div class="form-group col-md-4 col-sm-5 col-xs-8" ng-class="{ 'has-error' : formulario.apellido.$invalid && !formulario.apellido.$pristine, 'has-success': !formulario.apellido.$focused && formulario.apellido.$valid}">
                 <label for="apellido">Apellido :</label>
                 <input ng-if="$ctrl.mode === 'edit'" id="inputSuccess2" class="form-control has-success" name="apellido" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.candidato.apellido" ng-focus="focus=true" ng-blur="focus=false">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.apellido}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.apellido}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.provincia.$invalid && !formulario.provincia.$pristine, 'has-success': !formulario.provincia.$focused && formulario.provincia.$valid}">
                 <label for="provincia">Provincia <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input ng-if="$ctrl.mode === 'edit'" required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="provincia" ng-model="$ctrl.candidato.provincia" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.provincia}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.provincia}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.perfil.$invalid && !formulario.perfil.$pristine, 'has-success': !formulario.perfil.$focused && formulario.perfil.$valid}">
                 <label for="perfil">Perfil <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input ng-if="$ctrl.mode === 'edit'" required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="perfil" ng-model="$ctrl.candidato.perfil" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.perfil}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.perfil}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.posicion.$invalid && !formulario.posicion.$pristine, 'has-success': !formulario.posicion.$focused && formulario.posicion.$valid}">
                 <label for="posicion">Posición : </label>
                 <input ng-if="$ctrl.mode === 'edit'" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="posicion" ng-model="$ctrl.candidato.posicion" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.posicion}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.posicion}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-3 col-xs-6" ng-class="{ 'has-error' : formulario.experiencia.$invalid && !formulario.experiencia.$pristine, 'has-success': !formulario.experiencia.$focused && formulario.experiencia.$valid}">
                 <label for="experiencia">Experiencia <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input ng-if="$ctrl.mode === 'edit'" required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. 0-9]{0,}" class="form-control" name="experiencia" ng-model="$ctrl.candidato.experiencia" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.experiencia}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.experiencia}}</span>
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-6 ">
                 <label for="disp_viajar">Disp. Viajar: </label>
@@ -52,7 +52,7 @@
                         <input ng-hide="true" name="disp_viajar" ng-model="$ctrl.candidato.disp_viajar">
                     </ul>
                 </div>
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.formatearDesplegable($ctrl.candidato.disp_viajar)}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.formatearDesplegable($ctrl.candidato.disp_viajar)}}</span>
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-6 ">
                 <label for="disp_residencia">Disp. Residencia: </label>
@@ -69,47 +69,47 @@
                         <input ng-hide="true" name="disp_residencia" ng-model="$ctrl.candidato.disp_residencia">
                     </ul>
                 </div>
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.formatearDesplegable($ctrl.candidato.disp_residencia)}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.formatearDesplegable($ctrl.candidato.disp_residencia)}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.disp_incorporacion.$invalid && !formulario.disp_incorporacion.$pristine, 'has-success': !formulario.disp_incorporacion.$focused && formulario.disp_incorporacion.$valid}">
                 <label for="disp_incorporacion">Disp. incorporación : </label>
                 <input ng-if="$ctrl.mode === 'edit'" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="disp_incorporacion" ng-model="$ctrl.candidato.disp_incorporacion" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.disp_incorporacion}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.disp_incorporacion}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.expect_contractual.$invalid && !formulario.expect_contractual.$pristine, 'has-success': !formulario.expect_contractual.$focused && formulario.expect_contractual.$valid}">
                 <label for="expect_contractual">Expect. contractual <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input ng-if="$ctrl.mode === 'edit'" required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="expect_contractual" ng-model="$ctrl.candidato.expect_contractual" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.expect_contractual}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.expect_contractual}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.expect_economica.$invalid && !formulario.expect_economica.$pristine, 'has-success': !formulario.expect_economica.$focused && formulario.expect_economica.$valid}">
                 <label for="expect_economica">Expect. económica <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input ng-if="$ctrl.mode === 'edit'" required pattern="[0-9]{0,}" class="form-control" name="expect_economica" ng-model="$ctrl.candidato.expect_economica" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.expect_economica | currency : "€ " : 0}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.expect_economica | currency : "€ " : 0}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6">
                 <label for="fecha_entrevista">Fecha entrevista: </label>
                 <input ng-if="$ctrl.mode === 'edit'" class="form-control" type="date" name="fecha_entrevista" ng-model="$ctrl.candidato.fecha_entrevista">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.fecha_entrevista | date : shortDate}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.fecha_entrevista | date : shortDate}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.feedback_sourcing.$invalid && !formulario.feedback_sourcing.$pristine, 'has-success': !formulario.feedback_sourcing.$focused && formulario.feedback_sourcing.$valid}">
                 <label for="feedback_sourcing">Feedback sourcing <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input ng-if="$ctrl.mode === 'edit'" required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="feedback_sourcing" ng-model="$ctrl.candidato.feedback_sourcing" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.feedback_sourcing}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.feedback_sourcing}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.feedback_tecnico.$invalid && !formulario.feedback_tecnico.$pristine, 'has-success': !formulario.feedback_tecnico.$focused && formulario.feedback_tecnico.$valid}">
                 <label for="feedback_tecnico">Feedback técnico <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> : </label>
                 <input ng-if="$ctrl.mode === 'edit'" required pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="feedback_tecnico" ng-model="$ctrl.candidato.feedback_tecnico" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.feedback_tecnico}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.feedback_tecnico}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.tecnico_seleccion.$invalid && !formulario.tecnico_seleccion.$pristine, 'has-success': !formulario.tecnico_seleccion.$focused && formulario.tecnico_seleccion.$valid}">
                 <label for="tecnico_seleccion">Técnico selección : </label>
                 <input ng-if="$ctrl.mode === 'edit'" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="tecnico_seleccion" ng-model="$ctrl.candidato.tecnico_seleccion" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.tecnico_seleccion}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.tecnico_seleccion}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-4 col-xs-6" ng-class="{ 'has-error' : formulario.referenciado.$invalid && !formulario.referenciado.$pristine, 'has-success': !formulario.referenciado.$focused && formulario.referenciado.$valid}">
                 <label for="referenciado">Referenciado : </label>
                 <input ng-if="$ctrl.mode === 'edit'" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" class="form-control" name="referenciado" ng-model="$ctrl.candidato.referenciado" aria-describedby="helpBlock2">
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.referenciado}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.referenciado}}</span>
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-6 ">
                 <label for="estado">Estado: </label>
@@ -126,7 +126,7 @@
                         <input ng-hide="true" name="estado" ng-model="$ctrl.candidato.estado">
                     </ul>
                 </div>
-                <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.estado}}</span>
+                <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.estado}}</span>
             </div>
             <div class="form-group col-md-12 col-sm-4 col-xs-6">
                 <div class="form-group col-md-3 col-sm-3 col-xs-6">
@@ -140,12 +140,12 @@
                 <div class="form-group col-md-3 col-sm-3 col-xs-6">
                     <label for="fecha_contacto">Fecha contacto: </label>
                     <input ng-if="$ctrl.mode === 'edit'" class="form-control" type="date" name="fecha_contacto" ng-model="$ctrl.candidato.fecha_contacto">
-                    <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.fecha_contacto | date : shortDate}}</span>
+                    <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.fecha_contacto | date : shortDate}}</span>
                 </div>
                 <div class="form-group col-md-3 col-sm-3 col-xs-6">
                     <label for="actualizado">Fecha actualizado <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> :</label>
                     <input ng-if="$ctrl.mode === 'edit'" class="form-control" required type="date" name="fecha_actualizado" ng-model="$ctrl.candidato.fecha_actualizado">
-                    <span ng-if="$ctrl.mode === 'read'" class="form-control">{{$ctrl.candidato.fecha_actualizado | date : shortDate}}</span>
+                    <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.fecha_actualizado | date : shortDate}}</span>
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12 col-xs-12"></div>
@@ -158,7 +158,7 @@
                     <button ng-if="$ctrl.mode === 'edit'" type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">Descartar Cambios <span class ="glyphicon glyphicon-remove"></span></button>
                     <button ng-if="$ctrl.mode === 'edit'" type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
                   Guardar  <span class="glyphicon glyphicon-send"></span></button>
-                    <button ng-if="$ctrl.mode === 'read'" type="submit" ng-click="$ctrl.editar()" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
+                    <button ng-if="$ctrl.mode === 'view'" type="submit" ng-click="$ctrl.editar()" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
                 Editar&nbsp;&nbsp; <span class="glyphicon glyphicon-pencil"></span></button>
                 </div>
             </div>
