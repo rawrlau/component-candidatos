@@ -7,12 +7,15 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
             vm.mode = $stateParams.mode;
 
             /**
-             * Cambia al modo editar
+             * Cambia al modo entre view y edit
              * @return {[type]} [description]
              */
-            vm.editar = function() {
+            vm.changeMode = function() {
+                var modo;
+                if ($stateParams.mode == 'view') modo = 'edit'
+                else modo = 'view'
                 $state.go($state.current, {
-                    mode: 'edit'
+                    mode: modo
                 });
                 vm.mode = $stateParams.mode;
             }
@@ -50,7 +53,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
              * @param  {[type]} formulario [description]
              * @return {[type]}            [description]
              */
-            vm.updateOrCreate = function(candidato, formulario) {
+            vm.updateOrCreate = function(candidato, formulario, formContacto) {
                 if (formulario.$valid) {
                     // Update
                     if ($stateParams.id != 0) {
