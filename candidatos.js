@@ -1,4 +1,4 @@
-angular.module('ghr.candidatos', ['toastr'])
+angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
     .component('ghrCandidatos', { // Componente de formulario candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
         controller(toastr, candidatoFactory, $log, $stateParams, $state) {
@@ -7,12 +7,15 @@ angular.module('ghr.candidatos', ['toastr'])
             vm.mode = $stateParams.mode;
 
             /**
-             * Cambia al modo editar
+             * Cambia al modo entre view y edit
              * @return {[type]} [description]
              */
-            vm.editar = function() {
+            vm.changeMode = function() {
+                var modo;
+                if ($stateParams.mode == 'view') modo = 'edit'
+                else modo = 'view'
                 $state.go($state.current, {
-                    mode: 'edit'
+                    mode: modo
                 });
                 vm.mode = $stateParams.mode;
             }
@@ -50,7 +53,7 @@ angular.module('ghr.candidatos', ['toastr'])
              * @param  {[type]} formulario [description]
              * @return {[type]}            [description]
              */
-            vm.updateOrCreate = function(candidato, formulario) {
+            vm.updateOrCreate = function(candidato, formulario, formContacto) {
                 if (formulario.$valid) {
                     // Update
                     if ($stateParams.id != 0) {
@@ -80,7 +83,7 @@ angular.module('ghr.candidatos', ['toastr'])
                                 delete vm.candidato.id;
                                 $state.go($state.current, {
                                     id: response.id,
-                                    mode: 'read'
+                                    mode: 'view'
                                 });
                                 toastr.success('Candidato creado correctamente');
                             },

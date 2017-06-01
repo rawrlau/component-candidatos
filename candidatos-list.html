@@ -1,51 +1,51 @@
 <div class="container-fluid">
-  <h1 class="h1">Lista de Candidatos</h1>
-  <div class="row form-group ">
-    <div class="col-md-offset-6 col-sm-offset-3 col-md-5 col-sm-7 col-xs-9">
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-        <input class="form-control " type="text" ng-list="," placeholder=" Buscar " ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
-      </div>
-    </div>
-    <div class="row form-group  col-md-1 col-sm-1 col-xs-2">
-      <button id="split-button" type="button" class="btn btn-primary " ui-sref="app.candidatos-perfil({id:0,mode:'edit'})"><span class="glyphicon glyphicon-plus"></span></button>
-    </div>
-  </div>
-  <table class="table table-responsive table-striped">
-    <thead class="thead-inverse">
-      <tr ng-init="$ctrl.orderByPropiedad=''; $ctrl.cabeceras=['id','nombre','provincia', 'perfil','expect_contractual']">
-        <th ng-repeat="cabecera in $ctrl.cabeceras" ng-class="$last ? 'hidden-xs' : ''" ng-click="$ctrl.orderByPropiedad == cabecera ? $ctrl.orderReverse = !$ctrl.orderReverse : $ctrl.orderReverse = false; $ctrl.reverse=$ctrl.orderReverse ? '-':''; $ctrl.orderByPropiedad=cabecera">
-          <span>{{cabecera.split('_').join(' ')}}</span>
-          <span class="glyphicon" ng-class="$ctrl.orderByPropiedad != cabecera ? 'glyphicon-sort' : ($ctrl.orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span>
-        </th>
-        <th>acción</th>
-      </tr>
-      <tbody>
-        <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.totalPantalla:($ctrl.paginaActual-1)*$ctrl.totalPantalla track by candidato.id">
-          <td scope="row" ng-if="fila !== 'expect_economica'" ng-class="$last ? 'hidden-xs' : ''" ng-repeat="fila in $ctrl.cabeceras">{{candidato[fila]}}</td>
-          <td>
-            <div class="btn-group" uib-dropdown class="modal-demo">
-              <button id="split-button" type="button" class="btn btn-primary" ui-sref="app.candidatos-perfil({id:candidato.id})"><span class="glyphicon glyphicon-eye-open"></span></button>
-              <button type="button" class="btn btn-primary" uib-dropdown-toggle>
-                <span class="caret"></span>
-                <span class="sr-only">Split button!</span>
-              </button>
-              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-
-                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id,mode:'read'})"><span class="glyphicon glyphicon-eye-open"></span> Ver</a></li>
-                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id,mode:'edit'})"><span class="glyphicon glyphicon-edit"></span> Editar</a></li>
-                <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-pencil"></span> Editar estado</a></li>
-
-                <li class="divider"></li>
-                <li role="menuitem"><a href="#" ng-click="$ctrl.open(candidato.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</a></li>
-              </ul>
+    <h3>Contactos del candidato</h3>
+    <div class="row form-group ">
+        <div class="col-md-offset-6 col-sm-offset-3 col-md-5 col-sm-7 col-xs-9">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                <input class="form-control " type="text" ng-list="," placeholder=" Buscar " ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </thead>
-  </table>
-  <div class="pagination">
-    <ul uib-pagination total-items="$ctrl.elementosTotales" ng-model="$ctrl.paginaActual" max-size="5" class="pagination-sm" boundary-link-numbers="true"></ul>
-  </div>
+        </div>
+        <div class="row form-group  col-md-1 col-sm-1 col-xs-2">
+            <button id="split-button" type="button" class="btn btn-primary " ui-sref="app.candidatos-perfil({id:0,mode:'edit'})"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+    </div>
+    <table class="table table-responsive table-striped">
+        <thead class="thead-inverse">
+            <tr ng-init="$ctrl.orderByPropiedad=''; $ctrl.cabeceras=['id','nombre','provincia', 'perfil','expect_contractual']">
+                <th ng-repeat="cabecera in $ctrl.cabeceras" ng-class="$last ? 'hidden-xs' : ''" ng-click="$ctrl.orderByPropiedad == cabecera ? $ctrl.orderReverse = !$ctrl.orderReverse : $ctrl.orderReverse = false; $ctrl.reverse=$ctrl.orderReverse ? '-':''; $ctrl.orderByPropiedad=cabecera">
+                    <span>{{cabecera.split('_').join(' ')}}</span>
+                    <span class="glyphicon" ng-class="$ctrl.orderByPropiedad != cabecera ? 'glyphicon-sort' : ($ctrl.orderReverse ? 'glyphicon-sort-by-attributes-alt' : 'glyphicon-sort-by-attributes')"></span>
+                </th>
+                <th>acción</th>
+            </tr>
+            <tbody>
+                <tr ng-repeat="candidato in $ctrl.candidatosFiltrados | orderBy:($ctrl.reverse + $ctrl.orderByPropiedad) | limitTo:$ctrl.totalPantalla:($ctrl.paginaActual-1)*$ctrl.totalPantalla track by candidato.id">
+                    <td scope="row" ng-if="fila !== 'expect_economica'" ng-class="$last ? 'hidden-xs' : ''" ng-repeat="fila in $ctrl.cabeceras">{{candidato[fila]}}</td>
+                    <td>
+                        <div class="btn-group" uib-dropdown class="modal-demo">
+                            <button id="split-button" type="button" class="btn btn-primary" ui-sref="app.candidatos-perfil({id:candidato.id})"><span class="glyphicon glyphicon-eye-open"></span></button>
+                            <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+                                <span class="caret"></span>
+                                <span class="sr-only">Split button!</span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+
+                                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id,mode:'view'})"><span class="glyphicon glyphicon-eye-open"></span> Ver</a></li>
+                                <li role="menuitem"><a ui-sref="app.candidatos-perfil({id:candidato.id,mode:'edit'})"><span class="glyphicon glyphicon-edit"></span> Editar</a></li>
+                                <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-pencil"></span> Editar estado</a></li>
+
+                                <li class="divider"></li>
+                                <li role="menuitem"><a href="#" ng-click="$ctrl.open(candidato.id)"><span class="glyphicon glyphicon-trash"></span> Eliminar</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </thead>
+    </table>
+    <div class="pagination">
+        <ul uib-pagination total-items="$ctrl.elementosTotales" ng-model="$ctrl.paginaActual" max-size="5" class="pagination-sm" boundary-link-numbers="true"></ul>
+    </div>
 </div>
