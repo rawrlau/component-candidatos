@@ -151,10 +151,15 @@
         </div>
     </form>
     <div class="form-group col-md-12 col-sm-12 col-xs-12">
-        <h2>Contactos del candidato</h2>
-        <br>
         <form name="formContacto">
             <ghr-contactos></ghr-contactos>
+        </form>
+    </div>
+    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+        <h2>Requisitos del candidato</h2>
+        <br>
+        <form name="formRequisitos">
+            <ghr-requisitos></ghr-requisitos>
         </form>
     </div>
     <div class="form-group col-md-12 col-sm-12 col-xs-12">
@@ -169,11 +174,11 @@
                 <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">
                     Descartar Cambios <span class ="glyphicon glyphicon-remove"></span>
                 </button>
-                <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario,formContacto)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
+                <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario,formContacto,formRequisitos)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
                     Guardar <span class="glyphicon glyphicon-send"></span>
                 </button>
             </div>
-            <button ng-if="$ctrl.mode === 'view'" type="submit" ng-click="$ctrl.changeMode()" ng-disabled="formulario.$invalid || formContacto.$invalid" class="submit btn btn-primary">
+            <button ng-if="$ctrl.mode === 'view'" type="submit" ng-click="$ctrl.changeMode()" ng-disabled="formulario.$invalid || formContacto.$invalid || formRequisitos.$invalid" class="submit btn btn-primary">
         Editar&nbsp;&nbsp; <span class="glyphicon glyphicon-pencil"></span></button>
         </div>
     </div>
