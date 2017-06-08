@@ -196,12 +196,41 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
         var serviceUrl = canBaseUrl + canEntidad;
         return {
             // Devuelve un array con todos los candidatos
-            getAll: function _getAll() {
+            getAll: function _getAll(includeRequisitos) {
                 return $http({
                     method: 'GET',
                     url: serviceUrl
                 }).then(function onSuccess(response) {
-                    return response.data;
+                    if (!includeRequisitos) {
+                        return response.data;
+                    } else {
+                        var promises = []
+                        angular.forEach(response.data, function(elem) {
+                            var candidato = elem;
+                            console.log('candidato', candidato);
+                            var peticionRequisitos = $http({
+                                method: 'GET',
+                                url: [
+                                    canBaseUrl,
+                                    'listaDeRequisitos/',
+                                    candidato.listaDeRequisitoId,
+                                    '/requisitos'
+                                ].join(''),
+                                params: {
+                                    filter: {
+                                        "include": "caracteristica"
+                                    }
+                                }
+                            }).then(function onSuccess(requisitosCandidato) {
+                                candidato.listaDeRequisito = requisitosCandidato.data;
+                                return candidato;
+                            }, function onFailure(reason) {
+                                return candidato;
+                            })
+                            promises.push(peticionRequisitos)
+                        });
+                        return $q.all(promises);
+                    }
                 });
             },
             // Crea un nuevo candidato
