@@ -167,7 +167,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
     })
     .constant('canBaseUrl', 'http://localhost:3003/api/')
     .constant('canEntidad', 'candidatos')
-    .factory('candidatoFactory', function($filter, $http, canBaseUrl, canEntidad, toastr) {
+    .factory('candidatoFactory', function($q, $filter, $http, canBaseUrl, canEntidad, toastr) {
 
         /**
          * Devuelve la referencia de un candidato
@@ -196,12 +196,41 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
         var serviceUrl = canBaseUrl + canEntidad;
         return {
             // Devuelve un array con todos los candidatos
-            getAll: function _getAll() {
+            getAll: function _getAll(includeRequisitos) {
                 return $http({
                     method: 'GET',
                     url: serviceUrl
                 }).then(function onSuccess(response) {
-                    return response.data;
+                    if (!includeRequisitos) {
+                        return response.data;
+                    } else {
+                        var promises = []
+                        angular.forEach(response.data, function(elem) {
+                            var candidato = elem;
+                            console.log('candidato', candidato);
+                            var peticionRequisitos = $http({
+                                method: 'GET',
+                                url: [
+                                    canBaseUrl,
+                                    'listaDeRequisitos/',
+                                    candidato.listaDeRequisitoId,
+                                    '/requisitos'
+                                ].join(''),
+                                params: {
+                                    filter: {
+                                        "include": "caracteristica"
+                                    }
+                                }
+                            }).then(function onSuccess(requisitosCandidato) {
+                                candidato.listaDeRequisito = requisitosCandidato.data;
+                                return candidato;
+                            }, function onFailure(reason) {
+                                return candidato;
+                            })
+                            promises.push(peticionRequisitos)
+                        });
+                        return $q.all(promises);
+                    }
                 });
             },
             // Crea un nuevo candidato
@@ -221,22 +250,24 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                     url: serviceUrl + '/' + id
                 }).then(function onSuccess(response) {
                     if (!includeRequisitos) {
-                      return response.data;
+                        return response.data;
                     } else {
-                      return $http({
-                        method: 'GET',
-                        url: [canBaseUrl, 'listaDeRequisitos/', response.data.listaDeRequisitoId ,'/requisitos'].join(''),
-                        params: {
-                          filter: {"include": "caracteristica"}
-                        }
-                      }).then(function onSuccess(responseRequisitos) {
-                        response.data.listaDeRequisito = responseRequisitos.data;
-                        return response.data;
-                      },
-                      function onFailure(reason) {
-                        return response.data;
-                      }
-                    )
+                        return $http({
+                            method: 'GET',
+                            url: [canBaseUrl, 'listaDeRequisitos/', response.data.listaDeRequisitoId, '/requisitos'].join(''),
+                            params: {
+                                filter: {
+                                    "include": "caracteristica"
+                                }
+                            }
+                        }).then(function onSuccess(responseRequisitos) {
+                                response.data.listaDeRequisito = responseRequisitos.data;
+                                return response.data;
+                            },
+                            function onFailure(reason) {
+                                return response.data;
+                            }
+                        )
                     }
 
                 });
