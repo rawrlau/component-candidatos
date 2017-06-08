@@ -3,7 +3,6 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
         controller(toastr, candidatoFactory, $log, $stateParams, $state) {
             const vm = this;
-
             vm.mode = $stateParams.mode;
 
             /**
@@ -216,12 +215,30 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                 });
             },
             // Lee un candidato
-            read: function _read(id) {
+            read: function _read(id, includeRequisitos) {
                 return $http({
                     method: 'GET',
                     url: serviceUrl + '/' + id
                 }).then(function onSuccess(response) {
-                    return response.data;
+                    if (!includeRequisitos) {
+                      return response.data;
+                    } else {
+                      return $http({
+                        method: 'GET',
+                        url: [canBaseUrl, 'listaDeRequisitos/', response.data.listaDeRequisitoId ,'/requisitos'].join(''),
+                        params: {
+                          filter: {"include": "caracteristica"}
+                        }
+                      }).then(function onSuccess(responseRequisitos) {
+                        response.data.listaDeRequisito = responseRequisitos.data;
+                        return response.data;
+                      },
+                      function onFailure(reason) {
+                        return response.data;
+                      }
+                    )
+                    }
+
                 });
             },
             // Actualiza un candidato
