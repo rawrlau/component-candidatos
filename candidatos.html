@@ -149,13 +149,16 @@
                 </div>
             </div>
         </div>
+      <hr>
     </form>
     <div class="form-group col-md-12 col-sm-12 col-xs-12">
         <form name="formContacto">
             <ghr-contactos></ghr-contactos>
         </form>
+      <hr>
     </div>
-    <br><br>
+    <br>
+
     <div class="form-group col-md-12 col-sm-12 col-xs-12">
         <form name="formRequisitos">
             <ghr-requisitos></ghr-requisitos>
@@ -167,9 +170,6 @@
         </div>
         <div class="botonera col-md-5 col-sm-5 col-xs-6 form-group ">
             <div ng-if="$ctrl.mode === 'edit'">
-                <button type="button" ng-click="$ctrl.changeMode()" value="Cancelar edición" class="reset btn btn-warning ">
-                    Volver <span class ="glyphicon glyphicon-ban-circle"></span>
-                </button>
                 <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">
                     Descartar Cambios <span class ="glyphicon glyphicon-remove"></span>
                 </button>
