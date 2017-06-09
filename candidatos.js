@@ -1,7 +1,7 @@
 angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
     .component('ghrCandidatos', { // Componente de formulario candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        controller(toastr, candidatoFactory, $log, $stateParams, $state) {
+        controller(toastr, candidatoFactory, $log, $stateParams, $state, requisitosFactory, caracteristicasFactory) {
             const vm = this;
             vm.mode = $stateParams.mode;
 
@@ -52,7 +52,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
              * @param  {[type]} formulario [description]
              * @return {[type]}            [description]
              */
-            vm.updateOrCreate = function(candidato, formulario, formContacto) {
+            vm.updateOrCreate = function(candidato, formulario, formContacto, formRequisitos, nombreRequisito, nivelRequisito) {
                 if (formulario.$valid) {
                     // Update
                     if ($stateParams.id != 0) {
@@ -73,7 +73,36 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                                 }
                             );
                         } else
-                            toastr.info('No hay nada que modificar', 'Info');
+                            toastr.info('No hay nada que modificar de candidato', 'Info');
+                          if (formRequisitos.$dirty){
+                            nombreRequisito = formRequisitos.nombre.$viewValue;
+                            nivelRequisito = formRequisitos.nivel.$viewValue;
+                            vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
+                              caracteristicasFactory.getAll().then(function onSuccess(response) {
+                                vm.objetoRequisito = {
+                                  caracteristicaId: sacarCaracteristicaId(),
+                                  nivel: nivelRequisito,
+                                  listaDeRequisitoId: candidato.listaDeRequisitoId
+                                };
+                                function sacarCaracteristicaId() {
+                                  for (var i = 0; i < response.length; i++) {
+                                    if (response[i].nombre == nombreRequisito) {
+                                      return response[i].id;
+                                    }
+                                  }
+                                }
+                                console.log(vm.objetoRequisito);
+                               requisitosFactory.create(candidato.listaDeRequisitoId, vm.objetoRequisito);
+                                toastr.success('El requisito se ha actualizado correctamente.');
+                                $state.go($state.current, {
+                                  mode: 'view'
+                                });
+                              });
+                            };
+                            vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
+                          } else
+                          toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+
                     }
                     // Create
                     else {
