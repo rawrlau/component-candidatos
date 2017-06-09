@@ -1,7 +1,7 @@
 angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
     .component('ghrCandidatos', { // Componente de formulario candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        controller(toastr, candidatoFactory, $log, $stateParams, $state, requisitosFactory, caracteristicasFactory) {
+        controller(toastr, candidatoFactory, $log, $stateParams, $state, requisitosFactory, caracteristicasFactory,contactosFactory) {
             const vm = this;
             vm.mode = $stateParams.mode;
 
@@ -52,7 +52,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
              * @param  {[type]} formulario [description]
              * @return {[type]}            [description]
              */
-            vm.updateOrCreate = function(candidato, formulario, formContacto, formRequisitos, nombreRequisito, nivelRequisito) {
+            vm.updateOrCreate = function(candidato, formulario, formContacto, valor, tipo, formRequisitos, nombreRequisito, nivelRequisito) {
                 if (formulario.$valid) {
                     // Update
                     if ($stateParams.id != 0) {
@@ -74,7 +74,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                             );
                         } else
                             toastr.info('No hay nada que modificar de candidato', 'Info');
-                          if (formRequisitos.$dirty){
+                        if (formRequisitos.$dirty){
                             nombreRequisito = formRequisitos.nombre.$viewValue;
                             nivelRequisito = formRequisitos.nivel.$viewValue;
                             vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
@@ -102,8 +102,25 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                             vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
                           } else
                           toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+                          }
+                          if (formContacto.$dirty){
+                            vm.contactoNuevo = {
+                              tipo: 'telefono',
+                              valor: formContacto.valor.$viewValue,
+                              idCandidato: candidato.id
+                            }
+                            vm.crearContacto = function (contactoNuevo){
+                              contactosFactory.create(contactoNuevo);
+                              vm.actualiza = function(){
+                                $state.go($state.current, {
+                                  mode: 'view'
+                                });
+                              }
+                            }
+                            vm.crearContacto(vm.contactoNuevo);
+                            console.log(vm.contactoNuevo);
+                          }
 
-                    }
                     // Create
                     else {
                         candidatoFactory.create(candidato).then(
