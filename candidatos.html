@@ -173,7 +173,7 @@
                 <button type="button" ng-click="$ctrl.reset()" value="Descartar cambios" class="reset btn btn-default ">
                     Descartar Cambios <span class ="glyphicon glyphicon-remove"></span>
                 </button>
-                <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario,formContacto,formRequisitos)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
+                <button type="submit" ng-click="$ctrl.updateOrCreate($ctrl.candidato,formulario,formContacto,formRequisitos, $ctrl.nombreRequisito, $ctrl.nivelRequisito)" ng-disabled="formulario.$invalid" class="submit btn btn-primary">
                     Guardar <span class="glyphicon glyphicon-send"></span>
                 </button>
             </div>
