@@ -62,7 +62,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                             if (input.$dirty)
                                 candidatoModificado[input.$name] = input.$modelValue;
                         }
-                        if (formulario.$dirty) {
+                        if (formulario.$dirty || formRequisitos.$dirty) {
                             candidatoFactory.update(candidato.id, candidatoModificado).then(
                                 function onSuccess(response) {
                                     vm.setOriginal(response);
@@ -72,9 +72,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                                     toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                                 }
                             );
-                        } else
-                            toastr.info('No hay nada que modificar de candidato', 'Info');
-                          if (formRequisitos.$dirty){
+                        //  if (formRequisitos.$dirty){
                             nombreRequisito = formRequisitos.nombre.$viewValue;
                             nivelRequisito = formRequisitos.nivel.$viewValue;
                             vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
@@ -93,16 +91,23 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                                 }
                                 console.log(vm.objetoRequisito);
                                requisitosFactory.create(candidato.listaDeRequisitoId, vm.objetoRequisito);
-                                toastr.success('El requisito se ha actualizado correctamente.');
+                                toastr.success('El requisito se ha creado correctamente.');
                                 $state.go($state.current, {
                                   mode: 'view'
                                 });
                               });
                             };
                             vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
-                          } else
-                          toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
-
+                          // } else
+                          // toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
+                        }
+                        if (!formulario.$dirty && !formRequisitos.$dirty){
+                          $state.go($state.current, {
+                              id: $stateParams.id,
+                              mode: 'view'
+                          });
+                          toastr.info('No se ha modificado nada', 'Info');
+                        }
                     }
                     // Create
                     else {
