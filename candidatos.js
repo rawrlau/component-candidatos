@@ -133,7 +133,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
           }
           // Create
           else {
-            candidatoFactory.create(candidato).then(
+            requisitosFactory.createList(vm.candidato.listaDeRequisito).then(candidatoFactory.create(candidato).then(
               function onSuccess(response) {
                 delete vm.candidato.id;
                 $state.go($state.current, {
@@ -158,7 +158,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
               function onFailure() {
                 toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
               }
-            );
+            ));
           }
         }
       };
