@@ -1,7 +1,9 @@
 angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
     .component('ghrCandidatos', { // Componente de formulario candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        controller(toastr, candidatoFactory, $log, $stateParams, $state, requisitosFactory, caracteristicasFactory, contactosFactory) {
+
+        controller(toastr, candidatoFactory, $log, $stateParams, $state, requisitosFactory, caracteristicasFactory,contactosFactory) {
+
             const vm = this;
             vm.mode = $stateParams.mode;
 
@@ -52,7 +54,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
              * @param  {[type]} formulario [description]
              * @return {[type]}            [description]
              */
-            vm.updateOrCreate = function(candidato, formulario, formContacto, formRequisitos, nombreRequisito, nivelRequisito) {
+            vm.updateOrCreate = function(candidato, formulario, formContacto, valor, tipo, formRequisitos, nombreRequisito, nivelRequisito) {
                 if (formulario.$valid) {
                     // Update
                     if ($stateParams.id != 0) {
@@ -72,6 +74,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                                     toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                                 }
                             );
+
                             nombreRequisito = formRequisitos.nombre.$viewValue;
                             nivelRequisito = formRequisitos.nivel.$viewValue;
                             vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
@@ -92,6 +95,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                               });
                             };
                             vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
+
 
                             vm.contactoNuevo = {
                               tipo: formContacto.tipo.$viewValue,
@@ -125,6 +129,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                           toastr.info('No se ha modificado nada', 'Info');
                         }
                     }
+
                     // Create
                     else {
                         candidatoFactory.create(candidato).then(
