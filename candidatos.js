@@ -62,7 +62,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                             if (input.$dirty)
                                 candidatoModificado[input.$name] = input.$modelValue;
                         }
-                        if (formulario.$dirty || formRequisitos.$dirty || formContacto.$dirty) {
+                        if (formulario.$dirty) {
                             candidatoFactory.update(candidato.id, candidatoModificado).then(
                                 function onSuccess(response) {
                                     vm.setOriginal(response);
@@ -72,38 +72,28 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                                     toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                                 }
                             );
-                            nombreRequisito = formRequisitos.nombre.$viewValue;
-                            nivelRequisito = formRequisitos.nivel.$viewValue;
-                            vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
-                              caracteristicasFactory.getAll().then(function onSuccess(response) {
-                                vm.objetoRequisito = {
-                                  caracteristicaId: sacarCaracteristicaId(),
-                                  nivel: nivelRequisito,
-                                  listaDeRequisitoId: candidato.listaDeRequisitoId
-                                };
-                                function sacarCaracteristicaId() {
-                                  for (var i = 0; i < response.length; i++) {
-                                    if (response[i].nombre == nombreRequisito) {
-                                      return response[i].id;
-                                    }
-                                  }
-                                }
-                                requisitosFactory.create(candidato.listaDeRequisitoId, vm.objetoRequisito);
-                              });
-                            };
-                            vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
-
-                            vm.contactoNuevo = {
-                              tipo: formContacto.tipo.$viewValue,
-                              valor: formContacto.valor.$viewValue,
-                              candidatoId : candidato.id
-                            }
-                            vm.crearContacto = function (contactoNuevo){
-                              contactosFactory.create(contactoNuevo);
-                              }
-                            vm.crearContacto(vm.contactoNuevo);
                         }
                         if (formRequisitos.$dirty) {
+                          nombreRequisito = formRequisitos.nombre.$viewValue;
+                          nivelRequisito = formRequisitos.nivel.$viewValue;
+                          vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
+                            caracteristicasFactory.getAll().then(function onSuccess(response) {
+                              vm.objetoRequisito = {
+                                caracteristicaId: sacarCaracteristicaId(),
+                                nivel: nivelRequisito,
+                                listaDeRequisitoId: candidato.listaDeRequisitoId
+                              };
+                              function sacarCaracteristicaId() {
+                                for (var i = 0; i < response.length; i++) {
+                                  if (response[i].nombre == nombreRequisito) {
+                                    return response[i].id;
+                                  }
+                                }
+                              }
+                              requisitosFactory.create(candidato.listaDeRequisitoId, vm.objetoRequisito);
+                            });
+                          };
+                          vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
                           toastr.success('El requisito se ha creado correctamente');
                           $state.go($state.current, {
                               id: $stateParams.id,
@@ -111,6 +101,15 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                           });
                         }
                         if (formContacto.$dirty) {
+                          vm.contactoNuevo = {
+                            tipo: formContacto.tipo.$viewValue,
+                            valor: formContacto.valor.$viewValue,
+                            candidatoId : candidato.id
+                          }
+                          vm.crearContacto = function (contactoNuevo){
+                            contactosFactory.create(contactoNuevo);
+                            }
+                          vm.crearContacto(vm.contactoNuevo);
                           toastr.success('El contacto se ha creado correctamente');
                           $state.go($state.current, {
                               id: $stateParams.id,
