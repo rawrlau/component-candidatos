@@ -253,7 +253,6 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
           return 'No';
         }
       };
-
       /**
        * Setea el atributo $disty del formulario y
        * del input pasado por parámetro a true
@@ -295,44 +294,20 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
     function _getIndexById(id) {
       return arrayCandidatos.indexOf(_getReferenceById(id));
     }
-
     var serviceUrl = canBaseUrl + canEntidad;
     return {
       // Devuelve un array con todos los candidatos
-      getAll: function _getAll(includeRequisitos) {
+      getAll: function getAll(filter) {
         return $http({
           method: 'GET',
-          url: serviceUrl
-        }).then(function onSuccess(response) {
-          if (!includeRequisitos) {
-            return response.data;
+          url: serviceUrl,
+          params: {
+            filter: filter
           }
-          var promises = [];
-          angular.forEach(response.data, function (elem) {
-            var candidato = elem;
-            console.log('candidato', candidato);
-            var peticionRequisitos = $http({
-              method: 'GET',
-              url: [
-                canBaseUrl,
-                'listaDeRequisitos/',
-                candidato.listaDeRequisitoId,
-                '/requisitos'
-              ].join(''),
-              params: {
-                filter: {
-                  include: 'caracteristica'
-                }
-              }
-            }).then(function onSuccess(requisitosCandidato) {
-              candidato.listaDeRequisito = requisitosCandidato.data;
-              return candidato;
-            }, function onFailure(reason) {
-              return candidato;
-            });
-            promises.push(peticionRequisitos);
-          });
-          return $q.all(promises);
+        }).then(function onSuccess(response) {
+          return response.data;
+        }, function onFailure(reason) {
+          toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.', '¡Error!');
         });
       },
       // Crea un nuevo candidato
@@ -346,30 +321,15 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
         });
       },
       // Lee un candidato
-      read: function _read(id, includeRequisitos) {
+      read: function _read(id, filter) {
         return $http({
           method: 'GET',
-          url: serviceUrl + '/' + id
-        }).then(function onSuccess(response) {
-          if (!includeRequisitos) {
-            return response.data;
+          url: serviceUrl + '/' + id,
+          params: {
+            filter: filter
           }
-          return $http({
-            method: 'GET',
-            url: [canBaseUrl, 'listaDeRequisitos/', response.data.listaDeRequisitoId, '/requisitos'].join(''),
-            params: {
-              filter: {
-                include: 'caracteristica'
-              }
-            }
-          }).then(function onSuccess(responseRequisitos) {
-            response.data.listaDeRequisito = responseRequisitos.data;
-            return response.data;
-          },
-            function onFailure(reason) {
-              return response.data;
-            }
-          );
+        }).then(function onSuccess(response) {
+          return response.data;
         });
       },
       // Actualiza un candidato

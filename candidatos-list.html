@@ -1,16 +1,18 @@
 <div class="container-fluid">
-    <h3 class="h1">Contactos del candidato</h3>
-    <div class="row form-group ">
-        <div class="col-md-offset-6 col-sm-offset-3 col-md-5 col-sm-7 col-xs-9">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                <input class="form-control " type="text" ng-list="," placeholder=" Buscar " ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
-            </div>
+    <h1 class="h1">Lista de candidatos</h1>
+
+    <div class="row form-group">
+        <div class="col-sm-offset-6 col-sm-5 col-xs-10">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input class="form-control " type="text" ng-list="," placeholder=" Buscar " ng-model="$ctrl.busqueda" ng-change="$ctrl.actualizarArray()">
+          </div>
         </div>
-        <div class="row form-group  col-md-1 col-sm-1 col-xs-2">
-            <button id="split-button" type="button" class="btn btn-primary " ui-sref="app.candidatos-perfil({id:0,mode:'edit'})"><span class="glyphicon glyphicon-plus"></span></button>
+        <div class="col-sm-1 col-xs-1">
+            <button ui-sref="app.candidatos-perfil({id:0,mode:'edit'})" type="button" class="btn btn-primary">Nuevo <span class="glyphicon glyphicon-plus"></span></button>
         </div>
     </div>
+
     <table class="table table-responsive table-striped">
         <thead class="thead-inverse">
             <tr ng-init="$ctrl.orderByPropiedad=''; $ctrl.cabeceras=['id','nombre','provincia', 'perfil','expect_contractual']">
