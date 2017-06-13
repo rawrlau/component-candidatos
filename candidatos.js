@@ -1,7 +1,7 @@
 angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
     .component('ghrCandidatos', { // Componente de formulario candidatos
         templateUrl: '../bower_components/component-candidatos/candidatos.html',
-        controller(toastr, candidatoFactory, $log, $stateParams, $state) {
+        controller(toastr, candidatoFactory, $log, $stateParams, $state, requisitosFactory, caracteristicasFactory, contactosFactory) {
             const vm = this;
             vm.mode = $stateParams.mode;
 
@@ -52,7 +52,7 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
              * @param  {[type]} formulario [description]
              * @return {[type]}            [description]
              */
-            vm.updateOrCreate = function(candidato, formulario, formContacto) {
+            vm.updateOrCreate = function(candidato, formulario, formContacto, formRequisitos, nombreRequisito, nivelRequisito) {
                 if (formulario.$valid) {
                     // Update
                     if ($stateParams.id != 0) {
@@ -72,24 +72,63 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                                     toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
                                 }
                             );
-                        } else
-                            toastr.info('No hay nada que modificar', 'Info');
+                        }
+                        if (formRequisitos.$dirty) {
+                          nombreRequisito = formRequisitos.nombre.$viewValue;
+                          nivelRequisito = formRequisitos.nivel.$viewValue;
+                          vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
+                            caracteristicasFactory.getAll().then(function onSuccess(response) {
+                              vm.objetoRequisito = {
+                                caracteristicaId: sacarCaracteristicaId(),
+                                nivel: nivelRequisito,
+                                listaDeRequisitoId: candidato.listaDeRequisitoId
+                              };
+                              function sacarCaracteristicaId() {
+                                for (var i = 0; i < response.length; i++) {
+                                  if (response[i].nombre == nombreRequisito) {
+                                    return response[i].id;
+                                  }
+                                }
+                              }
+                              requisitosFactory.create(candidato.listaDeRequisitoId, vm.objetoRequisito);
+                            });
+                          };
+                          vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
+                          toastr.success('El requisito se ha creado correctamente');
+                          $state.go($state.current, {
+                              id: $stateParams.id,
+                              mode: 'view'
+                          });
+                        }
+                        if (formContacto.$dirty) {
+                          vm.contactoNuevo = {
+                            tipo: formContacto.tipo.$viewValue,
+                            valor: formContacto.valor.$viewValue,
+                            candidatoId : candidato.id
+                          }
+                          vm.crearContacto = function (contactoNuevo){
+                            contactosFactory.create(contactoNuevo);
+                            }
+                          vm.crearContacto(vm.contactoNuevo);
+                          toastr.success('El contacto se ha creado correctamente');
+                          $state.go($state.current, {
+                              id: $stateParams.id,
+                              mode: 'view'
+                          });
+                        }
+                        if (!formulario.$dirty && !formRequisitos.$dirty && !formContacto.$dirty){
+                          $state.go($state.current, {
+                              id: $stateParams.id,
+                              mode: 'view'
+                          });
+                          toastr.info('No se ha modificado nada', 'Info');
+                        }
                     }
                     // Create
                     else {
-                        candidatoFactory.create(candidato).then(
-                            function onSuccess(response) {
-                                delete vm.candidato.id;
-                                $state.go($state.current, {
-                                    id: response.id,
-                                    mode: 'view'
-                                });
-                                toastr.success('Candidato creado correctamente');
-                            },
-                            function onFailure() {
-                                toastr.error('No se ha podido realizar la operacion, por favor compruebe su conexion a internet e intentelo más tarde.');
-                            }
-                        );
+
+
+
                     }
                 }
             };
