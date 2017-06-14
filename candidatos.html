@@ -19,7 +19,7 @@
                 <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.nombre}}</span>
             </div>
             <div class="form-group col-md-3 col-sm-6 col-xs-6" ng-class="{ 'has-error' : formulario.apellido.$invalid && !formulario.apellido.$pristine, 'has-success': !formulario.apellido.$focused && formulario.apellido.$valid}">
-                <label for="apellido">Apellido:</label>
+                <label for="apellido">Apellido<span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span>:</label>
                 <input ng-if="$ctrl.mode === 'edit'" id="inputSuccess2" class="form-control has-success" name="apellido" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.candidato.apellido" ng-focus="focus=true" ng-blur="focus=false">
                 <span ng-if="$ctrl.mode === 'view'" class="form-control">{{$ctrl.candidato.apellido}}</span>
             </div>
