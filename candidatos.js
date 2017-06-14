@@ -113,7 +113,12 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
                 candidatoId: candidato.id
               };
               vm.crearContacto = function (contactoNuevo) {
-                contactosFactory.create(contactoNuevo);
+                contactosFactory.create(contactoNuevo).then(function () {
+                  $state.go($state.current, {
+                    id: $stateParams.id,
+                    mode: 'view'
+                  });
+                });
               };
               vm.crearContacto(vm.contactoNuevo);
               toastr.success('El contacto se ha creado correctamente');
