@@ -129,12 +129,18 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
               });
               toastr.info('No se ha modificado nada', 'Info');
             }
+
+            $state.go($state.current, {
+              id: $stateParams.id,
+              mode: 'view'
+            });
           }
           // Create
           else {
             requisitosFactory.createList().then(function (resListaRequisitos) {
               candidato.listaDeRequisitoId = resListaRequisitos.id;
               // Añado los requisitos a la lista de requisitos
+
               nombreRequisito = formRequisitos.nombre.$viewValue;
               nivelRequisito = formRequisitos.nivel.$viewValue;
               vm.crearRequisito = function (nombreRequisito, nivelRequisito, candidato) {
@@ -157,6 +163,8 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
               };
               vm.crearRequisito(nombreRequisito, nivelRequisito, candidato);
               toastr.success('El requisito se ha creado correctamente');
+
+
               candidatoFactory.create(candidato).then(
                 function onSuccess(response) {
                   delete vm.candidato.id;
