@@ -71,6 +71,10 @@ angular.module('ghr.candidatos', ['toastr', 'ghr.contactos'])
               candidatoFactory.update(candidato.id, candidatoModificado).then(
                 function onSuccess(response) {
                   vm.setOriginal(response);
+                  $state.go($state.current, {
+                    id: $stateParams.id,
+                    mode: 'view'
+                  });
                   toastr.success('El candidato se ha actualizado correctamente.');
                 },
                 function onFailure() {
